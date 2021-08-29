@@ -2,6 +2,7 @@
     "name": "tvhung/cms",
     "description": "CMS core source",
     "type": "library",
+    "license": "Apache-2.0",
     "require": {
         "php": "^7.3|^8.0",
         "laravel/framework": "^8.57",
