@@ -111,7 +111,7 @@ if (!function_exists('platform_path')) {
 
 if (!function_exists('core_path')) {
 
-    function core_path(): string
+    function core_path($path = null): string
     {
         return base_path('vendor/tvhung/cms/src/' . $path);
     }
