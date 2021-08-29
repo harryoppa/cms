@@ -6,14 +6,20 @@
     "require": {
         "php": "^7.3|^8.0",
         "laravel/framework": "^8.57",
-        "tvhung/api": "*@dev",
-        "tvhung/menu": "*@dev",
-        "tvhung/optimize": "*@dev",
-        "tvhung/page": "*@dev",
-        "tvhung/platform": "*@dev",
-        "tvhung/plugin-management": "*@dev",
-        "tvhung/shortcode": "*@dev",
-        "tvhung/theme": "*@dev"
+        "barryvdh/laravel-dompdf": "^0.9.0",
+        "botble/assets": "^1.0",
+        "intervention/image": "^2.4",
+        "kris/laravel-form-builder": "1.16.x-dev",
+        "laravelcollective/html": "^6.1",
+        "xantios/mimey": "^2.1",
+        "tightenco/ziggy": "^1.0",
+        "yajra/laravel-datatables-buttons": "^4.9",
+        "yajra/laravel-datatables-oracle": "^9.9",
+        "guzzlehttp/guzzle": "^6.0|^7.0",
+        "laravel/passport": "^9.0|^10.0",
+        "knuckleswtf/scribe": "^2.0",
+        "fruitcake/laravel-cors": "^2.0",
+        "mews/purifier": "^3.2"
     },
     "authors": [
         {
@@ -21,16 +27,85 @@
             "email": "hungtranqt93@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "./cms/core"
-        },
-        {
-            "type": "vcs",
-            "url": "./cms/packages/*"
+    "autoload": {
+        "psr-4": {
+            "TVHung\\Support\\": "cms/core/support/src",
+            "TVHung\\ACL\\": "cms/core/acl/src",
+            "TVHung\\Base\\": "cms/core/base/src",
+            "TVHung\\Dashboard\\": "cms/core/dashboard/src",
+            "TVHung\\Media\\": "cms/core/media/src",
+            "TVHung\\Setting\\": "cms/core/setting/src",
+            "TVHung\\Table\\": "cms/core/table/src",
+            "TVHung\\JsValidation\\": "cms/core/js-validation/src",
+            "TVHung\\Chart\\": "cms/core/chart/src",
+            "TVHung\\Api\\": "cms/packages/api/src",
+            "TVHung\\Menu\\": "cms/packages/menu/src",
+            "TVHung\\Optimize\\": "cms/packages/optimize/src",
+            "TVHung\\Page\\": "cms/packages/page/src",
+            "TVHung\\PluginManagement\\": "cms/packages/plugin-management/src",
+            "TVHung\\Revision\\": "cms/packages/revision/src",
+            "TVHung\\SeoHelper\\": "cms/packages/seo-helper/src",
+            "TVHung\\Shortcode\\": "cms/packages/shortcode/src",
+            "TVHung\\Sitemap\\": "cms/packages/sitemap/src",
+            "TVHung\\Slug\\": "cms/packages/slug/src",
+            "TVHung\\Theme\\": "cms/packages/theme/src",
+            "TVHung\\Widget\\": "cms/packages/widget/src"
         }
-    ]
+    },
+
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TVHung\\Base\\Providers\\BaseServiceProvider",
+                "TVHung\\Base\\Providers\\CommandServiceProvider",
+                "TVHung\\Base\\Providers\\EventServiceProvider",
+                "TVHung\\Base\\Providers\\BreadcrumbsServiceProvider",
+                "TVHung\\Base\\Providers\\ComposerServiceProvider",
+                "TVHung\\Base\\Providers\\MailConfigServiceProvider",
+                "TVHung\\Base\\Providers\\FormServiceProvider",
+                "TVHung\\Support\\Providers\\SupportServiceProvider",
+                "TVHung\\Table\\Providers\\TableServiceProvider",
+                "TVHung\\ACL\\Providers\\AclServiceProvider",
+                "TVHung\\Dashboard\\Providers\\DashboardServiceProvider",
+                "TVHung\\Media\\Providers\\MediaServiceProvider",
+                "TVHung\\JsValidation\\Providers\\JsValidationServiceProvider",
+                "TVHung\\Chart\\Providers\\ChartServiceProvider",
+                "TVHung\\Api\\Providers\\ApiServiceProvider",
+                "TVHung\\Menu\\Providers\\MenuServiceProvider",
+                "TVHung\\Optimize\\Providers\\OptimizeServiceProvider",
+                "TVHung\\Page\\Providers\\PageServiceProvider",
+                "TVHung\\PluginManagement\\Providers\\PluginManagementServiceProvider",
+                "TVHung\\Revision\\Providers\\RevisionServiceProvider",
+                "TVHung\\SeoHelper\\Providers\\SeoHelperServiceProvider",
+                "TVHung\\Shortcode\\Providers\\ShortcodeServiceProvider",
+                "TVHung\\Sitemap\\Providers\\SitemapServiceProvider",
+                "TVHung\\Slug\\Providers\\SlugServiceProvider",
+                "TVHung\\Theme\\Providers\\ThemeServiceProvider",
+                "TVHung\\Theme\\Providers\\RouteServiceProvider",
+                "TVHung\\Widget\\Providers\\WidgetServiceProvider"
+            ],
+            "aliases": {
+                "Assets": "TVHung\\Base\\Facades\\AssetsFacade",
+                "BaseHelper": "TVHung\\Base\\Facades\\BaseHelperFacade",
+                "MetaBox": "TVHung\\Base\\Facades\\MetaBoxFacade",
+                "Action": "TVHung\\Base\\Facades\\ActionFacade",
+                "Filter": "TVHung\\Base\\Facades\\FilterFacade",
+                "EmailHandler": "TVHung\\Base\\Facades\\EmailHandlerFacade",
+                "Breadcrumbs": "TVHung\\Base\\Facades\\BreadcrumbsFacade",
+                "JsValidator": "TVHung\\JsValidation\\Facades\\JsValidatorFacade",
+                "Menu": "TVHung\\Menu\\Facades\\MenuFacade",
+                "SeoHelper": "TVHung\\SeoHelper\\Facades\\SeoHelperFacade",
+                "SlugHelper": "TVHung\\Slug\\Facades\\SlugHelperFacade",
+                "Theme": "TVHung\\Theme\\Facades\\ThemeFacade",
+                "ThemeOption": "TVHung\\Theme\\Facades\\ThemeOptionFacade",
+                "ThemeManager": "TVHung\\Theme\\Facades\\ManagerFacade",
+                "AdminBar": "TVHung\\Theme\\Facades\\AdminBarFacade",
+                "SiteMapManager": "TVHung\\Theme\\Facades\\SiteMapManagerFacade",
+                "Widget": "TVHung\\Widget\\Facades\\WidgetFacade",
+                "WidgetGroup": "TVHung\\Widget\\Facades\\WidgetGroupFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
