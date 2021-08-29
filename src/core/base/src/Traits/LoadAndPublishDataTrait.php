@@ -30,7 +30,7 @@ trait LoadAndPublishDataTrait
         $this->namespace = ltrim(rtrim($namespace, '/'), '/');
 
         if (preg_match('/core|packages/', $this->namespace)) {
-            $this->setBasePath(core_path());
+            $this->setBasePath(source_path());
         }
 
         return $this;

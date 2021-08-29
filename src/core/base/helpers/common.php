@@ -109,9 +109,13 @@ if (!function_exists('platform_path')) {
     }
 }
 
-if (!function_exists('core_path')) {
-
-    function core_path($path = null): string
+if (!function_exists('source_path')) {
+    
+    /**
+     * @param string|null $path
+     * @return string
+     */
+    function source_path($path = null): string
     {
         return base_path('vendor/tvhung/cms/src/' . $path);
     }
@@ -135,6 +139,6 @@ if (!function_exists('package_path')) {
      */
     function package_path($path = null): string
     {
-        return platform_path('packages/' . $path);
+        return source_path('packages/' . $path);
     }
 }
