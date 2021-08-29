@@ -110,6 +110,14 @@ if (!function_exists('platform_path')) {
 }
 
 if (!function_exists('core_path')) {
+
+    function core_path(): string
+    {
+        return base_path('vendor/tvhung/cms/src/' . $path);
+    }
+}
+
+if (!function_exists('core_path')) {
     /**
      * @param string|null $path
      * @return string
