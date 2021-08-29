@@ -1,0 +1,24 @@
+{
+    "name": "tvhung/seo-helper",
+    "description": "SEO helper package",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "TVHung\\SeoHelper\\": "src"
+        }
+    },
+    "require": {
+        "tvhung/platform": "*@dev",
+        "tvhung/theme": "*@dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TVHung\\SeoHelper\\Providers\\SeoHelperServiceProvider"
+            ],
+            "aliases": {
+                "SeoHelper": "TVHung\\SeoHelper\\Facades\\SeoHelperFacade"
+            }
+        }
+    }
+}

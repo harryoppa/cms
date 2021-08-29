@@ -1,0 +1,32 @@
+{
+    "name": "tvhung/theme",
+    "description": "Theme package",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "TVHung\\Theme\\": "src"
+        }
+    },
+    "require": {
+        "tvhung/platform": "*@dev",
+        "tvhung/sitemap": "*@dev",
+        "tvhung/widget": "*@dev",
+        "tvhung/slug": "*@dev",
+        "tvhung/seo-helper": "*@dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TVHung\\Theme\\Providers\\ThemeServiceProvider",
+                "TVHung\\Theme\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {
+                "Theme": "TVHung\\Theme\\Facades\\ThemeFacade",
+                "ThemeOption": "TVHung\\Theme\\Facades\\ThemeOptionFacade",
+                "ThemeManager": "TVHung\\Theme\\Facades\\ManagerFacade",
+                "AdminBar": "TVHung\\Theme\\Facades\\AdminBarFacade",
+                "SiteMapManager": "TVHung\\Theme\\Facades\\SiteMapManagerFacade"
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "name": "tvhung/cms",
+    "description": "CMS core source",
+    "type": "library",
+    "require": {
+        "php": "^7.3|^8.0",
+        "laravel/framework": "^8.57",
+        "tvhung/api": "*@dev",
+        "tvhung/menu": "*@dev",
+        "tvhung/optimize": "*@dev",
+        "tvhung/page": "*@dev",
+        "tvhung/platform": "*@dev",
+        "tvhung/plugin-management": "*@dev",
+        "tvhung/shortcode": "*@dev",
+        "tvhung/theme": "*@dev"
+    },
+    "authors": [
+        {
+            "name": "Harry Tr",
+            "email": "hungtranqt93@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./cms/core"
+        },
+        {
+            "type": "path",
+            "url": "./cms/packages/*"
+        }
+    ]
+}

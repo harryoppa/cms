@@ -1,0 +1,24 @@
+{
+    "name": "tvhung/menu",
+    "description": "Menu package",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "TVHung\\Menu\\": "src"
+        }
+    },
+    "require": {
+        "tvhung/platform": "*@dev",
+        "tvhung/theme": "*@dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TVHung\\Menu\\Providers\\MenuServiceProvider"
+            ],
+            "aliases": {
+                "Menu": "TVHung\\Menu\\Facades\\MenuFacade"
+            }
+        }
+    }
+}

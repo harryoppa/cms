@@ -1,0 +1,20 @@
+{
+    "name": "tvhung/revision",
+    "description": "Revision package",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "TVHung\\Revision\\": "src"
+        }
+    },
+    "require": {
+        "tvhung/platform": "*@dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TVHung\\Revision\\Providers\\RevisionServiceProvider"
+            ]
+        }
+    }
+}
