@@ -1,8 +1,16 @@
 .dropdown-header-name {
-    color: #c6cfda !important;
+    color: #2d3a42 !important;
     display: inline-block;
     font-size: 13px;
     font-weight: 300;
+}
+
+.dropdown-user-name {
+    padding: 5px 20px !important;
+
+    img {
+        width: 35px;
+    }
 }
 
 .page-header.navbar .top-menu .navbar-nav > li.dropdown > .dropdown-toggle {

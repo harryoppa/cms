@@ -3,6 +3,50 @@ Page sidebar
 ***/
 
 /* Page Sidebar */
+/* Google Fonts Import Link */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,800;1,900&display=swap');
+
+.page-sidebar-wrapper {
+    span, .nav-link {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600 !important;
+        font-size: 15px !important;
+    }
+
+
+    /* Header logo */
+    .page-logo {
+        display: block;
+        width: $sidebar-logo-container-width;
+        height: $header-height;
+        padding-left: 20px;
+        margin-bottom: 1rem;
+
+        .page-sidebar-closed.page-sidebar-closed-hide-logo & {
+            padding: 0;
+        }
+
+        > .logo-image,
+        > a {
+            display: inline-block;
+            float: left;
+        }
+
+        .logo-default {
+            margin: $header-logo-margin;
+        }
+
+        .logo-mini {
+            display: none;
+            margin-left: 5px;
+        }
+
+        .text-logo {
+            padding-left: 20px;
+            padding-top: 12px;
+        }
+    }
+}
 
 .page-sidebar,
 .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover {
@@ -294,12 +338,7 @@ Page sidebar
         display: block;
         cursor: pointer;
         @include burger-icon(#ffffff, #ffffff, $menu-toggler-size - 3px, 1px, -5px, 5px, -5px);
-        @include opacity(0.7);
-
-        padding: 6px 8px;
-
         margin-top: 15px;
-        margin-right: 16px;
         float: right;
 
         @include border-radius($general-border-radius);

@@ -162,13 +162,13 @@ class PageTable extends TableAbstract
             ],
             'status'     => [
                 'title'    => trans('core/base::tables.status'),
-                'type'     => 'select',
+                'type'     => 'customSelect',
                 'choices'  => BaseStatusEnum::labels(),
                 'validate' => 'required|' . Rule::in(BaseStatusEnum::values()),
             ],
             'template'   => [
                 'title'    => trans('core/base::tables.template'),
-                'type'     => 'select',
+                'type'     => 'customSelect',
                 'choices'  => get_page_templates(),
                 'validate' => 'required',
             ],

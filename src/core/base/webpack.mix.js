@@ -4,7 +4,7 @@ let glob = require('glob');
 const path = require('path');
 let directory = path.basename(path.resolve(__dirname));
 
-const source = 'platform/core/' + directory;
+const source = 'src/core/' + directory;
 const dist = 'public/vendor/core/core/' + directory;
 
 glob.sync(source + '/resources/assets/sass/base/themes/*.scss').forEach(item => {
@@ -27,7 +27,7 @@ mix
     .js(source + '/resources/assets/js/system-info.js', dist + '/js')
     .js(source + '/resources/assets/js/repeater-field.js', dist + '/js')
     .js(source + '/resources/assets/js/tree-category.js', dist + '/js')
-    .vue()
+    // .vue()
 
     .copyDirectory(dist + '/css', source + '/public/css')
     .copyDirectory(dist + '/js', source + '/public/js');

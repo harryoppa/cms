@@ -46,7 +46,7 @@ class HookServiceProvider extends ServiceProvider
                 'fields'     => [
                     [
                         'id'         => 'homepage_id',
-                        'type'       => 'select',
+                        'type'       => 'customSelect',
                         'label'      => trans('packages/page::pages.settings.show_on_front'),
                         'attributes' => [
                             'name'    => 'homepage_id',

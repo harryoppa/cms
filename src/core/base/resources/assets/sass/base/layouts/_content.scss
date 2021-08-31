@@ -65,7 +65,10 @@ Page content
             margin-left: $sidebar-width;
             margin-top: 0;
             min-height: $page-content-min-height;
-            padding: 10px 20px 10px 20px;
+            
+            &-inside {
+                padding: 10px 20px 10px 20px;
+            }
 
             &.no-min-height {
                 min-height: auto;

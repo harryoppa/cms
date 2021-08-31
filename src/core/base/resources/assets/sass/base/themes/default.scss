@@ -7,7 +7,7 @@ $brand-main-font-color: #ffffff !default;
 
 // Body and header
 $bg-color: #05050b !default;
-$header-bg-color: #05050b !default;
+$header-bg-color: #00000031 !default;
 $header-toggler-color: lighten($header-bg-color, 40%) !default;
 $header-toggler-bg-color: darken($bg-color, 5%) !default;
 
@@ -16,7 +16,7 @@ $header-top-menu-bg-hover-color: lighten($header-bg-color, 10%) !default;
 $header-top-menu-bg-hover-color-on-dropdown-open: lighten($header-bg-color, 10%) !default;
 $header-top-menu-badge-bg-color: $brand-main-color;
 $header-top-menu-badge-font-color: #ffffff;
-$header-top-menu-icon-font-color: #999999 !default;
+$header-top-menu-icon-font-color: rgb(37, 37, 37) !default;
 
 // Top menu user bar
 $header-top-menu-user-font-color: lighten($header-bg-color, 65%) !default;
@@ -72,7 +72,7 @@ $sidebar-menu-arrow-color-on-hover: $sidebar-menu-link-icon-font-color-on-hover 
 $sidebar-menu-sub-menu-box-shadow-color: $sidebar-menu-link-bg-color-on-hover !default;
 $sidebar-menu-sub-menu-link-font-color: #bdbdbd !default;
 $sidebar-menu-sub-menu-link-icon-font-color: $sidebar-menu-arrow-color !default;
-$sidebar-menu-sub-menu-link-bg-color-on-hover: lighten($bg-color, 4%) !default;
+$sidebar-menu-sub-menu-link-bg-color-on-hover: rgba(255, 255, 255, 0.164) !default;
 $sidebar-menu-sub-menu-link-icon-font-color-on-hover: $sidebar-menu-link-icon-font-color-on-hover !default;
 
 $sidebar-menu-hover-sub-menu-bg-color: lighten($sidebar-menu-link-bg-color-on-hover, 4%) !default;

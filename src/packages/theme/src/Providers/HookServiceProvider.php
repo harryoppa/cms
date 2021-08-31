@@ -45,7 +45,7 @@ class HookServiceProvider extends ServiceProvider
                     [
                         'id'         => 'show_site_name',
                         'section_id' => 'opt-text-subsection-general',
-                        'type'       => 'select',
+                        'type'       => 'customSelect',
                         'label'      => trans('core/setting::setting.general.show_site_name'),
                         'attributes' => [
                             'name'    => 'show_site_name',

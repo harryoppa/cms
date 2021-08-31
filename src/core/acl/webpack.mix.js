@@ -3,7 +3,7 @@ let mix = require('laravel-mix');
 const path = require('path');
 let directory = path.basename(path.resolve(__dirname));
 
-const source = 'platform/core/' + directory;
+const source = 'src/core/' + directory;
 const dist = 'public/vendor/core/core/' + directory;
 
 mix

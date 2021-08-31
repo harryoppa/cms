@@ -14,7 +14,9 @@ Page Header
 
 /* Header search bar, toggler button & top menu */
 .page-header.navbar {
-    background-color: $header-bg-color;
+    // background-color: $header-bg-color;
+    background-color: hsla(0,0%,100%,.5);
+    box-shadow: 0 1.6rem 3rem rgb(0 0 0 / 10%);
 
     /* Top notification menu/bar */
     .top-menu {

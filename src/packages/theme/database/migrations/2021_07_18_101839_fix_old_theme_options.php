@@ -18,6 +18,11 @@ class FixOldThemeOptions extends Migration
 
             if ($theme) {
                 foreach (SettingModel::where('key', 'LIKE', 'theme--%')->get() as $item) {
+
+                    if (!Str::contains('theme--', $item->key)) {
+                        continue;
+                    }
+
                     $item->key = str_replace('theme--', 'theme-' . $theme . '-', $item->key);
 
                     if (DB::table('settings')->where('key', $item->key)->count() == 0) {
@@ -25,7 +30,10 @@ class FixOldThemeOptions extends Migration
                     }
                 }
 
-                SettingModel::insertOrIgnore(['theme' => $theme]);
+                SettingModel::insertOrIgnore([
+                    'key'   => 'theme',
+                    'value' => $theme,
+                ]);
 
                 WidgetModel::whereNull('theme')->update(['theme' => $theme]);
             }

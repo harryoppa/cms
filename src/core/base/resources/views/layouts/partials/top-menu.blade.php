@@ -1,4 +1,14 @@
 <div class="top-menu">
+    <ul class="nav navbar-nav float-left">
+        <li class="dropdown p-0">
+            <a class="dropdown-toggle dropdown-header-name" style="padding-right: 15px; padding-left: 20px;" href="http://127.0.0.1:8000" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </a>
+        </li>
+    </ul>
+
     <ul class="nav navbar-nav float-right">
         @auth
             @if (BaseHelper::getAdminPrefix() != '')
@@ -31,11 +41,17 @@
             @endif
 
             <li class="dropdown dropdown-user">
-                <a href="javascript:void(0)" class="dropdown-toggle dropdown-header-name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="{{ Auth::user()->name }}" class="rounded-circle" src="{{ Auth::user()->avatar_url }}" />
-                    <span class="username"> {{ Auth::user()->name }} </span>
-                    <i class="fa fa-angle-down"></i>
-                </a>
+                <div class="dropdown-toggle dropdown-header-name dropdown-user-name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="d-flex align-items-center cursor-pointer">
+                        <div class="mr-3 text-right">
+                            <span class="username font-weight-bold"> {{ Auth::user()->name }} </span>
+                            <small class="rolename d-block">Manager</small>
+                        </div>
+                        <div class="position-relative">
+                            <img alt="{{ Auth::user()->name }}" class="avatar rounded-circle" src="{{ Auth::user()->avatar_url }}" />
+                        </div>
+                    </div>
+                </div>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('users.profile.view', Auth::id()) }}"><i class="icon-user"></i> {{ trans('core/base::layouts.profile') }}</a></li>
                     <li><a href="{{ route('access.logout') }}" class="btn-logout"><i class="icon-key"></i> {{ trans('core/base::layouts.logout') }}</a></li>

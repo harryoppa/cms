@@ -13,6 +13,7 @@ class Layout {
 
     // Set proper height for sidebar and content. The content and sidebar height must be synced always.
     static handleSidebarAndContentHeight() {
+        return;
         let content = $('.page-content');
         let sidebar = $('.page-sidebar');
         let header = $('.page-header');

@@ -6,12 +6,12 @@
     {!! Form::open(['route' => 'access.login', 'class' => 'login-form']) !!}
         <div class="form-group" id="emailGroup">
             <label>{{ trans('core/acl::auth.login.username') }}</label>
-            {!! Form::text('username', request()->input('email', old('username'), ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.username')]) !!}
+            {!! Form::text('username', request()->input('email', old('username', null)), ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.username')]) !!}
         </div>
 
         <div class="form-group" id="passwordGroup">
             <label>{{ trans('core/acl::auth.login.password') }}</label>
-            {!! Form::input('password', 'password', request()->input('email'), ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.password')]) !!}
+            {!! Form::input('password', 'password', request()->input('email') ? null : null, ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.password')]) !!}
         </div>
 
         <div>
@@ -29,7 +29,7 @@
         <br>
         <p><a class="lost-pass-link" href="{{ route('access.password.request') }}" title="{{ trans('core/acl::auth.forgot_password.title') }}">{{ trans('core/acl::auth.lost_your_password') }}</a></p>
 
-        {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \TVHung\ACL\Models\User::class) !!}
+        {!! apply_filters(BASE_FILTER_AFTER_LOGIN_OR_REGISTER_FORM, null, \Botble\ACL\Models\User::class) !!}
 
     {!! Form::close() !!}
 @stop

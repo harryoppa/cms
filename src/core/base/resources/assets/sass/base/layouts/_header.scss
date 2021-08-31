@@ -25,39 +25,6 @@ Page Header
         z-index: $zindex-header-static;
     }
 
-    /* Header logo */
-    .page-logo {
-        float: left;
-        display: block;
-        width: $sidebar-logo-container-width;
-        height: $header-height;
-        padding-left: 20px;
-
-        .page-sidebar-closed.page-sidebar-closed-hide-logo & {
-            padding: 0;
-        }
-
-        > .logo-image,
-        > a {
-            display: inline-block;
-            float: left;
-        }
-
-        .logo-default {
-            margin: $header-logo-margin;
-        }
-
-        .logo-mini {
-            display: none;
-            margin-left: 5px;
-        }
-
-        .text-logo {
-            padding-left: 20px;
-            padding-top: 12px;
-        }
-    }
-
     /* Menu Toggler */
     .menu-toggler {
         cursor: pointer;
@@ -91,11 +58,10 @@ Page Header
     .top-menu {
         margin: 0;
         padding: 0;
-        float: right;
+        width: 100%;
 
         .navbar-nav {
             padding: 0;
-            margin-right: 20px;
             display: block;
 
             > li.dropdown {

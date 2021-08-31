@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'platform_admin'     => 'Platform Administration',
+    'platform_admin'     => 'Administration',
     'dashboard'          => 'Dashboard',
     'widgets'            => 'Widgets',
     'plugins'            => 'Plugins',

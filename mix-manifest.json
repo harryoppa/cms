@@ -1,0 +1,17 @@
+{
+    "/public/vendor/core/core/base/js/app.js": "/public/vendor/core/core/base/js/app.js",
+    "/public/vendor/core/core/base/css/themes/default.css": "/public/vendor/core/core/base/css/themes/default.css",
+    "/public/vendor/core/core/base/css/core.css": "/public/vendor/core/core/base/css/core.css",
+    "/public/vendor/core/core/base/css/system-info.css": "/public/vendor/core/core/base/css/system-info.css",
+    "/public/vendor/core/core/base/css/email.css": "/public/vendor/core/core/base/css/email.css",
+    "/public/vendor/core/core/base/css/error-pages.css": "/public/vendor/core/core/base/css/error-pages.css",
+    "/public/vendor/core/core/base/css/rtl.css": "/public/vendor/core/core/base/css/rtl.css",
+    "/public/vendor/core/core/base/css/tree-category.css": "/public/vendor/core/core/base/css/tree-category.css",
+    "/public/vendor/core/core/base/js/cache.js": "/public/vendor/core/core/base/js/cache.js",
+    "/public/vendor/core/core/base/js/core.js": "/public/vendor/core/core/base/js/core.js",
+    "/public/vendor/core/core/base/js/editor.js": "/public/vendor/core/core/base/js/editor.js",
+    "/public/vendor/core/core/base/js/repeater-field.js": "/public/vendor/core/core/base/js/repeater-field.js",
+    "/public/vendor/core/core/base/js/system-info.js": "/public/vendor/core/core/base/js/system-info.js",
+    "/public/vendor/core/core/base/js/tags.js": "/public/vendor/core/core/base/js/tags.js",
+    "/public/vendor/core/core/base/js/tree-category.js": "/public/vendor/core/core/base/js/tree-category.js"
+}
