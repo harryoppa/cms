@@ -50,7 +50,8 @@ if (!function_exists('get_setting_email_template_content')) {
      */
     function get_setting_email_template_content($type, $module, $templateKey)
     {
-        $defaultPath = platform_path($type . '/' . $module . '/resources/email-templates/' . $templateKey . '.tpl');
+        $path = $type . '/' . $module . '/resources/email-templates/' . $templateKey . '.tpl';
+        $defaultPath = preg_match('/core|packages/', $type) ? source_path($path) : platform_path($path);
         $storagePath = get_setting_email_template_path($module, $templateKey);
 
         if ($storagePath != null && File::exists($storagePath)) {
