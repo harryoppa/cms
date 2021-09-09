@@ -182,6 +182,7 @@ class BaseHttpResponse implements Responsable
                     'error'   => $this->error,
                     'data'    => $this->data,
                     'message' => $this->message,
+                    'nextUrl' => $this->nextUrl,
                 ], $this->code);
         }
 

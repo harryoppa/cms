@@ -14,7 +14,6 @@ return [
         'ie8-fix',
         'modernizr',
         'select2',
-        'datepicker',
         'cookie',
         'core',
         'app',
@@ -33,7 +32,6 @@ return [
         'pace',
         'toastr',
         'custom-scrollbar',
-        'datepicker',
         'spectrum',
         'fancybox',
     ],
@@ -216,6 +214,13 @@ return [
                 'location' => 'footer',
                 'src'      => [
                     'local' => '/vendor/core/core/base/libraries/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                ],
+            ],
+            'simple-picker'         => [
+                'use_cdn'  => false,
+                'location' => 'footer',
+                'src'      => [
+                    'local' => '/vendor/core/core/base/libraries/simplepicker/simplepicker.js',
                 ],
             ],
             'sortable'           => [
@@ -409,13 +414,19 @@ return [
                     'local' => '/vendor/core/core/base/libraries/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
                 ],
             ],
+            'simple-picker'         => [
+                'use_cdn'  => false,
+                'src'      => [
+                    'local' => '/vendor/core/core/base/libraries/simplepicker/simplepicker.css',
+                ],
+            ],
             'select2'            => [
                 'use_cdn'  => true,
                 'location' => 'header',
                 'src'      => [
                     'local' => [
                         '/vendor/core/core/base/libraries/select2/css/select2.min.css',
-                        '/vendor/core/core/base/libraries/select2/css/select2-bootstrap.min.css',
+                        '/vendor/core/core/base/libraries/select2/css/select2-bootstrap4.min.css',
                     ],
                     'cdn'   => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css',
                 ],

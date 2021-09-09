@@ -128,7 +128,7 @@ if (!function_exists('core_path')) {
      */
     function core_path($path = null): string
     {
-        return platform_path('core/' . $path);
+        return source_path('core/' . $path);
     }
 }
 

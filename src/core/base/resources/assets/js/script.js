@@ -1,3 +1,5 @@
+import './datetime-format';
+
 class TVHung {
     constructor() {
         this.countCharacter();
@@ -301,6 +303,29 @@ class TVHung {
         });
     }
 
+    static initSimplePicker(element) {
+        let simplepicker = new SimplePicker({
+            zIndex: 1000,
+        });
+
+        $(element).on('click', function() {
+            let t = $(this);
+
+            let format = t.data('date-format');
+            if (!format) {
+                format = 'yyyy-mm-dd h:i:s';
+            }
+
+            simplepicker._eventHandlers = {};
+            simplepicker.reset(t.val() !== '' && (t.val()).indexOf('0000') === -1 ? new Date(t.val()) : new Date());
+            simplepicker.open()
+
+            simplepicker.on('submit', (date, readableDate) => {
+                t.val(date.format(format));
+            });
+        })
+    }
+
     static initDatePicker(element) {
         if (jQuery().bootstrapDP) {
             let format = $(document).find(element).data('date-format');
@@ -314,6 +339,13 @@ class TVHung {
                 autoclose: true,
                 dateFormat: format,
             });
+        } else if (typeof SimplePicker !== 'undefined') {
+
+            TVHung.initSimplePicker(element);
+        } else {
+            if ($(element).length) {
+                console.error('Assets datepicker is not added')
+            }
         }
     }
 
@@ -322,15 +354,18 @@ class TVHung {
             $(document).find('.select-multiple').select2({
                 width: '100%',
                 allowClear: true,
+                theme: 'bootstrap4',
             });
 
             $(document).find('.select-search-full').select2({
-                width: '100%'
+                width: '100%',
+                theme: 'bootstrap4',
             });
 
             $(document).find('.select-full').select2({
                 width: '100%',
-                minimumResultsForSearch: -1
+                minimumResultsForSearch: -1,
+                theme: 'bootstrap4',
             });
 
             $('select[multiple].select-sorting').on('select2:select', function (evt) {

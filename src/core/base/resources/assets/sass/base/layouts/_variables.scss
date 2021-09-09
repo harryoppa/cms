@@ -46,8 +46,8 @@ $page-content-min-height: 600px !default; // default page content's min height. 
 $page-footer-height: 33px !default;
 
 // Z-index master list
-$zindex-header-fixed: 9995 !default;
-$zindex-header-static: 9995 !default;
+$zindex-header-fixed: 100 !default;
+$zindex-header-static: 100 !default;
 $zindex-quick-sidebar: 10500 !default;
 $zindex-quick-sidebar-full-height: 9996 !default;
 $zindex-sidebar-fixed: 10000 !default;

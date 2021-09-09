@@ -1,11 +1,5 @@
-let glob = require('glob');
 let mix = require('laravel-mix');
-let arg = process.argv[process.argv.length - 1];
-let configs = [
-    // './src/*/webpack.mix.js',
-    './src/**/*/webpack.mix.js'
-];
-
+let glob = require('glob');
 
 mix.options({
     processCssUrls: false,
@@ -15,18 +9,16 @@ mix.options({
     }
 });
 
-/**
- * When Arguments has module pathname
- * Only build for that module
- *
- * eg. npm run production -- --file=plugins/blog
- */
-if (arg.match(/file=/)) {
-    arg = arg.split('=')[1];
+// Run all webpack.mix.js in app
+// glob.sync('./platform/**/**/webpack.mix.js').forEach(item => require(item));
 
-    require('./src/' + arg + '/webpack.mix.js');
+// Run only for a package, replace [package] by the name of package you want to compile assets
+// require('./platform/packages/[package]/webpack.mix.js');
 
-} else {
+// Run only for a plugin, replace [plugin] by the name of plugin you want to compile assets
+// require('./platform/plugins/[plugin]/webpack.mix.js');
 
-    configs.forEach(config => glob.sync(config).forEach(item => require(item)));
-}
+// Run only for themes, you shouldn't modify below config, just uncomment if you want to compile only theme's assets
+// glob.sync('./platform/themes/**/webpack.mix.js').forEach(item => require(item));
+
+require('./src/core/base/webpack.mix');

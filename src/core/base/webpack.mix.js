@@ -27,7 +27,7 @@ mix
     .js(source + '/resources/assets/js/system-info.js', dist + '/js')
     .js(source + '/resources/assets/js/repeater-field.js', dist + '/js')
     .js(source + '/resources/assets/js/tree-category.js', dist + '/js')
-    // .vue()
+    .vue()
 
     .copyDirectory(dist + '/css', source + '/public/css')
     .copyDirectory(dist + '/js', source + '/public/js');
