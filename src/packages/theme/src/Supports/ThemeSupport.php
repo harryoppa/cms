@@ -2,6 +2,9 @@
 
 namespace TVHung\Theme\Supports;
 
+use Html;
+use Illuminate\Support\Str;
+
 class ThemeSupport
 {
     /**
@@ -36,5 +39,24 @@ class ThemeSupport
         shortcode()->setAdminConfig('google-map', function ($attributes, $content) use ($viewPath) {
             return view(($viewPath ?: 'packages/theme::shortcodes') . '.google-map-admin-config', compact('attributes', 'content'))->render();
         });
+    }
+
+    /**
+     * @param string $location
+     * @return string
+     */
+    public static function getCustomJS(string $location)
+    {
+        $js = setting('custom_' . $location . '_js');
+
+        if (empty($js)) {
+            return '';
+        }
+
+        if (!Str::contains($js, '<script') || !Str::contains($js, '</script>')) {
+            $js = Html::tag('script', $js);
+        }
+
+        return $js;
     }
 }

@@ -199,9 +199,9 @@ class ThemeController extends BaseController
         }
 
         setting()
-            ->set('custom_header_js', $request->input('header_js'))
-            ->set('custom_body_js', $request->input('body_js'))
-            ->set('custom_footer_js', $request->input('footer_js'))
+            ->set('custom_header_js', $request->input('header_js') ?: '')
+            ->set('custom_body_js', $request->input('body_js') ?: '')
+            ->set('custom_footer_js', $request->input('footer_js') ?: '')
             ->save();
 
         return $response->setMessage(trans('packages/theme::theme.update_custom_js_success'));

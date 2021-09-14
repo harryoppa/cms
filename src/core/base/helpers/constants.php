@@ -122,6 +122,10 @@ if (!defined('BASE_FILTER_BEFORE_RENDER_FORM')) {
     define('BASE_FILTER_BEFORE_RENDER_FORM', 'base_filter_before_render_form');
 }
 
+if (!defined('BASE_FILTER_AFTER_FORM_CREATED')) {
+    define('BASE_FILTER_AFTER_FORM_CREATED', 'base_filter_after_form_created');
+}
+
 if (!defined('BASE_FILTER_FORM_EDITOR_BUTTONS')) {
     define('BASE_FILTER_FORM_EDITOR_BUTTONS', 'base_filter_form_editor_buttons');
 }

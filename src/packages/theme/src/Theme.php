@@ -3,6 +3,7 @@
 namespace TVHung\Theme;
 
 use TVHung\Base\Supports\Helper;
+use TVHung\Setting\Models\Setting;
 use TVHung\Theme\Contracts\Theme as ThemeContract;
 use TVHung\Theme\Exceptions\UnknownLayoutFileException;
 use TVHung\Theme\Exceptions\UnknownPartialFileException;
@@ -389,7 +390,12 @@ class Theme implements ThemeContract
         $theme = Arr::first(scan_folder(theme_path()));
 
         if (Helper::isConnectedDatabase()) {
-            setting()->set('theme', $theme)->save();
+            Setting::insertOrIgnore([
+                [
+                    'key'   => 'theme',
+                    'value' => $theme,
+                ],
+            ]);
         }
 
         return $theme;

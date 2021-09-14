@@ -163,7 +163,7 @@ class SettingManagement {
 
         const addEmail = (value = '') => {
             return $addBtn.before(`<div class="d-flex mt-2 more-email align-items-center">
-                <input type="email" class="next-input" placeholder="${$addBtn.data('placeholder')}" name="admin_email[]" value="${value}" />
+                <input type="email" class="next-input" placeholder="${$addBtn.data('placeholder')}" name="admin_email[]" value="${ value ? value : '' }" />
                 <a class="btn btn-link text-danger"><i class="fas fa-minus"></i></a>
             </div>`)
         }

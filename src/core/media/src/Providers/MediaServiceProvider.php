@@ -60,7 +60,8 @@ class MediaServiceProvider extends ServiceProvider
 
         $this->app->bind(MediaSettingInterface::class, function () {
             return new MediaSettingCacheDecorator(
-                new MediaSettingRepository(new MediaSetting)
+                new MediaSettingRepository(new MediaSetting),
+                MEDIA_GROUP_CACHE_KEY
             );
         });
 

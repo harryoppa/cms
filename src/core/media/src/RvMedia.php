@@ -478,6 +478,8 @@ class RvMedia
                 }
             }
 
+            $request->offsetUnset('uploaded_file');
+
             $maxSize = $this->getServerConfigMaxUploadFileSize();
 
             if ($fileUpload->getSize() / 1024 > (int)$maxSize) {
@@ -627,8 +629,20 @@ class RvMedia
 
         if (setting('media_watermark_enabled', $this->getConfig('watermark.enabled'))) {
             $image = Image::make($this->getRealPath($file->url));
-            $watermark = Image::make($this->getRealPath(setting('media_watermark_source',
-                $this->getConfig('watermark.source'))));
+
+            $watermarkImage = setting('media_watermark_source', $this->getConfig('watermark.source'));
+
+            if (!$watermarkImage) {
+                return true;
+            }
+
+            $watermarkPath = $this->getRealPath($watermarkImage);
+
+            if (!File::exists($watermarkPath)) {
+                return true;
+            }
+
+            $watermark = Image::make($watermarkPath);
 
             // 10% less then an actual image (play with this value)
             // Watermark will be 10 less then the actual width of the image

@@ -3,6 +3,7 @@
 namespace TVHung\Theme\Providers;
 
 use TVHung\Base\Supports\Helper;
+use TVHung\Setting\Models\Setting;
 use Composer\Autoload\ClassLoader;
 use File;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -26,7 +27,12 @@ class ThemeManagementServiceProvider extends ServiceProvider
     public function boot()
     {
         if (!Theme::getThemeName()) {
-            setting()->set('theme', Arr::first(scan_folder(theme_path())));
+            Setting::insertOrIgnore([
+                [
+                    'key'   => 'theme',
+                    'value' => Arr::first(scan_folder(theme_path())),
+                ],
+            ]);
         }
 
         $theme = Theme::getThemeName();

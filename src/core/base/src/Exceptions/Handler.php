@@ -10,12 +10,14 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Session\TokenMismatchException;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use Log;
 use RvMedia;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Theme;
 use Throwable;
 use URL;
 
@@ -34,6 +36,13 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof ModelNotFoundException || $exception instanceof MethodNotAllowedHttpException) {
             $exception = new NotFoundHttpException($exception->getMessage(), $exception);
+        }
+
+        if ($exception instanceof TokenMismatchException) {
+            return (new BaseHttpResponse)
+                ->setError()
+                ->setCode($exception->getCode())
+                ->setMessage('CSRF token mismatch. Please try again!');
         }
 
         if ($this->isHttpException($exception)) {
@@ -142,7 +151,7 @@ class Handler extends ExceptionHandler
         }
 
         if (class_exists('Theme')) {
-            return 'theme.' . \Theme::getThemeName() . '::views.' . $code;
+            return 'theme.' . Theme::getThemeName() . '::views.' . $code;
         }
 
         return parent::getHttpExceptionView($exception);

@@ -9,7 +9,7 @@ if (!function_exists('setting')) {
      *
      * @param string|null $key
      * @param string|null $default
-     * @return array|\TVHung\Setting\Supports\SettingStore|string|null
+     * @return array|\Botble\Setting\Supports\SettingStore|string|null
      */
     function setting($key = null, $default = null)
     {
@@ -35,7 +35,9 @@ if (!function_exists('get_admin_email')) {
     {
         $email = setting('admin_email', []);
 
-        return collect(is_array($email) ? $email : [$email]);
+        $email = is_array($email) ? $email : [$email];
+
+        return collect(array_filter($email));
     }
 }
 
@@ -50,8 +52,7 @@ if (!function_exists('get_setting_email_template_content')) {
      */
     function get_setting_email_template_content($type, $module, $templateKey)
     {
-        $path = $type . '/' . $module . '/resources/email-templates/' . $templateKey . '.tpl';
-        $defaultPath = preg_match('/core|packages/', $type) ? source_path($path) : platform_path($path);
+        $defaultPath = platform_path($type . '/' . $module . '/resources/email-templates/' . $templateKey . '.tpl');
         $storagePath = get_setting_email_template_path($module, $templateKey);
 
         if ($storagePath != null && File::exists($storagePath)) {
@@ -94,7 +95,7 @@ if (!function_exists('get_setting_email_subject')) {
      * @param string $type : plugins or core
      * @param string $name : name of plugin or core component
      * @param string $templateKey : define in config/email/templates
-     * @return array|\TVHung\Setting\Supports\SettingStore|null|string
+     * @return array|\Botble\Setting\Supports\SettingStore|null|string
      */
     function get_setting_email_subject($type, $module, $templateKey)
     {
@@ -125,7 +126,7 @@ if (!function_exists('get_setting_email_status')) {
      * @param string $type
      * @param string $module
      * @param string $templateKey
-     * @return array|\TVHung\Setting\Supports\SettingStore|null|string
+     * @return array|\Botble\Setting\Supports\SettingStore|null|string
      */
     function get_setting_email_status($type, $module, $templateKey)
     {

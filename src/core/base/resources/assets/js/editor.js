@@ -135,6 +135,16 @@ class EditorManagement {
                         'tableProperties'
                     ]
                 },
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: /.*/,
+                            attributes: true,
+                            classes: true,
+                            styles: true
+                        }
+                    ]
+                },
                 extraPlugins: [
                     function (editor) {
                         // Allow <iframe> elements in the model.

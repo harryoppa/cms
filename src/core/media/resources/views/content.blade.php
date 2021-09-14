@@ -260,7 +260,7 @@
                             </button>
                         </div>
                         <label for="media_details_collapse" class="btn btn-link collapse-panel">
-                            <i class="fa fa-sign-out"></i>
+                            <i class="fas fa-arrow-right"></i>
                         </label>
                     </div>
                 </div>
