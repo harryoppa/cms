@@ -30,6 +30,8 @@ use Illuminate\Routing\ResourceRegistrar;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
+use Arr;
 use MetaBox;
 use URL;
 
@@ -175,6 +177,8 @@ class BaseServiceProvider extends ServiceProvider
             $config->get('purifier.settings'),
             $config->get('core.base.general.purifier')
         )]);
+
+        $this->createMacroQueries();
     }
 
     /**
@@ -236,6 +240,19 @@ class BaseServiceProvider extends ServiceProvider
         if (-1 !== $currentLimitInt && (-1 === $limitInt || $limitInt > $currentLimitInt)) {
             ini_set('memory_limit', $memoryLimit);
         }
+    }
+
+    protected function createMacroQueries()
+    {
+        Builder::macro('whereLike', function ($attributes, string $searchTerm) {
+            $this->where(function (Builder $query) use ($attributes, $searchTerm) {
+                foreach (Arr::wrap($attributes) as $attribute) {
+                    $query->orWhere($attribute, 'LIKE', "%{$searchTerm}%");
+                }
+            });
+
+            return $this;
+        });
     }
 
     /**
