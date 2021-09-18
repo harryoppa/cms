@@ -171,7 +171,9 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             $newModel = $model;
         }
         foreach ($where as $field => $value) {
-            if (is_array($value)) {
+            if ($value instanceof \Closure) {
+                $newModel = $newModel->where($value);
+            } else if (is_array($value)) {
                 [$field, $condition, $val] = $value;
                 switch (strtoupper($condition)) {
                     case 'IN':

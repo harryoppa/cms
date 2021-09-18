@@ -25,3 +25,11 @@ if (!function_exists('get_login_background')) {
         return RvMedia::getImageUrl($image);
     }
 }
+
+if (!function_exists('is_super_admin')) {
+    
+    function is_super_admin()
+    {
+        return (Auth()->check() && Auth()->user()->super_user === 1);
+    }
+}
