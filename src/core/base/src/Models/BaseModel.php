@@ -18,7 +18,7 @@ class BaseModel extends Eloquent
     {
         if (class_exists('MacroableModels')) {
             $method = 'get' . Str::studly($key) . 'Attribute';
-            if (MacroableModels::modelHasMacro(get_class($this), $method)) {
+            if (MacroableModels::modelHasMacro($this::class, $method)) {
                 return call_user_func([$this, $method]);
             }
         }

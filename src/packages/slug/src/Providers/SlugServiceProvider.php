@@ -104,7 +104,7 @@ class SlugServiceProvider extends ServiceProvider
                             return url('');
                         }
 
-                        if (get_class($this) == Page::class && BaseHelper::isHomepage($this->id)) {
+                        if ($this::class == Page::class && BaseHelper::isHomepage($this->id)) {
                             return url('');
                         }
 

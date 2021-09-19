@@ -128,7 +128,7 @@ class Handler extends ExceptionHandler
         }
 
         foreach ($ignoredBots as $bot) {
-            if ((strpos($agent, $bot) !== false)) {
+            if ((str_contains($agent, $bot))) {
                 return true;
             }
         }

@@ -124,7 +124,7 @@ abstract class AbstractWidget
      */
     public function getId()
     {
-        return get_class($this);
+        return $this::class;
     }
 
     /**

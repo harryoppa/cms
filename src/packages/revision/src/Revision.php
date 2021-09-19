@@ -42,7 +42,7 @@ class Revision extends BaseModel
     {
         if ($formatted = $this->formatFieldName($this->key)) {
             return $formatted;
-        } elseif (strpos($this->key, '_id')) {
+        } elseif (str_contains($this->key, '_id')) {
             return str_replace('_id', '', $this->key);
         }
 

@@ -142,3 +142,33 @@ if (!function_exists('package_path')) {
         return source_path('packages/' . $path);
     }
 }
+
+if (!function_exists('array_insert'))
+{
+    /**
+     * Insert an array into another array before/after a certain key
+     *
+     * @param array $array The initial array
+     * @param array $pairs The array to insert
+     * @param string $key The certain key
+     * @param string $position Wether to insert the array before or after the key
+     * @return array
+     */
+    function array_insert( $array, $pairs, $key, $position = 'after' ) {
+        $key_pos = array_search( $key, array_keys( $array ) );
+
+        if ( 'after' == $position )
+            $key_pos++;
+
+        if ( false !== $key_pos ) {
+            $result = array_slice( $array, 0, $key_pos );
+            $result = array_merge( $result, $pairs );
+            $result = array_merge( $result, array_slice( $array, $key_pos ) );
+        }
+        else {
+            $result = array_merge( $array, $pairs );
+        }
+
+        return $result;
+    }
+}

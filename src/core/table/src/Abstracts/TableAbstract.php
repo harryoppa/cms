@@ -133,7 +133,7 @@ abstract class TableAbstract extends DataTable
         }
 
         if (!$this->getOption('id')) {
-            $this->setOption('id', strtolower(Str::slug(Str::snake(get_class($this)))));
+            $this->setOption('id', strtolower(Str::slug(Str::snake($this::class))));
         }
 
         if (!$this->getOption('class')) {
@@ -488,7 +488,7 @@ abstract class TableAbstract extends DataTable
      */
     public function getButtons(): array
     {
-        $buttons = apply_filters(BASE_FILTER_TABLE_BUTTONS, $this->buttons(), get_class($this->repository->getModel()));
+        $buttons = apply_filters(BASE_FILTER_TABLE_BUTTONS, $this->buttons(), $this->repository->getModel()::class);
 
         if (!$buttons) {
             return [];
@@ -719,7 +719,7 @@ abstract class TableAbstract extends DataTable
         if ($this->getBulkChanges()) {
             $actions['bulk-change'] = view('core/table::bulk-changes', [
                 'bulk_changes' => $this->getBulkChanges(),
-                'class'        => get_class($this),
+                'class'        => $this::class,
                 'url'          => $this->bulkChangeUrl,
             ])->render();
         }
@@ -779,7 +779,7 @@ abstract class TableAbstract extends DataTable
      */
     public function applyFilterCondition($query, string $key, string $operator, ?string $value)
     {
-        if (strpos($key, '.') !== -1) {
+        if (str_contains($key, '.')) {
             $key = Arr::last(explode('.', $key));
         }
 
@@ -936,7 +936,7 @@ abstract class TableAbstract extends DataTable
     public function renderFilter(): string
     {
         $tableId = $this->getOption('id');
-        $class = get_class($this);
+        $class = $this::class;
         $columns = $this->getFilters();
 
         $request = request();

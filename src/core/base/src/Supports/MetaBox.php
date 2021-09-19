@@ -32,20 +32,20 @@ class MetaBox
     /**
      * @param string $id
      * @param string $title
-     * @param string|array|\Closure $callback
+     * @param array|\Closure|string $callback
      * @param null $reference
      * @param string $context
      * @param string $priority
      * @param null $callbackArgs
      */
     public function addMetaBox(
-        $id,
-        $title,
-        $callback,
-        $reference = null,
-        $context = 'advanced',
-        $priority = 'default',
-        $callbackArgs = null
+        string                $id,
+        string                $title,
+        array|\Closure|string $callback,
+                              $reference = null,
+        string                $context = 'advanced',
+        string                $priority = 'default',
+                              $callbackArgs = null
     ) {
         if (!isset($this->metaBoxes[$reference])) {
             $this->metaBoxes[$reference] = [];
@@ -121,11 +121,11 @@ class MetaBox
      *
      * @throws Throwable
      */
-    public function doMetaBoxes($context, $object = null)
+    public function doMetaBoxes($context, $object = null): int
     {
         $index = 0;
         $data = '';
-        $reference = get_class($object);
+        $reference = $object::class;
         if (isset($this->metaBoxes[$reference][$context])) {
             foreach (['high', 'sorted', 'core', 'default', 'low'] as $priority) {
                 if (!isset($this->metaBoxes[$reference][$context][$priority])) {
@@ -154,10 +154,10 @@ class MetaBox
      * Remove a meta box from an edit form.
      *
      * @param string $id String for use in the 'id' attribute of tags.
-     * @param string|object $reference The screen on which to show the box (post, page, link).
+     * @param object|string $reference The screen on which to show the box (post, page, link).
      * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
      */
-    public function removeMetaBox($id, $reference, $context)
+    public function removeMetaBox(string $id, object|string $reference, string $context)
     {
         if (!isset($this->metaBoxes[$reference])) {
             $this->metaBoxes[$reference] = [];
@@ -186,13 +186,13 @@ class MetaBox
             $fieldMeta = $this->metaBoxRepository->getFirstBy([
                 'meta_key'       => $key,
                 'reference_id'   => $object->id,
-                'reference_type' => get_class($object),
+                'reference_type' => $object::class,
             ]);
             if (!$fieldMeta) {
                 $fieldMeta = $this->metaBoxRepository->getModel();
                 $fieldMeta->reference_id = $object->id;
                 $fieldMeta->meta_key = $key;
-                $fieldMeta->reference_type = get_class($object);
+                $fieldMeta->reference_type = $object::class;
             }
 
             if (!empty($options)) {
@@ -214,7 +214,7 @@ class MetaBox
      * @param array $select
      * @return mixed
      */
-    public function getMetaData($object, string $key, $single = false, $select = ['meta_value'])
+    public function getMetaData($object, string $key, $single = false, $select = ['meta_value']): mixed
     {
         if ($object instanceof MetaBoxModel) {
             $field = $object;
@@ -244,7 +244,7 @@ class MetaBox
         return $this->metaBoxRepository->getFirstBy([
             'meta_key'       => $key,
             'reference_id'   => $object->id,
-            'reference_type' => get_class($object),
+            'reference_type' => $object::class,
         ], $select);
     }
 
@@ -259,7 +259,7 @@ class MetaBox
         return $this->metaBoxRepository->deleteBy([
             'meta_key'       => $key,
             'reference_id'   => $object->id,
-            'reference_type' => get_class($object),
+            'reference_type' => $object::class,
         ]);
     }
 

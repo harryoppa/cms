@@ -253,11 +253,11 @@ class Helper
         $value = strtolower(trim($value));
         $bytes = (int)$value;
 
-        if (false !== strpos($value, 'g')) {
+        if (str_contains($value, 'g')) {
             $bytes *= 1024 * 1024 * 1024;
-        } elseif (false !== strpos($value, 'm')) {
+        } elseif (str_contains($value, 'm')) {
             $bytes *= 1024 * 1024;
-        } elseif (false !== strpos($value, 'k')) {
+        } elseif (str_contains($value, 'k')) {
             $bytes *= 1024;
         }
 

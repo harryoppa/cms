@@ -64,7 +64,7 @@ abstract class ActionHookEvent
     protected function getFunction($callback)
     {
         if (is_string($callback)) {
-            if (strpos($callback, '@')) {
+            if (str_contains($callback, '@')) {
                 $callback = explode('@', $callback);
                 return [app('\\' . $callback[0]), $callback[1]];
             }

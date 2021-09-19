@@ -116,7 +116,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
         }
 
         throw (new ModelNotFoundException)->setModel(
-            get_class($this->originalModel), $id
+            $this->originalModel::class, $id
         );
     }
 

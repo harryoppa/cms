@@ -890,7 +890,7 @@ class RvMedia
      */
     public function handleTargetFolder($folderId = 0, $filePath = ''): string
     {
-        if (strpos($filePath, '/') !== false) {
+        if (str_contains($filePath, '/')) {
             $paths = explode('/', $filePath);
             array_pop($paths);
             foreach ($paths as $folder) {

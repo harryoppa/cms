@@ -503,7 +503,7 @@ class AssetContainer
         }
 
         // If source is not a path to asset, render without wrap a HTML.
-        if (strpos($asset['source'], '<') !== false) {
+        if (str_contains($asset['source'], '<')) {
             return $asset['source'];
         }
 
@@ -636,7 +636,7 @@ class AssetContainer
         }
 
         // If source is not a path to asset, render without wrap a HTML.
-        if (strpos($asset['source'], '<') !== false) {
+        if (str_contains($asset['source'], '<')) {
             return $asset['source'];
         }
 

@@ -14,26 +14,6 @@ use MetaBox;
 
 class SeoHelper implements SeoHelperContract
 {
-    /**
-     * The SeoMeta instance.
-     *
-     * @var SeoMetaContract
-     */
-    protected $seoMeta;
-
-    /**
-     * The SeoOpenGraph instance.
-     *
-     * @var SeoOpenGraphContract
-     */
-    protected $seoOpenGraph;
-
-    /**
-     * The SeoTwitter instance.
-     *
-     * @var SeoTwitterContract
-     */
-    protected $seoTwitter;
 
     /**
      * Make SeoHelper instance.
@@ -43,9 +23,9 @@ class SeoHelper implements SeoHelperContract
      * @param SeoTwitterContract $seoTwitter
      */
     public function __construct(
-        SeoMetaContract $seoMeta,
-        SeoOpenGraphContract $seoOpenGraph,
-        SeoTwitterContract $seoTwitter
+        protected SeoMetaContract $seoMeta,
+        protected SeoOpenGraphContract $seoOpenGraph,
+        protected SeoTwitterContract $seoTwitter
     ) {
         $this->setSeoMeta($seoMeta);
         $this->setSeoOpenGraph($seoOpenGraph);
@@ -202,7 +182,7 @@ class SeoHelper implements SeoHelperContract
      */
     public function saveMetaData($screen, $request, $object)
     {
-        if (in_array(get_class($object), config('packages.seo-helper.general.supported', []))) {
+        if (in_array($object::class, config('packages.seo-helper.general.supported', []))) {
             try {
                 if (empty($request->input('seo_meta'))) {
                     MetaBox::deleteMetaData($object, 'seo_meta');

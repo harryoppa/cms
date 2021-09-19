@@ -32,12 +32,12 @@ class HookServiceProvider extends ServiceProvider
      */
     public function addSlugBox($html = null, $object = null)
     {
-        if ($object && SlugHelper::isSupportedModel(get_class($object))) {
+        if ($object && SlugHelper::isSupportedModel($object::class)) {
 
             Assets::addScriptsDirectly('vendor/core/packages/slug/js/slug.js')
                 ->addStylesDirectly('vendor/core/packages/slug/css/slug.css');
 
-            $prefix = SlugHelper::getPrefix(get_class($object));
+            $prefix = SlugHelper::getPrefix($object::class);
 
             return $html . view('packages/slug::partials.slug', compact('object', 'prefix'))->render();
         }
@@ -52,7 +52,7 @@ class HookServiceProvider extends ServiceProvider
      */
     public function getItemSlug($data, $model)
     {
-        if ($data && SlugHelper::isSupportedModel(get_class($data))) {
+        if ($data && SlugHelper::isSupportedModel($data::class)) {
             $table = $model->getTable();
             $select = [$table . '.*'];
             /**
@@ -71,7 +71,7 @@ class HookServiceProvider extends ServiceProvider
             }
 
             foreach ($select as &$column) {
-                if (strpos($column, '.') === false) {
+                if (!str_contains($column, '.')) {
                     $column = $table . '.' . $column;
                 }
             }
@@ -83,7 +83,7 @@ class HookServiceProvider extends ServiceProvider
                     $join->on('slugs.reference_id', '=', $table . '.id');
                 })
                 ->select($select)
-                ->where('slugs.reference_type', get_class($model));
+                ->where('slugs.reference_type', $model::class);
         }
 
         return $data;

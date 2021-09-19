@@ -63,7 +63,7 @@ class MacroableModels
             /**
              * @var BaseModel $this
              */
-            $class = get_class($this->getModel());
+            $class = $this->getModel()::class;
 
             if (!isset($models[$class])) {
                 throw new BadMethodCallException("Call to undefined method ${class}::${name}()");

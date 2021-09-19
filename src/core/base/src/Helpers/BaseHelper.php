@@ -231,4 +231,16 @@ class BaseHelper
     {
         return setting('rich_editor', config('core.base.general.editor.primary'));
     }
+
+    /**
+     * @param array $array
+     * @param $pairs
+     * @param $key
+     * @param string $position
+     * @return array
+     */
+    public function arrayInsertTo(array $array, $pairs, $key, $position = 'after'): array
+    {
+        return array_insert($array, $pairs, $key, $position);
+    }
 }
