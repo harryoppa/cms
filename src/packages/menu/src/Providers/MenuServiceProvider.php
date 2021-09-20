@@ -2,7 +2,6 @@
 
 namespace TVHung\Menu\Providers;
 
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Menu\Models\Menu as MenuModel;
 use TVHung\Menu\Models\MenuLocation;
@@ -25,11 +24,6 @@ class MenuServiceProvider extends ServiceProvider
 {
     use LoadAndPublishDataTrait;
 
-    public function register()
-    {
-        Helper::autoload(__DIR__ . '/../../helpers');
-    }
-
     public function boot()
     {
         $this->app->bind(MenuInterface::class, function () {
@@ -51,6 +45,7 @@ class MenuServiceProvider extends ServiceProvider
         });
 
         $this->setNamespace('packages/menu')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['permissions', 'general'])
             ->loadRoutes(['web'])
             ->loadAndPublishViews()

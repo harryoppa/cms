@@ -2,7 +2,6 @@
 
 namespace TVHung\Dashboard\Providers;
 
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Dashboard\Models\DashboardWidget;
 use TVHung\Dashboard\Models\DashboardWidgetSetting;
@@ -36,13 +35,12 @@ class DashboardServiceProvider extends ServiceProvider
                 new DashboardWidgetSettingRepository(new DashboardWidgetSetting)
             );
         });
-
-        Helper::autoload(__DIR__ . '/../../helpers');
     }
 
     public function boot()
     {
         $this->setNamespace('core/dashboard')
+            ->loadHelpers()
             ->loadRoutes(['web'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()

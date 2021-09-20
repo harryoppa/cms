@@ -2,7 +2,6 @@
 
 namespace TVHung\SeoHelper\Providers;
 
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\SeoHelper\Contracts\SeoHelperContract;
 use TVHung\SeoHelper\Contracts\SeoMetaContract;
@@ -27,13 +26,12 @@ class SeoHelperServiceProvider extends ServiceProvider
         $this->app->bind(SeoHelperContract::class, SeoHelper::class);
         $this->app->bind(SeoOpenGraphContract::class, SeoOpenGraph::class);
         $this->app->bind(SeoTwitterContract::class, SeoTwitter::class);
-
-        Helper::autoload(__DIR__ . '/../../helpers');
     }
 
     public function boot()
     {
         $this->setNamespace('packages/seo-helper')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['general'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()

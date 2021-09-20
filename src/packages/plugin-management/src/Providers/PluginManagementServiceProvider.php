@@ -2,7 +2,6 @@
 
 namespace TVHung\PluginManagement\Providers;
 
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use Composer\Autoload\ClassLoader;
 use Exception;
@@ -24,13 +23,12 @@ class PluginManagementServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setNamespace('packages/plugin-management')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
             ->loadRoutes(['web'])
             ->publishAssets();
-
-        Helper::autoload(__DIR__ . '/../../helpers');
 
         $plugins = get_active_plugins();
         if (!empty($plugins) && is_array($plugins)) {

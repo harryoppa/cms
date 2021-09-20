@@ -14,7 +14,6 @@ use TVHung\ACL\Repositories\Eloquent\UserRepository;
 use TVHung\ACL\Repositories\Interfaces\ActivationInterface;
 use TVHung\ACL\Repositories\Interfaces\RoleInterface;
 use TVHung\ACL\Repositories\Interfaces\UserInterface;
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use EmailHandler;
 use Exception;
@@ -35,6 +34,8 @@ class AclServiceProvider extends ServiceProvider
          */
         $router = $this->app['router'];
 
+        $this->loadHelpers();
+
         $router->aliasMiddleware('auth', Authenticate::class);
         $router->aliasMiddleware('guest', RedirectIfAuthenticated::class);
 
@@ -49,8 +50,6 @@ class AclServiceProvider extends ServiceProvider
         $this->app->bind(RoleInterface::class, function () {
             return new RoleCacheDecorator(new RoleRepository(new Role));
         });
-
-        Helper::autoload(__DIR__ . '/../../helpers');
     }
 
     /**
@@ -61,7 +60,8 @@ class AclServiceProvider extends ServiceProvider
         $this->app->register(CommandServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
 
-        $this->setNamespace('core/acl')
+        $this
+            ->setNamespace('core/acl')
             ->loadAndPublishConfigurations(['general', 'permissions', 'email'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()

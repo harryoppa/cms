@@ -387,18 +387,7 @@ class Theme implements ThemeContract
             return $theme;
         }
 
-        $theme = Arr::first(scan_folder(theme_path()));
-
-        if (Helper::isConnectedDatabase()) {
-            Setting::insertOrIgnore([
-                [
-                    'key'   => 'theme',
-                    'value' => $theme,
-                ],
-            ]);
-        }
-
-        return $theme;
+        return Arr::first(scan_folder(theme_path()));
     }
 
     /**

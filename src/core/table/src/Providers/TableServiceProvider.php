@@ -12,9 +12,8 @@ class TableServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Helper::autoload(__DIR__ . '/../../helpers');
-
         $this->setNamespace('core/table')
+            ->loadHelpers()
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
             ->loadRoutes(['web'])

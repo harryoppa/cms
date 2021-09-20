@@ -3,7 +3,6 @@
 namespace TVHung\Media\Providers;
 
 use Aws\S3\S3Client;
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Media\Chunks\Storage\ChunkStorage;
 use TVHung\Media\Commands\ClearChunksCommand;
@@ -42,8 +41,6 @@ class MediaServiceProvider extends ServiceProvider
 
     public function register()
     {
-        Helper::autoload(__DIR__ . '/../../helpers');
-
         $this->app->bind(MediaFileInterface::class, function () {
             return new MediaFileCacheDecorator(
                 new MediaFileRepository(new MediaFile),
@@ -71,6 +68,7 @@ class MediaServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setNamespace('core/media')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['permissions', 'media'])
             ->loadMigrations()
             ->loadAndPublishTranslations()

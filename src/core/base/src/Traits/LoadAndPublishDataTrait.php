@@ -2,6 +2,7 @@
 
 namespace TVHung\Base\Traits;
 
+use TVHung\Base\Supports\Helper;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use ReflectionClass;
@@ -245,5 +246,20 @@ trait LoadAndPublishDataTrait
         if ($from != $to) {
             throw new Exception(sprintf('Plugin folder is invalid. Need to rename folder %s to %s', $from, $to));
         }
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadHelpers(): self
+    {
+        $reflector  = new ReflectionClass($this::class);
+        $fn         = $reflector->getFileName();
+        $dir        = dirname($fn);
+
+
+        Helper::autoload($dir . '/../../helpers');
+
+        return $this;
     }
 }

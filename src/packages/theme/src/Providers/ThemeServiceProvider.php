@@ -2,7 +2,6 @@
 
 namespace TVHung\Theme\Providers;
 
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Theme\Commands\ThemeActivateCommand;
 use TVHung\Theme\Commands\ThemeAssetsPublishCommand;
@@ -14,12 +13,10 @@ use TVHung\Theme\Http\Middleware\AdminBarMiddleware;
 use TVHung\Theme\Supports\ThemeSupport;
 use TVHung\Theme\Theme;
 use File;
-use Html;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Theme as ThemeFacade;
 
 class ThemeServiceProvider extends ServiceProvider
@@ -33,8 +30,6 @@ class ThemeServiceProvider extends ServiceProvider
          */
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('web', AdminBarMiddleware::class);
-
-        Helper::autoload(__DIR__ . '/../../helpers');
 
         $this->app->bind(ThemeContract::class, Theme::class);
 
@@ -50,11 +45,11 @@ class ThemeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setNamespace('packages/theme')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['general', 'permissions'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
             ->loadRoutes(['web'])
-            ->loadMigrations()
             ->publishAssets();
 
         Event::listen(RouteMatched::class, function () {

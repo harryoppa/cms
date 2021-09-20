@@ -4,7 +4,6 @@ namespace TVHung\Slug\Providers;
 
 use BaseHelper;
 use TVHung\Base\Models\BaseModel;
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Page\Models\Page;
 use TVHung\Slug\Models\Slug;
@@ -37,13 +36,12 @@ class SlugServiceProvider extends ServiceProvider
         $this->app->singleton(SlugHelper::class, function () {
             return new SlugHelper;
         });
-
-        Helper::autoload(__DIR__ . '/../../helpers');
     }
 
     public function boot()
     {
         $this->setNamespace('packages/slug')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['general'])
             ->loadAndPublishViews()
             ->loadRoutes(['web'])

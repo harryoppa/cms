@@ -2,7 +2,6 @@
 
 namespace TVHung\Shortcode\Providers;
 
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Shortcode\Compilers\ShortcodeCompiler;
 use TVHung\Shortcode\Shortcode;
@@ -42,9 +41,8 @@ class ShortcodeServiceProvider extends ServiceProvider
             return $env;
         });
 
-        Helper::autoload(__DIR__ . '/../../helpers');
-
         $this->setNamespace('packages/shortcode')
+            ->loadHelpers()
             ->loadRoutes();
     }
 }

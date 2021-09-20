@@ -32,6 +32,7 @@ class SettingServiceProvider extends ServiceProvider
     public function register()
     {
         $this->setNamespace('core/setting')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['general']);
 
         $this->app->singleton(SettingsManager::class, function (Application $app) {
@@ -49,8 +50,6 @@ class SettingServiceProvider extends ServiceProvider
                 new SettingRepository(new SettingModel)
             );
         });
-
-        Helper::autoload(__DIR__ . '/../../helpers');
     }
 
     public function boot()

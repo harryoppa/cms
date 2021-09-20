@@ -2,7 +2,6 @@
 
 namespace TVHung\Page\Providers;
 
-use TVHung\Base\Supports\Helper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Page\Models\Page;
 use TVHung\Page\Repositories\Caches\PageCacheDecorator;
@@ -20,11 +19,6 @@ class PageServiceProvider extends ServiceProvider
 {
     use LoadAndPublishDataTrait;
 
-    public function register()
-    {
-        Helper::autoload(__DIR__ . '/../../helpers');
-    }
-
     public function boot()
     {
         $this->app->bind(PageInterface::class, function () {
@@ -32,6 +26,7 @@ class PageServiceProvider extends ServiceProvider
         });
 
         $this->setNamespace('packages/page')
+            ->loadHelpers()
             ->loadAndPublishConfigurations(['permissions', 'general'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()

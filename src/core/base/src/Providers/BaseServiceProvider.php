@@ -56,9 +56,9 @@ class BaseServiceProvider extends ServiceProvider
             return new CustomResourceRegistrar($app['router']);
         });
 
-        Helper::autoload(__DIR__ . '/../../helpers');
-
-        $this->setNamespace('core/base')
+        $this
+            ->loadHelpers()
+            ->setNamespace('core/base')
             ->loadAndPublishConfigurations(['general']);
 
         $this->app->register(SettingServiceProvider::class);
@@ -108,7 +108,7 @@ class BaseServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->setNamespace('core/base')
+        $this
             ->loadAndPublishConfigurations(['permissions', 'assets'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()

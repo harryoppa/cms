@@ -385,7 +385,7 @@ abstract class TableAbstract extends DataTable
      */
     protected function getOperations(?string $edit, ?string $delete, $item, ?string $extra = null): string
     {
-        return table_actions($edit, $delete, $item, $extra);
+        return apply_filters('table_operation_buttons', table_actions($edit, $delete, $item, $extra), $item, $edit, $delete, $extra);
     }
 
     /**
