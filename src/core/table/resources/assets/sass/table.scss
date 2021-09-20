@@ -1,4 +1,5 @@
 @import '../../../../base/resources/assets/sass/base/global/components/table';
+@import '../../../../base/resources/assets/sass/base/global/variables';
 
 table.dataTable {
     border-top: none;
@@ -20,7 +21,7 @@ table.dataTable {
     padding: 0;
 }
 
-$brand-main-color: #36c6d3;
+$brand-main-color: #4d69fa;
 $general-img-path: '/vendor/core/core/base/images/' !default;
 
 .table-has-actions, .table-has-filter {
@@ -122,8 +123,10 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
 
     .status-label {
         display: inline-block;
-        padding: 3px 5px;
+        padding: 5px 10px;
         color: #ffffff !important;
+        border-radius: 50px;
+        box-shadow: 0 5px 30px 0 rgb(0 0 0 / 5%);
     }
 }
 
@@ -136,6 +139,7 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
         .datatables__info_wrap {
             background-color: #fbfcfd;
             width: 100%;
+            border-radius: 0 0 $general-border-radius $general-border-radius;
         }
 
         .dt-buttons {
@@ -207,7 +211,7 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
                         -moz-transition: .3s;
                         -o-transition: .3s;
                         transition: .3s;
-                        padding: 2px 5px;
+                        padding: 8px 15px;
                         min-width: 24px;
                         width: auto;
                         height: auto;
@@ -409,6 +413,7 @@ div.dataTables_info {
 
 .page-content {
     .table-wrapper {
+        box-shadow: 0 5px 30px 0 rgb(0 0 0 / 5%);
         .table-responsive {
             overflow-x: inherit;
 
