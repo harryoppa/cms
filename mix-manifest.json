@@ -1,8 +1,6 @@
 {
-    "/public/vendor/core/core/table/js/table.js": "/public/vendor/core/core/table/js/table.js",
-    "/public/vendor/core/core/table/js/filter.js": "/public/vendor/core/core/table/js/filter.js",
-    "/public/vendor/core/core/table/css/table.css": "/public/vendor/core/core/table/css/table.css",
-    "/src/core/table/public/js/filter.js": "/src/core/table/public/js/filter.js",
-    "/src/core/table/public/js/table.js": "/src/core/table/public/js/table.js",
-    "/src/core/table/public/css/table.css": "/src/core/table/public/css/table.css"
+    "/public/vendor/core/core/dashboard/js/dashboard.js": "/public/vendor/core/core/dashboard/js/dashboard.js",
+    "/public/vendor/core/core/dashboard/css/dashboard.css": "/public/vendor/core/core/dashboard/css/dashboard.css",
+    "/src/core/dashboard/public/js/dashboard.js": "/src/core/dashboard/public/js/dashboard.js",
+    "/src/core/dashboard/public/css/dashboard.css": "/src/core/dashboard/public/css/dashboard.css"
 }

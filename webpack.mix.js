@@ -16,4 +16,4 @@ mix.options({
 
 // require('./src/core/base/webpack.mix');
 
-require('./src/core/table/webpack.mix');
+require('./src/core/dashboard/webpack.mix');
