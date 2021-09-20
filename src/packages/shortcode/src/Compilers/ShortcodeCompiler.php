@@ -2,6 +2,7 @@
 
 namespace TVHung\Shortcode\Compilers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class ShortcodeCompiler
@@ -103,6 +104,14 @@ class ShortcodeCompiler
     public function hasShortcodes()
     {
         return !empty($this->registered);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasShortcode(string $key)
+    {
+        return Arr::has($this->registered, $key);
     }
 
     /**
@@ -210,6 +219,10 @@ class ShortcodeCompiler
      */
     public function getContent()
     {
+        if (!$this->matches) {
+            return null;
+        }
+
         // Compile the content, to support nested shortcode
         return $this->compile($this->matches[5]);
     }
@@ -381,6 +394,10 @@ class ShortcodeCompiler
         $pattern = $this->getRegex();
 
         preg_match('/' . $pattern . '/s', $value, $matches);
+        
+        if (!$matches) {
+            return [];
+        }
 
         // Set matches
         $this->setMatches($matches);

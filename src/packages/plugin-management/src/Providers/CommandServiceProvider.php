@@ -3,6 +3,7 @@
 namespace TVHung\PluginManagement\Providers;
 
 use TVHung\PluginManagement\Commands\PluginActivateAllCommand;
+use TVHung\PluginManagement\Commands\PluginDeactivateAllCommand;
 use TVHung\PluginManagement\Commands\PluginActivateCommand;
 use TVHung\PluginManagement\Commands\PluginAssetsPublishCommand;
 use TVHung\PluginManagement\Commands\PluginDeactivateCommand;
@@ -24,6 +25,7 @@ class CommandServiceProvider extends ServiceProvider
             PluginDeactivateCommand::class,
             PluginRemoveCommand::class,
             PluginActivateAllCommand::class,
+            PluginDeactivateAllCommand::class,
         ]);
     }
 }
