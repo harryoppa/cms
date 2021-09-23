@@ -1035,7 +1035,7 @@ abstract class TableAbstract extends DataTable
      * @param array $attributes
      * @return Application|UrlGenerator|HtmlString|string|string[]|null
      */
-    protected function displayThumbnail($image, array $attributes = ['width' => 50])
+    protected function displayThumbnail($image, array $attributes = ['width' => 50, 'class' => 'rounded-4'])
     {
         if ($this->request()->input('action') == 'csv') {
             return RvMedia::getImageUrl($image, null, false, RvMedia::getDefaultImage());

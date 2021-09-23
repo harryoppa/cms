@@ -12,6 +12,11 @@
     @endif
 </div>
 
+@foreach ($form->getHiddenFields() as $name => $field)
+    <input type="hidden" name="{{ $name }}" value="{{ $field }}" />
+@endforeach
+
+
 @if ($showEnd)
     {!! Form::close() !!}
 @endif

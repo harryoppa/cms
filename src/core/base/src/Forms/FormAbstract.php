@@ -29,47 +29,52 @@ abstract class FormAbstract extends Form
     /**
      * @var array
      */
-    protected $options = [];
+    protected array $options = [];
 
     /**
      * @var string
      */
-    protected $title = '';
+    protected string $title = '';
 
     /**
      * @var string
      */
-    protected $validatorClass = '';
+    protected string $validatorClass = '';
 
     /**
      * @var array
      */
-    protected $metaBoxes = [];
+    protected array $metaBoxes = [];
 
     /**
      * @var string
      */
-    protected $actionButtons = '';
+    protected string $actionButtons = '';
 
     /**
      * @var string
      */
-    protected $breakFieldPoint = '';
+    protected string $breakFieldPoint = '';
 
     /**
      * @var bool
      */
-    protected $useInlineJs = false;
+    protected bool $useInlineJs = false;
 
     /**
      * @var string
      */
-    protected $wrapperClass = 'form-body';
+    protected string $wrapperClass = 'form-body';
 
     /**
      * @var string
      */
-    protected $template = 'core/base::forms.form';
+    protected string $template = 'core/base::forms.form';
+
+    /**
+     * @var array
+     */
+    protected array $hiddenFields = [];
 
     /**
      * FormAbstract constructor.
@@ -112,7 +117,7 @@ abstract class FormAbstract extends Form
      * @param string $title
      * @return $this
      */
-    public function setTitle($title): self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
@@ -165,6 +170,14 @@ abstract class FormAbstract extends Form
         $this->metaBoxes = array_merge($this->metaBoxes, $boxes);
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHiddenFields(): array
+    {
+        return $this->hiddenFields;
     }
 
     /**
@@ -395,7 +408,7 @@ abstract class FormAbstract extends Form
      * @param string $validatorClass
      * @return $this
      */
-    public function setValidatorClass($validatorClass): self
+    public function setValidatorClass(string $validatorClass): self
     {
         $this->validatorClass = $validatorClass;
 
@@ -408,11 +421,22 @@ abstract class FormAbstract extends Form
      * @param string $model
      * @return $this
      */
-    protected function setupModel($model)
+    protected function setupModel($model): self
     {
         if (!$this->model) {
             $this->model = $model;
             $this->setupNamedModel();
+        }
+
+        return $this;
+    }
+
+    protected function withHiddenValues(array $values = [], $reset = false): self
+    {
+        if ($reset) {
+            $this->hiddenFields = $values;
+        } else {
+            $this->hiddenFields = array_merge($this->hiddenFields, $values);
         }
 
         return $this;

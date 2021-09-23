@@ -60,6 +60,10 @@
                 @endif
             @endforeach
 
+            @foreach ($form->getHiddenFields() as $name => $field)
+                <input type="hidden" name="{{ $name }}" value="{{ $field }}" />
+            @endforeach
+
             @php do_action(BASE_ACTION_META_BOXES, 'side', $form->getModel()) @endphp
         </div>
     </div>

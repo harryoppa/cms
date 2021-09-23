@@ -1,7 +1,7 @@
 @extends('core/base::layouts.base')
 
 @section ('page')
-    @include('core/base::layouts.partials.svg-icon')
+    {{-- @include('core/base::layouts.partials.svg-icon') --}}
 
     <div class="page-wrapper">
 
