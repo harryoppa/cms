@@ -2,10 +2,7 @@
 
 namespace TVHung\Theme;
 
-use TVHung\Base\Supports\Helper;
-use TVHung\Setting\Models\Setting;
 use TVHung\Theme\Contracts\Theme as ThemeContract;
-use TVHung\Theme\Exceptions\UnknownLayoutFileException;
 use TVHung\Theme\Exceptions\UnknownPartialFileException;
 use TVHung\Theme\Exceptions\UnknownThemeException;
 use Closure;
@@ -810,10 +807,11 @@ class Theme implements ThemeContract
      *
      * @param string $view
      * @param array $args
+     * @param null $default
      * @return Theme|void
      * @throws FileNotFoundException
      */
-    public function scope($view, $args = [], $default = null)
+    public function scope(string $view, array $args = [], $default = null)
     {
         $viewDir = $this->getConfig('containerDir.view');
 
@@ -953,14 +951,11 @@ class Theme implements ThemeContract
     }
 
     /**
-     * Return a template with content.
-     *
-     * @param integer $statusCode
-     * @return Response | Response | \Response
-     * @throws UnknownLayoutFileException
+     * @param int $statusCode
+     * @return Response
      * @throws FileNotFoundException
      */
-    public function render($statusCode = 200)
+    public function render(int $statusCode = 200): Response
     {
         // Fire the event before render.
         $this->fire('after', $this);

@@ -29,7 +29,7 @@ class BaseModel extends Eloquent
     /**
      * @return MorphMany
      */
-    public function metadata()
+    public function metadata(): MorphMany
     {
         return $this->morphMany(MetaBox::class, 'reference')
             ->select([
@@ -45,7 +45,7 @@ class BaseModel extends Eloquent
      * @param bool $single
      * @return string|array
      */
-    public function getMetaData(string $key, bool $single = false)
+    public function getMetaData(string $key, bool $single = false): array|string
     {
         $field = $this->metadata->where('meta_key', $key)->first();
 
