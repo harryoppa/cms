@@ -1,8 +1,10 @@
 //## Bootstrap
 //
 // Core bootstrap variables and mixins
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 @import '../bootstrap/variables';
-@import '../bootstrap/mixins';
 
 $direction: 'ltr' !default;
 

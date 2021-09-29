@@ -1,4 +1,3 @@
-import {MediaConfig} from '../Config/MediaConfig';
 import {MediaService} from './MediaService';
 import {MessageService} from './MessageService';
 import {Helpers} from '../Helpers/Helpers';
@@ -7,7 +6,7 @@ export class DownloadService {
     constructor() {
         this.MediaService = new MediaService();
 
-        $('body').on('shown.bs.modal', '#modal_download_url', event =>  {
+        $(document).on('shown.bs.modal', '#modal_download_url', event =>  {
             $(event.currentTarget).find('.form-download-url input[type=text]').focus();
         });
     }

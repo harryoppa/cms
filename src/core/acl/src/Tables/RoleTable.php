@@ -117,7 +117,7 @@ class RoleTable extends TableAbstract
             ],
             'description' => [
                 'title' => trans('core/base::tables.description'),
-                'class' => 'text-left',
+                'class' => 'text-start',
             ],
             'created_at'  => [
                 'title' => trans('core/base::tables.created_at'),

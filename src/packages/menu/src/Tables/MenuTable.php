@@ -100,7 +100,7 @@ class MenuTable extends TableAbstract
             ],
             'name'       => [
                 'title' => trans('core/base::tables.name'),
-                'class' => 'text-left',
+                'class' => 'text-start',
             ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),

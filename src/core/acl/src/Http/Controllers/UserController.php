@@ -78,7 +78,7 @@ class UserController extends BaseController
     {
         page_title()->setTitle(trans('core/acl::users.users'));
 
-        Assets::addScripts(['bootstrap-editable'])
+        Assets::addScripts(['bootstrap-editable', 'jquery-ui'])
             ->addStyles(['bootstrap-editable']);
 
         return $dataTable->renderTable();

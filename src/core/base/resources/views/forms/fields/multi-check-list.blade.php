@@ -9,7 +9,7 @@
             @endif
 
             @if ($showField)
-                <div class="form-group form-group-no-margin @if ($errors->has($name)) has-error @endif">
+                <div class="form-group mb-3 form-group-no-margin @if ($errors->has($name)) has-error @endif">
                     <div class="multi-choices-widget list-item-checkbox">
                         <ul>
                             @foreach (Arr::get($options, 'choices', []) as $key => $item)

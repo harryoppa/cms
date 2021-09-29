@@ -16,7 +16,7 @@
                 <div class="flexbox-annotated-section-content">
                     <div class="wrapper-content pd-all-20">
                         @foreach(SlugHelper::supportedModels() as $model => $name)
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label class="text-title-field" for="{{ SlugHelper::getPermalinkSettingKey($model) }}">{{ $name }}</label>
                                 <input type="text" class="next-input" name="{{ SlugHelper::getPermalinkSettingKey($model) }}" id="{{ SlugHelper::getPermalinkSettingKey($model) }}"
                                        value="{{ setting(SlugHelper::getPermalinkSettingKey($model), SlugHelper::getPrefix($model)) }}">
@@ -29,7 +29,7 @@
 
                         <hr>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="slug_turn_off_automatic_url_translation_into_latin">{{ trans('packages/slug::slug.settings.turn_off_automatic_url_translation_into_latin') }}
                             </label>

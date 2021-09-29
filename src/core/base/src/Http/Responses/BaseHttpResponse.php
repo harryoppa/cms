@@ -101,6 +101,10 @@ class BaseHttpResponse implements Responsable
      */
     public function setCode(int $code): self
     {
+        if ($code < 100 || $code >= 600) {
+            return $this;
+        }
+
         $this->code = $code;
 
         return $this;
@@ -120,7 +124,7 @@ class BaseHttpResponse implements Responsable
      */
     public function setMessage($message): self
     {
-        $this->message = $message;
+        $this->message = clean($message);
 
         return $this;
     }
@@ -182,7 +186,6 @@ class BaseHttpResponse implements Responsable
                     'error'   => $this->error,
                     'data'    => $this->data,
                     'message' => $this->message,
-                    'nextUrl' => $this->nextUrl,
                 ], $this->code);
         }
 

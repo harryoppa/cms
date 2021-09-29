@@ -75,7 +75,7 @@ class ThemeService
             return $validate;
         }
 
-        if ($theme == Theme::getThemeName()) {
+        if (setting('theme') && $theme == Theme::getThemeName()) {
             return [
                 'error'   => true,
                 'message' => trans('packages/theme::theme.theme_activated_already', ['name' => $theme]),

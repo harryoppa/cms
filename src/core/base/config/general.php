@@ -75,6 +75,7 @@ return [
         'Calligraffitti',
         'Candal',
         'Cantarell',
+        'Cairo',
         'Cardo',
         'Carter One',
         'Caudex',

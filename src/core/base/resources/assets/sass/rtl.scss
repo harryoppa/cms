@@ -18,19 +18,19 @@ body[dir="rtl"] {
     }
 }
 
-.text-left {
+.text-start {
     text-align: right !important;
 }
 
-.text-right {
+.text-end {
     text-align: left !important;
 }
 
-.float-left {
+.float-start {
     float: right !important;
 }
 
-.float-right {
+.float-end {
     float: left !important;
 }
 

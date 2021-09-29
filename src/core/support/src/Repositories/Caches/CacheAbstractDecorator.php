@@ -40,6 +40,12 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
         return $this->cache;
     }
 
+
+    protected function authKey()
+    {
+        return '';
+    }
+
     /**
      * @param string $function
      * @param array $args
@@ -51,10 +57,13 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
             return call_user_func_array([$this->repository, $function], $args);
         }
 
+        $authKey = $this->authKey;
+
         try {
             $cacheKey = md5(
                 get_class($this) .
                 $function .
+                $authKey .
                 serialize(request()->input()) . serialize(url()->current()) .
                 serialize(func_get_args())
             );

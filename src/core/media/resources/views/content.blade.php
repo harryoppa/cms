@@ -83,12 +83,12 @@
                                 <i class="fas fa-cloud-upload-alt"></i> {{ trans('core/media::media.upload') }}
                             </button>
 
-                            <button class="btn btn-success js-download-action" data-toggle="modal" data-target="#modal_download_url">
+                            <button class="btn btn-success js-download-action" type="button">
                                 <i class="fas fa-cloud-download-alt"></i> {{ trans('core/media::media.download_link') }}
                             </button>
                         @endif
                         @if (RvMedia::hasPermission('folders.create'))
-                            <button class="btn btn-success" data-toggle="modal" data-target="#modal_add_folder">
+                            <button class="btn btn-success js-create-folder-action" type="button">
                                 <i class="fa fa-folder"></i> {{ trans('core/media::media.create_folder') }}
                             </button>
                         @endif
@@ -99,7 +99,7 @@
                         @if (RvMedia::getConfig('sidebar_display') != 'vertical')
                             <div class="btn-group" role="group">
                                 <div class="dropdown">
-                                    <button class="btn btn-success dropdown-toggle js-rv-media-change-filter-group js-filter-by-type" type="button" data-toggle="dropdown">
+                                    <button class="btn btn-success dropdown-toggle js-rv-media-change-filter-group js-filter-by-type" type="button" data-bs-toggle="dropdown">
                                         <i class="fa fa-filter"></i> {{ trans('core/media::media.filter') }} <span class="js-rv-media-filter-current"></span>
                                     </button>
                                     <ul class="dropdown-menu">
@@ -133,7 +133,7 @@
 
                             <div class="btn-group" role="group">
                                 <div class="dropdown">
-                                    <button class="btn btn-success dropdown-toggle js-rv-media-change-filter-group js-filter-by-view-in" type="button" data-toggle="dropdown">
+                                    <button class="btn btn-success dropdown-toggle js-rv-media-change-filter-group js-filter-by-view-in" type="button" data-bs-toggle="dropdown">
                                         <i class="fa fa-eye"></i> {{ trans('core/media::media.view_in') }} <span class="js-rv-media-filter-current"></span>
                                     </button>
                                     <ul class="dropdown-menu">
@@ -187,7 +187,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle"
                                         type="button"
-                                        data-toggle="dropdown">
+                                        data-bs-toggle="dropdown">
                                     {{ trans('core/media::media.sort') }} <i class="fa fa-sort-alpha-down"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
@@ -243,15 +243,15 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="dropdown rv-dropdown-actions disabled">
+                            <div class="dropdown rv-dropdown-actions disabled mx-2">
                                 <button class="btn btn-secondary dropdown-toggle"
-                                        type="button" data-toggle="dropdown">
+                                        type="button" data-bs-toggle="dropdown">
                                     {{ trans('core/media::media.actions') }} &nbsp;<i class="fa fa-ellipsis-v"></i>
                                 </button>
                                 <ul class="dropdown-menu"></ul>
                             </div>
                         </div>
-                        <div class="btn-group js-rv-media-change-view-type" role="group">
+                        <div class="btn-group js-rv-media-change-view-type mx-0" role="group">
                             <button class="btn btn-secondary" type="button" data-type="tiles">
                                 <i class="fa fa-th-large"></i>
                             </button>
@@ -260,7 +260,7 @@
                             </button>
                         </div>
                         <label for="media_details_collapse" class="btn btn-link collapse-panel">
-                            <i class="fas fa-arrow-right"></i>
+                            <i class="fa fa-sign-out"></i>
                         </label>
                     </div>
                 </div>
@@ -299,24 +299,6 @@
     </div>
 
     <div class="rv-modals">
-        <div class="modal fade" tabindex="-1" role="dialog" id="modal_coming_soon">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <i class="fab fa-windows"></i> {{ trans('core/media::media.coming_soon') }}
-                        </h4>
-                        <button type="button" class="close" data-dismiss-modal="#modal_coming_soon" aria-label="{{ trans('core/media::media.close') }}">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>These features are on development</p>
-                        <div class="modal-notice"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="modal fade" tabindex="-1" role="dialog" id="modal_add_folder">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -324,17 +306,15 @@
                         <h4 class="modal-title">
                             <i class="fa fa-folder"></i> {{ trans('core/media::media.create_folder') }}
                         </h4>
-                        <button type="button" class="close" data-dismiss-modal="#modal_add_folder" aria-label="{{ trans('core/media::media.close') }}">
-                            <span aria-hidden="true">&times;</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ trans('core/media::media.close') }}">
+
                         </button>
                     </div>
                     <div class="modal-body">
                         <form class="rv-form form-add-folder">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="{{ trans('core/media::media.folder_name') }}">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-success rv-btn-add-folder" type="submit">{{ trans('core/media::media.create') }}</button>
-                                </div>
+                                <button class="btn btn-success rv-btn-add-folder" type="submit">{{ trans('core/media::media.create') }}</button>
                             </div>
                         </form>
                         <div class="modal-notice"></div>
@@ -350,8 +330,8 @@
                             <h4 class="modal-title">
                                 <i class="fab fa-windows"></i> {{ trans('core/media::media.rename') }}
                             </h4>
-                            <button type="button" class="close" data-dismiss-modal="#modal_rename_items" aria-label="{{ trans('core/media::media.close') }}">
-                                <span aria-hidden="true">&times;</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ trans('core/media::media.close') }}">
+
                             </button>
                         </div>
                         <div class="modal-body">
@@ -359,7 +339,7 @@
                             <div class="modal-notice"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss-modal="#modal_rename_items">{{ trans('core/media::media.close') }}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('core/media::media.close') }}</button>
                             <button type="submit" class="btn btn-primary">{{ trans('core/media::media.save_changes') }}</button>
                         </div>
                     </form>
@@ -374,8 +354,8 @@
                             <h4 class="modal-title">
                                 <i class="fab fa-windows"></i> {{ trans('core/media::media.move_to_trash') }}
                             </h4>
-                            <button type="button" class="close" data-dismiss-modal="#modal_trash_items" aria-label="{{ trans('core/media::media.close') }}">
-                                <span aria-hidden="true">&times;</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ trans('core/media::media.close') }}">
+
                             </button>
                         </div>
                         <div class="modal-body">
@@ -384,7 +364,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">{{ trans('core/media::media.confirm') }}</button>
-                            <button type="button" class="btn btn-primary" data-dismiss-modal="#modal_trash_items">{{ trans('core/media::media.close') }}</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ trans('core/media::media.close') }}</button>
                         </div>
                     </form>
                 </div>
@@ -398,8 +378,8 @@
                             <h4 class="modal-title">
                                 <i class="fab fa-windows"></i> {{ trans('core/media::media.confirm_delete') }}
                             </h4>
-                            <button type="button" class="close" data-dismiss-modal="#modal_delete_items" aria-label="{{ trans('core/media::media.close') }}">
-                                <span aria-hidden="true">&times;</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ trans('core/media::media.close') }}">
+
                             </button>
                         </div>
                         <div class="modal-body">
@@ -408,7 +388,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">{{ trans('core/media::media.confirm') }}</button>
-                            <button type="button" class="btn btn-primary" data-dismiss-modal="#modal_delete_items">{{ trans('core/media::media.close') }}</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ trans('core/media::media.close') }}</button>
                         </div>
                     </form>
                 </div>
@@ -422,8 +402,8 @@
                             <h4 class="modal-title">
                                 <i class="fab fa-windows"></i> {{ trans('core/media::media.empty_trash_title') }}
                             </h4>
-                            <button type="button" class="close" data-dismiss-modal="#modal_empty_trash" aria-label="{{ trans('core/media::media.close') }}">
-                                <span aria-hidden="true">&times;</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ trans('core/media::media.close') }}">
+
                             </button>
                         </div>
                         <div class="modal-body">
@@ -432,7 +412,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">{{ trans('core/media::media.confirm') }}</button>
-                            <button type="button" class="btn btn-primary" data-dismiss-modal="#modal_empty_trash">{{ trans('core/media::media.close') }}</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ trans('core/media::media.close') }}</button>
                         </div>
                     </form>
                 </div>
@@ -445,14 +425,14 @@
                         <h4 class="modal-title" data-downloading="{{trans('core/media::media.downloading')}}" data-text="{{ trans('core/media::media.download_link') }}">
                             <i class="fas fa-cloud-download-alt"></i> {{ trans('core/media::media.download_link') }}
                         </h4>
-                        <button type="button" class="close" data-dismiss-modal="#modal_download_url" aria-label="{{ trans('core/media::media.close') }}">
-                            <span aria-hidden="true">&times;</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ trans('core/media::media.close') }}">
+
                         </button>
                     </div>
                     <div class="modal-body">
                         <form class="rv-form form-download-url">
                             <div id="download-form-wrapper">
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                 <textarea rows="4"
                                           name="urls"
                                           class="form-control"
@@ -593,12 +573,10 @@
 </script>
 
 <script type="text/x-custom-template" id="rv_media_rename_item">
-    <div class="form-group">
+    <div class="form-group mb-3">
         <div class="input-group">
-            <div class="input-group-prepend" style="background: none;">
-                <div class="input-group-text">
-                    <i class="__icon__"></i>
-                </div>
+            <div class="input-group-text">
+                <i class="__icon__"></i>
             </div>
             <input class="form-control" placeholder="__placeholder__" value="__value__">
         </div>

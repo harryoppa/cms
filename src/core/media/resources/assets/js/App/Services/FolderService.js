@@ -7,7 +7,7 @@ export class FolderService {
     constructor() {
         this.MediaService = new MediaService();
 
-        $('body').on('shown.bs.modal', '#modal_add_folder', event =>  {
+        $(document).on('shown.bs.modal', '#modal_add_folder', event =>  {
             $(event.currentTarget).find('.form-add-folder input[type=text]').focus();
         });
     }

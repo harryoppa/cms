@@ -1,5 +1,5 @@
 <div class="top-menu">
-    <ul class="nav navbar-nav float-left">
+    <ul class="nav navbar-nav float-start">
         <li class="dropdown p-0">
             <a class="dropdown-toggle dropdown-header-name" style="padding-right: 15px; padding-left: 20px;" href="http://127.0.0.1:8000" target="_blank">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -9,7 +9,7 @@
         </li>
     </ul>
 
-    <ul class="nav navbar-nav float-right">
+    <ul class="nav navbar-nav float-end">
         @auth
             @if (BaseHelper::getAdminPrefix() != '')
                 <li class="dropdown">
@@ -22,7 +22,7 @@
 
             @if (isset($themes) && is_array($themes) && count($themes) > 1 && setting('enable_change_admin_theme') != false)
                 <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle dropdown-header-name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="javascript:;" class="dropdown-toggle dropdown-header-name" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span>{{ trans('core/base::layouts.theme') }}</span>
                         <i class="fa fa-angle-down"></i>
                     </a>
@@ -41,7 +41,7 @@
             @endif
 
             <li class="dropdown dropdown-user">
-                <div class="dropdown-toggle dropdown-header-name dropdown-user-name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown-toggle dropdown-header-name dropdown-user-name" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="d-flex align-items-center cursor-pointer">
                         <div class="mr-3 text-right">
                             <span class="username font-weight-bold"> {{ Auth::user()->name }} </span>

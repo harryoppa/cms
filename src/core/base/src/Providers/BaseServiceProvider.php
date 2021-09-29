@@ -72,7 +72,7 @@ class BaseServiceProvider extends ServiceProvider
         });
 
         $this->app->make('config')->set([
-            'session.cookie'                   => 'botble_session',
+            'session.cookie'                   => 'tvhung_session',
             'ziggy.except'                     => ['debugbar.*'],
             'app.debug_blacklist'              => [
                 '_ENV'    => [
@@ -173,10 +173,13 @@ class BaseServiceProvider extends ServiceProvider
 
         $config = $this->app->make('config');
 
-        $config->set(['purifier.settings' => array_merge(
-            $config->get('purifier.settings'),
-            $config->get('core.base.general.purifier')
-        )]);
+        $config->set([
+            'purifier.settings' => array_merge(
+                $config->get('purifier.settings'),
+                $config->get('core.base.general.purifier')
+            ),
+            'laravel-form-builder.defaults.wrapper_class' => 'form-group mb-3',
+        ]);
 
         $this->createMacroQueries();
     }

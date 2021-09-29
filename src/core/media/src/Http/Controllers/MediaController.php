@@ -69,16 +69,11 @@ class MediaController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return string
      */
-    public function getMedia(Request $request)
+    public function getMedia()
     {
         page_title()->setTitle(trans('core/media::media.menu_name'));
-
-        if ($request->input('media-action') === 'select-files') {
-            return view('core/media::popup');
-        }
 
         return view('core/media::index');
     }

@@ -146,7 +146,7 @@ export class Helpers {
     }
 
     static isUseInModal() {
-        return Helpers.getUrlParam('media-action') === 'select-files' || (window.rvMedia && window.rvMedia.options && window.rvMedia.options.open_in === 'modal');
+        return window.rvMedia && window.rvMedia.options && window.rvMedia.options.open_in === 'modal';
     }
 
     static resetPagination() {

@@ -37,10 +37,10 @@ class rvMedia {
 
         options = $.extend(true, defaultOptions, options);
 
-        let clickCallback = event =>  {
+        let clickCallback = event => {
             event.preventDefault();
             let $current = $(event.currentTarget);
-            $('#rv_media_modal').modal();
+            $('#rv_media_modal').modal('show');
 
             window.rvMedia.options = options;
             window.rvMedia.options.open_in = 'modal';

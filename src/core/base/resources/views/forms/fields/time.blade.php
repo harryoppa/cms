@@ -10,7 +10,7 @@
 @if ($showField)
     <div class="input-group">
         {!! Form::text($name, $options['value'] ?? now()->format('G:i'), array_merge($options['attr'], ['class' => Arr::get($options['attr'], 'class', '') . str_replace(Arr::get($options['attr'], 'class'), '', ' form-control time-picker timepicker timepicker-24')])) !!}
-        <span class="input-group-prepend">
+        <span class="input-group-text">
             <button class="btn default" type="button">
                 <i class="fa fa-clock"></i>
             </button>

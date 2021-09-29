@@ -10,7 +10,7 @@
             <div class="tabbable-custom">
                 <ul class="nav nav-tabs ">
                     <li class="nav-item">
-                        <a href="#tab_detail" class="nav-link active" data-toggle="tab">{{ trans('core/base::tabs.detail') }} </a>
+                        <a href="#tab_detail" class="nav-link active" data-bs-toggle="tab">{{ trans('core/base::tabs.detail') }} </a>
                     </li>
                     {!! apply_filters(BASE_FILTER_REGISTER_CONTENT_TABS, null, $form->getModel()) !!}
                 </ul>

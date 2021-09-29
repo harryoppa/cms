@@ -114,11 +114,11 @@ class PageTable extends TableAbstract
             ],
             'name'       => [
                 'title' => trans('core/base::tables.name'),
-                'class' => 'text-left',
+                'class' => 'text-start',
             ],
             'template'   => [
                 'title' => trans('core/base::tables.template'),
-                'class' => 'text-left',
+                'class' => 'text-start',
             ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),

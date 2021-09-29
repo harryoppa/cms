@@ -62,7 +62,20 @@ $component-colors: (
     "purple-soft": (base:#8877a9, font: #ffffff)
 );
 
+$primary: #0d6efd;
+$secondary: #6c757d;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #212529;
+
 $theme-colors: (
   info: #ff8a6b,
-  success: #45bda9
+  success: #45bda9,
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
 );

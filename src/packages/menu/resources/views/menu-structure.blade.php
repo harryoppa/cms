@@ -8,7 +8,7 @@
                 @php do_action(MENU_ACTION_SIDEBAR_OPTIONS) @endphp
 
                 <div class="widget meta-boxes">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseCustomLink">
+                    <a data-bs-toggle="collapse" data-parent="#accordion" href="#collapseCustomLink">
                         <h4 class="widget-title">
                             <span>{{ trans('packages/menu::menu.add_link') }}</span>
                             <i class="fa fa-angle-down narrow-icon"></i>
@@ -19,23 +19,23 @@
                             <div class="box-links-for-menu">
                                 <div id="external_link" class="the-box">
                                     <div class="node-content">
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="node-title">{{ trans('packages/menu::menu.title') }}</label>
                                             <input type="text" class="form-control" id="node-title" autocomplete="false">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="node-url">{{ trans('packages/menu::menu.url') }}</label>
                                             <input type="text" class="form-control" id="node-url" placeholder="http://" autocomplete="false">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="node-icon">{{ trans('packages/menu::menu.icon') }}</label>
                                             <input type="text" class="form-control" id="node-icon" placeholder="fa fa-home" autocomplete="false">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="node-css">{{ trans('packages/menu::menu.css_class') }}</label>
                                             <input type="text" class="form-control" id="node-css" autocomplete="false">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="target">{{ trans('packages/menu::menu.target') }}</label>
                                             <div class="ui-select-wrapper">
                                                 <select name="target" class="ui-select" id="target">
@@ -48,13 +48,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="text-right form-group node-actions hidden">
+                                        <div class="text-end form-group node-actions hidden">
                                             <a class="btn red btn-remove" href="#">{{ trans('packages/menu::menu.remove') }}</a>
                                             <a class="btn blue btn-cancel" href="#">{{ trans('packages/menu::menu.cancel') }}</a>
                                         </div>
 
-                                        <div class="form-group">
-                                            <div class="text-right add-button">
+                                        <div class="form-group mb-3">
+                                            <div class="text-end add-button">
                                                 <div class="btn-group">
                                                     <a href="#" class="btn-add-to-menu btn btn-primary"><span class="text"><i class="fa fa-plus"></i> {{ trans('packages/menu::menu.add_to_menu') }}</span></a>
                                                 </div>

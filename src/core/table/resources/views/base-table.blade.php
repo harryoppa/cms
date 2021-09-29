@@ -11,7 +11,7 @@
                 <div class="wrapper-action">
                     @if ($actions)
                         <div class="btn-group">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" data-toggle="dropdown">{{ trans('core/table::table.bulk_actions') }}
+                            <a class="btn btn-secondary dropdown-toggle" href="#" data-bs-toggle="dropdown">{{ trans('core/table::table.bulk_actions') }}
                             </a>
                             <ul class="dropdown-menu">
                                 @foreach ($actions as $action)

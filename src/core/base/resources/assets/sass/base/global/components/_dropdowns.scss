@@ -152,7 +152,7 @@ Dropdown Menu
         }
     }
 
-    &.float-left {
+    &.float-start {
         &:before {
             left: auto;
             right: 9px;
@@ -164,7 +164,7 @@ Dropdown Menu
         }
     }
 
-    &.float-right {
+    &.float-end {
         &:before {
             left: auto;
             right: 9px;
@@ -220,7 +220,7 @@ Dropdown Menu
         border-left-color: #ffffff;
     }
 
-    &.float-left {
+    &.float-start {
         float: none;
 
         > .dropdown-menu {
@@ -238,8 +238,8 @@ Dropdown Menu
     }
 }
 
-.nav.float-right > li > .dropdown-menu,
-.nav > li > .dropdown-menu.float-right {
+.nav.float-end > li > .dropdown-menu,
+.nav > li > .dropdown-menu.float-end {
     right: 0;
     left: auto;
 

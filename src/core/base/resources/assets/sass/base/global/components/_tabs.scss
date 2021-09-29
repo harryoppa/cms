@@ -83,6 +83,7 @@ Custom tabs
             > a {
                 margin-right: 0;
                 @include border-radius(0);
+                transition: color .2s ease,background-color .2s ease;
 
                 &.active {
                     border: none;

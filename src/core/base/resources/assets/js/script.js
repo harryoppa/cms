@@ -373,7 +373,7 @@ class TVHung {
 
                 $element.detach();
                 $(this).append($element);
-                $(this).trigger("change");
+                $(this).trigger('change');
             });
 
             $.each($(document).find('.select-search-ajax'), function (index, value) {
@@ -522,7 +522,7 @@ class TVHung {
         }
 
         if (jQuery().tooltip) {
-            $('[data-toggle="tooltip"]').tooltip({placement: 'top', boundary: 'window'});
+            $('[data-bs-toggle="tooltip"]').tooltip({placement: 'top', boundary: 'window'});
         }
 
         if (jQuery().areYouSure) {

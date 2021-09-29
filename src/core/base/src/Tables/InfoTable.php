@@ -60,12 +60,12 @@ class InfoTable extends TableAbstract
             'name'         => [
                 'name'  => 'name',
                 'title' => trans('core/base::system.package_name') . ' : ' . trans('core/base::system.version'),
-                'class' => 'text-left',
+                'class' => 'text-start',
             ],
             'dependencies' => [
                 'name'  => 'dependencies',
                 'title' => trans('core/base::system.dependency_name') . ' : ' . trans('core/base::system.version'),
-                'class' => 'text-left',
+                'class' => 'text-start',
             ],
         ];
     }

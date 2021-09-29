@@ -10,7 +10,7 @@
 
     <div class="flexbox-annotated-section-content">
         <div class="wrapper-content pd-all-20">
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label class="text-title-field"
                        for="optimize_page_speed_enable">{{ trans('packages/optimize::optimize.settings.enable') }}
                 </label>

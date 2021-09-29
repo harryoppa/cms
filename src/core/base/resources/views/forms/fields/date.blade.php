@@ -11,7 +11,7 @@
 @if ($showField)
     <div class="input-group">
         {!! Form::text($name, $options['value'] ?? now()->format('m/d/Y'), array_merge($options['attr'], ['class' => Arr::get($options['attr'], 'class', '') . str_replace(Arr::get($options['attr'], 'class'), '', ' form-control datepicker')])) !!}
-        <span class="input-group-prepend">
+        <span class="input-group-text">
             <button class="btn default" type="button">
                 <i class="fa fa-calendar"></i>
             </button>

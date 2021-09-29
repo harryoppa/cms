@@ -1,5 +1,5 @@
 <div class="tab-pane" id="tab_history">
-    <div class="form-group" style="min-height: 400px;">
+    <div class="form-group mb-3" style="min-height: 400px;">
         <table class="table table-bordered table-striped" id="table">
             <thead>
                 <tr>

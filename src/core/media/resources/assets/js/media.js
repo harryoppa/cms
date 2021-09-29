@@ -74,9 +74,14 @@ class MediaManagement {
             Helpers.storeConfig();
         });
 
-        $(document).off('click', 'button[data-dismiss-modal]').on('click', 'button[data-dismiss-modal]', event => {
-            let modal = $(event.currentTarget).data('dismiss-modal');
-            $(modal).modal('hide');
+        $(document).on('click', '.js-download-action', event => {
+            event.preventDefault();
+            $('#modal_download_url').modal('show');
+        });
+
+        $(document).on('click', '.js-create-folder-action', event => {
+            event.preventDefault();
+            $('#modal_add_folder').modal('show');
         });
     }
 

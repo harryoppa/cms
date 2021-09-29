@@ -21,14 +21,14 @@
                             <div class="list-photo-hover-overlay">
                                 <ul class="photo-overlay-actions">
                                     <li>
-                                        <a class="mr10 btn-trigger-edit-gallery-image" data-toggle="tooltip"
-                                           data-placement="bottom" data-original-title="{{ trans('core/base::base.change_image') }}">
+                                        <a class="mr10 btn-trigger-edit-gallery-image" data-bs-toggle="tooltip"
+                                           data-placement="bottom" title="{{ trans('core/base::base.change_image') }}">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="mr10 btn-trigger-remove-gallery-image" data-toggle="tooltip"
-                                           data-placement="bottom" data-original-title="{{ trans('core/base::base.delete_image') }}">
+                                        <a class="mr10 btn-trigger-remove-gallery-image" data-bs-toggle="tooltip"
+                                           data-placement="bottom" title="{{ trans('core/base::base.delete_image') }}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </li>
@@ -58,14 +58,14 @@
             <div class="list-photo-hover-overlay">
                 <ul class="photo-overlay-actions">
                     <li>
-                        <a class="mr10 btn-trigger-edit-gallery-image" data-toggle="tooltip" data-placement="bottom"
-                           data-original-title="{{ trans('core/base::base.change_image') }}">
+                        <a class="mr10 btn-trigger-edit-gallery-image" data-bs-toggle="tooltip" data-placement="bottom"
+                           title="{{ trans('core/base::base.change_image') }}">
                             <i class="fa fa-edit"></i>
                         </a>
                     </li>
                     <li>
-                        <a class="mr10 btn-trigger-remove-gallery-image" data-toggle="tooltip" data-placement="bottom"
-                           data-original-title="{{ trans('core/base::base.delete_image') }}">
+                        <a class="mr10 btn-trigger-remove-gallery-image" data-bs-toggle="tooltip" data-placement="bottom"
+                           title="{{ trans('core/base::base.delete_image') }}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </li>

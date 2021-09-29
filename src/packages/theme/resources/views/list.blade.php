@@ -22,7 +22,7 @@
                                             </div>
                                             <div class="clearfix"></div>
                                             <div class="mt-4">
-                                                @if (Theme::getThemeName() == $key)
+                                                @if (setting('theme') && Theme::getThemeName() == $key)
                                                     <a href="#" class="btn btn-info" disabled="disabled"><i class="fa fa-check"></i> {{ trans('packages/theme::theme.activated') }}</a>
                                                 @else
                                                     @if (Auth::user()->hasPermission('theme.activate'))

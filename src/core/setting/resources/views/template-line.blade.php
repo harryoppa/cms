@@ -37,7 +37,7 @@
 
                             <td class="text-center template-setting-on-off">
                                 @if ($type !== 'core' && Arr::get($template, 'can_off', false))
-                                    <div class="form-group">
+                                    <div class="form-group mb-3">
                                         {!! Form::onOff(get_setting_email_status_key($type, $module, $key),
                                             get_setting_email_status($type, $module, $key) == 1,
                                             ['data-key' => 'email-config-status-btn', 'data-change-url' => route('setting.email.status.change')]

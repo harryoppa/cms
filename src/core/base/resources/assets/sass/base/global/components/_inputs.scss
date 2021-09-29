@@ -11,7 +11,8 @@ Forms
     }
 }
 
-.input-group-prepend {
+.input-group-text {
+    justify-content: center;
     > i {
         color: lighten($input-border, 1%);
     }

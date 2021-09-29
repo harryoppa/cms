@@ -214,7 +214,7 @@ class Layout {
     // Handles Bootstrap Tabs.
     handleTabs() {
         // fix content height on tab click
-        this.$body.on('shown.bs.tab', 'a[data-toggle="tab"]', () => {
+        this.$body.on('shown.bs.tab', 'a[data-bs-toggle="tab"]', () => {
             Layout.handleSidebarAndContentHeight();
         });
     };

@@ -19,8 +19,8 @@
                 <a href="{{ $category->url }}"
                     target="_blank"
                     class="text-info"
-                    data-toggle="tooltip"
-                    data-original-title="{{ trans('core/base::forms.view_new_tab') }}">
+                    data-bs-toggle="tooltip"
+                    title="{{ trans('core/base::forms.view_new_tab') }}">
                     <i class="fas fa-external-link-alt"></i>
                 </a>
             @endif
@@ -29,8 +29,8 @@
                     class="btn btn-icon btn-danger deleteDialog"
                     data-section="{{ route($deleteRoute, $category->id) }}"
                     role="button"
-                    data-toggle="tooltip"
-                    data-original-title="{{ trans('core/table::table.delete') }}">
+                    data-bs-toggle="tooltip"
+                    title="{{ trans('core/table::table.delete') }}">
                     <i class="fa fa-trash"></i>
                 </a>
             @endif

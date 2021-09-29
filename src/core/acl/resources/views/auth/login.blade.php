@@ -4,12 +4,12 @@
     <p>{{ trans('core/acl::auth.sign_in_below') }}:</p>
 
     {!! Form::open(['route' => 'access.login', 'class' => 'login-form']) !!}
-        <div class="form-group" id="emailGroup">
+        <div class="form-group mb-3" id="emailGroup">
             <label>{{ trans('core/acl::auth.login.username') }}</label>
             {!! Form::text('username', request()->input('email', old('username', null)), ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.username')]) !!}
         </div>
 
-        <div class="form-group" id="passwordGroup">
+        <div class="form-group mb-3" id="passwordGroup">
             <label>{{ trans('core/acl::auth.login.password') }}</label>
             {!! Form::input('password', 'password', request()->input('email') ? null : null, ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.password')]) !!}
         </div>

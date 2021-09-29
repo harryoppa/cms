@@ -41,8 +41,8 @@
                             <form class="avatar-form" method="post" action="{{ route('users.profile.image', $user->id) }}" enctype="multipart/form-data">
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="avatar-modal-label"><i class="til_img"></i><strong>{{ trans('core/acl::users.change_profile_image') }}</strong></h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                        <span aria-hidden="true">×</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">
+
                                     </button>
                                 </div>
                                 <div class="modal-body">
@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ trans('core/acl::users.close') }}</button>
+                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">{{ trans('core/acl::users.close') }}</button>
                                     <button class="btn btn-primary avatar-save" type="submit">{{ trans('core/acl::users.save') }}</button>
                                 </div>
                             </form>
@@ -90,11 +90,11 @@
                 <div class="tabbable-custom">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a href="#tab_1_1" class="nav-link active" data-toggle="tab" aria-expanded="true">{{ trans('core/acl::users.info.title') }}</a>
+                            <a href="#tab_1_1" class="nav-link active" data-bs-toggle="tab" aria-expanded="true">{{ trans('core/acl::users.info.title') }}</a>
                         </li>
                         @if ($canChangeProfile)
                             <li class="nav-item">
-                                <a href="#tab_1_3" class="nav-link" data-toggle="tab" aria-expanded="false">{{ trans('core/acl::users.change_password') }}</a>
+                                <a href="#tab_1_3" class="nav-link" data-bs-toggle="tab" aria-expanded="false">{{ trans('core/acl::users.change_password') }}</a>
                             </li>
                         @endif
                         {!! apply_filters(ACL_FILTER_PROFILE_FORM_TABS, null) !!}

@@ -23,7 +23,7 @@
                 <div class="flexbox-annotated-section-content">
                     <div class="wrapper-content pd-all-20">
                         @php $maxEmailCount = 4 @endphp
-                        <div class="form-group" id="admin_email_wrapper" data-emails="{{ json_encode(get_admin_email()) }}" data-max="{{ $maxEmailCount }}">
+                        <div class="form-group mb-3" id="admin_email_wrapper" data-emails="{{ json_encode(get_admin_email()) }}" data-max="{{ $maxEmailCount }}">
                             <label class="text-title-field"
                                    for="admin_email">{{ trans('core/setting::setting.general.admin_email') }}</label>
                             <a id="add" class="link" data-placeholder="email{{ '@' . $host }}"><small>+ {{ trans('core/setting::setting.email_add_more') }}</small></a>
@@ -31,7 +31,7 @@
                             {{ Form::helper(trans('core/setting::setting.emails_warning', ['count' => $maxEmailCount])) }}
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="time_zone">{{ trans('core/setting::setting.general.time_zone') }}
                             </label>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="locale">{{ trans('core/setting::setting.general.locale') }}
                             </label>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
 
                             <label class="text-title-field"
                                    for="locale_direction">{{ trans('core/setting::setting.general.locale_direction') }}
@@ -84,7 +84,7 @@
                             </label>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <input type="hidden" name="enable_send_error_reporting_via_email" value="0">
                             <label>
                                 <input type="checkbox" class="hrv-checkbox" value="1" @if (setting('enable_send_error_reporting_via_email')) checked @endif name="enable_send_error_reporting_via_email">
@@ -110,7 +110,7 @@
 
                 <div class="flexbox-annotated-section-content">
                     <div class="wrapper-content pd-all-20">
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="admin-logo">{{ trans('core/setting::setting.general.admin_logo') }}
                             </label>
@@ -118,7 +118,7 @@
                                 {!! Form::mediaImage('admin_logo', setting('admin_logo'), ['allow_thumb' => false]) !!}
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="admin-favicon">{{ trans('core/setting::setting.general.admin_favicon') }}
                             </label>
@@ -127,7 +127,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="admin-login-screen-backgrounds">{{ trans('core/setting::setting.general.admin_login_screen_backgrounds') }}
                             </label>
@@ -136,14 +136,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="admin_title">{{ trans('core/setting::setting.general.admin_title') }}</label>
                             <input data-counter="120" type="text" class="next-input" name="admin_title" id="admin_title"
                                    value="{{ setting('admin_title', config('app.name')) }}">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
 
                             <label class="text-title-field"
                                    for="admin_locale_direction">{{ trans('core/setting::setting.general.admin_locale_direction') }}
@@ -158,7 +158,7 @@
                             </label>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
 
                             <label class="text-title-field"
                                    for="rich_editor">{{ trans('core/setting::setting.general.rich_editor') }}
@@ -173,7 +173,7 @@
                             </label>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="default_admin_theme">{{ trans('core/setting::setting.general.default_admin_theme') }}
                             </label>
@@ -192,7 +192,7 @@
                         </div>
 
                         @if (count(Assets::getThemes()) > 1)
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                     <input type="hidden" name="enable_change_admin_theme" value="0">
                                     <label><input type="checkbox" class="hrv-checkbox" value="1"
                                                   @if (setting('enable_change_admin_theme')) checked @endif name="enable_change_admin_theme"> {{ trans('core/setting::setting.general.enable_change_admin_theme') }} </label>
@@ -215,7 +215,7 @@
                 <div class="flexbox-annotated-section-content">
                     <div class="wrapper-content pd-all-20">
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="enable_cache">{{ trans('core/setting::setting.general.enable_cache') }}
                             </label>
@@ -229,14 +229,14 @@
                             </label>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="cache_time">{{ trans('core/setting::setting.general.cache_time') }}</label>
                             <input type="number" class="next-input" name="cache_time" id="cache_time"
                                    value="{{ setting('cache_time', 10) }}">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="enable_cache">{{ trans('core/setting::setting.general.cache_admin_menu') }}
                             </label>

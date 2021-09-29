@@ -25,7 +25,7 @@
             <div class="flexbox-annotated-section-content">
                 <div class="wrapper-content pd-all-20 email-template-edit-wrap">
                     @if ($emailSubject)
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="email_subject">
                                 {{ trans('core/setting::setting.email.subject') }}
@@ -38,7 +38,7 @@
                                    value="{{ $emailSubject }}">
                         </div>
                     @endif
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <input type="hidden" name="template_path" value="{{ get_setting_email_template_path($pluginData['name'], $pluginData['template_file']) }}">
                         <label class="text-title-field"
                                for="email_content">{{ trans('core/setting::setting.email.content') }}</label>

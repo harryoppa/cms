@@ -91,7 +91,7 @@
                 display: block
             }
 
-            > div.text-right {
+            > div.text-end {
                 float: none;
                 clear: both;
 
@@ -177,7 +177,7 @@
 
 .dd3-content {
     > span.text {
-        &.float-left {
+        &.float-start {
             display: inline-block;
             max-width: 200px;
             white-space: nowrap;
@@ -186,7 +186,7 @@
             -ms-text-overflow: ellipsis;
         }
 
-        &.float-right {
+        &.float-end {
             margin-right: 25px;
             display: inline-block;
             max-width: 85px;

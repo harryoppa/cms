@@ -12,7 +12,7 @@
     @endphp
     <div class="row">
         <div class="col-12">
-            <div class="my-2 text-right">
+            <div class="my-2 text-end">
                 @php do_action(BASE_ACTION_META_BOXES, 'head', $form->getModel()) @endphp
             </div>
         </div>
@@ -30,14 +30,14 @@
                             {{ trans('core/base::forms.collapse_all') }}
                         </button>
                         @if ($createRoute)
-                            <a class="tree-categories-create btn btn-info mr-0 ml-auto
+                            <a class="tree-categories-create btn btn-info mx-2
                                 @if (!$canCreate) d-none  @endif"
                                 href="{{ route($createRoute) }}">
                                 @include('core/table::partials.create')
                             </a>
                         @endif
                     </div>
-                    
+
                     <div class="file-tree-wrapper" data-url="{{ $indexRoute ? route($indexRoute) : '' }}">
                         @include('core/base::forms.partials.tree-categories')
                     </div>

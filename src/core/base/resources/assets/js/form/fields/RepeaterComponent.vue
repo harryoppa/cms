@@ -1,6 +1,6 @@
 <template>
     <div class="repeater-group">
-        <div class="form-group" v-for="(item, index) in items">
+        <div class="form-group mb-3" v-for="(item, index) in items">
             <div v-html="item"></div>
             <span class="remove-item-button" type="button" @click="deleteRow(index)"><i class="fa fa-times"></i></span>
         </div>

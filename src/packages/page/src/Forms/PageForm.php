@@ -13,7 +13,7 @@ class PageForm extends FormAbstract
     /**
      * @var string
      */
-    protected $template = 'core/base::forms.form-tabs';
+    protected String $template = 'core/base::forms.form-tabs';
 
     /**
      * {@inheritDoc}

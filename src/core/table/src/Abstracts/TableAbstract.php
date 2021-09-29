@@ -396,7 +396,7 @@ abstract class TableAbstract extends DataTable
         return [
             'checkbox' => [
                 'width'      => '10px',
-                'class'      => 'text-left no-sort',
+                'class'      => 'text-start no-sort',
                 'title'      => Form::input('checkbox', null, null, [
                     'class'    => 'table-check-all',
                     'data-set' => '.dataTable .checkboxes',
@@ -607,9 +607,8 @@ abstract class TableAbstract extends DataTable
                 $(document).find(".select-search-full").select2({
                     width: "100%"
                 });
-                $(document).find(".select-full").select2({
-                    width: "100%",
-                    minimumResultsForSearch: -1
+                $("[data-bs-toggle=tooltip]").tooltip({
+                    placement: "top"
                 });
             }
         ';

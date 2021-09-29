@@ -3,7 +3,7 @@
         <h4><span>{{ trans('core/base::forms.template') }}</span></h4>
     </div>
     <div class="widget-body">
-        <div class="form-group @if ($errors->has('template')) has-error @endif">
+        <div class="form-group mb-3 @if ($errors->has('template')) has-error @endif">
             <div class="ui-select-wrapper">
                 {!! Form::select('template', $templates, $selected, ['class' => 'ui-select', 'id' => 'template']) !!}
                 <svg class="svg-next-icon svg-next-icon-size-16">

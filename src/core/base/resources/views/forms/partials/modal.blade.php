@@ -3,8 +3,8 @@
         <div class="modal-content">
             <div class="modal-header bg-{{ $type }}">
                 <h4 class="modal-title"><i class="til_img"></i><strong>{!! $title !!}</strong></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <span aria-hidden="true">×</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true">
+
                 </button>
             </div>
 
@@ -13,8 +13,8 @@
             </div>
 
             <div class="modal-footer">
-                <button class="float-left btn btn-warning" data-dismiss="modal">{{ trans('core/base::tables.cancel') }}</button>
-                <a class="float-right btn btn-{{ $type }}" id="{{ $action_id }}" href="#">{!! $action_name !!}</a>
+                <button class="float-start btn btn-warning" data-bs-dismiss="modal">{{ trans('core/base::tables.cancel') }}</button>
+                <a class="float-end btn btn-{{ $type }}" id="{{ $action_id }}" href="#">{!! $action_name !!}</a>
             </div>
         </div>
     </div>

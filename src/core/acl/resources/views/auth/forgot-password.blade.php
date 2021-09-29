@@ -5,7 +5,7 @@
     {!! Form::open(['route' => 'access.password.email', 'class' => 'forget-form']) !!}
         <p>{!! clean(trans('core/acl::auth.forgot_password.message')) !!}</p>
     <br>
-        <div class="form-group" id="emailGroup">
+        <div class="form-group mb-3" id="emailGroup">
             <label>{{ trans('core/acl::auth.login.email') }}</label>
             {!! Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => trans('core/acl::auth.login.email')]) !!}
         </div>

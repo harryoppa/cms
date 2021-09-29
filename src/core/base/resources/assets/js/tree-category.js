@@ -243,7 +243,7 @@ $(() => {
                     loadTree(activeId);
 
                     if (jQuery().tooltip) {
-                        $('[data-toggle="tooltip"]').tooltip({
+                        $('[data-bs-toggle="tooltip"]').tooltip({
                             placement: 'top',
                             boundary: 'window'
                         });
