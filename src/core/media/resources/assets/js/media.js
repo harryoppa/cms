@@ -462,7 +462,7 @@ class MediaManagement {
             if (_.size(selectedFiles) > 0) {
                 window.rvMedia.options.onSelectFiles(selectedFiles, window.rvMedia.$el);
                 if (_self.checkFileTypeSelect(selectedFiles)) {
-                    $main_modal.find('.close').trigger('click');
+                    $main_modal.modal('hide')
                 }
             }
         });
@@ -474,7 +474,7 @@ class MediaManagement {
                 if (_.size(selectedFiles) > 0) {
                     window.rvMedia.options.onSelectFiles(selectedFiles, window.rvMedia.$el);
                     if (_self.checkFileTypeSelect(selectedFiles)) {
-                        $main_modal.find('.close').trigger('click');
+                        $main_modal.modal('hide')
                     }
                 }
             } else {

@@ -415,6 +415,8 @@ Page Header
             > li {
                 > a {
                     color: $sidebar-menu-sub-menu-link-font-color;
+                    font-weight: 400 !important;
+                    border-left: 4px solid transparent;
 
                     > i {
                         color: $sidebar-menu-sub-menu-link-icon-font-color;
@@ -443,8 +445,10 @@ Page Header
                 &.open,
                 &.active {
                     > a {
-                        background: $sidebar-menu-sub-menu-link-bg-color-on-hover !important;
-
+                        // background: $sidebar-menu-sub-menu-link-bg-color-on-hover !important;
+                        font-weight: 600 !important;
+                        color: $sidebar-menu-link-font-color-on-hover;
+                        border-color: $sidebar-menu-link-font-color-on-hover;
                         > i {
                             color: $sidebar-menu-sub-menu-link-icon-font-color-on-hover;
                             @if $theme-name == "light" {
@@ -560,9 +564,9 @@ Page Footer
 ******/
 
 .page-footer {
-    .page-footer-inner {
-        color: $footer-default-font-color;
-    }
+    // .page-footer-inner {
+    //     color: $footer-default-font-color;
+    // }
 
     .page-footer-fixed & {
         background-color: $footer-fixed-bg-color;

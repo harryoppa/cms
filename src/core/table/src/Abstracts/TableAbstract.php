@@ -501,7 +501,7 @@ abstract class TableAbstract extends DataTable
                 $data[] = $button;
             } else {
                 $data[] = [
-                    'className' => 'action-item',
+                    'className' => 'action-item me-0',
                     'text'      => Html::tag('span', $button['text'], [
                         'data-action' => $key,
                         'data-href'   => Arr::get($button, 'link'),

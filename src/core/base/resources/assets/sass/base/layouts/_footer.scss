@@ -4,10 +4,14 @@ Page footer
 
 .page-footer {
     margin-left: 235px;
-    background: #fff;
-    color: #bcc3c7;
+    background: #d3d3d3;
+    color: #888;
     font-size: 13px;
     min-height: $page-footer-height;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 
     @include clearfix();
 

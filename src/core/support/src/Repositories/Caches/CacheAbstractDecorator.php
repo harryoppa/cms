@@ -57,7 +57,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
             return call_user_func_array([$this->repository, $function], $args);
         }
 
-        $authKey = $this->authKey;
+        $authKey = $this->authKey();
 
         try {
             $cacheKey = md5(

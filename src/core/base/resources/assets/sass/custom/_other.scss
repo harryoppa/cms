@@ -143,7 +143,7 @@
         padding: 0;
         min-height: 45px;
         border-radius: 0 !important;
-        background: #36c6d3;
+        background: #34c38f;
         border: none;
         line-height: 45px;
         color: #ffffff;
@@ -558,12 +558,12 @@ h4.modal-title {
 }
 
 .half-circle-spinner .circle.circle-1 {
-    border-top-color: #36c6d3;
+    border-top-color: #34c38f;
     animation: half-circle-spinner-animation 1s infinite;
 }
 
 .half-circle-spinner .circle.circle-2 {
-    border-bottom-color: #36c6d3;
+    border-bottom-color: #34c38f;
     animation: half-circle-spinner-animation 1s infinite alternate;
 }
 

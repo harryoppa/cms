@@ -53,7 +53,6 @@ Page sidebar
 
     &.navbar-collapse {
         padding: 0;
-        box-shadow: none;
     }
 
     /* Default sidebar menu */
@@ -65,9 +64,10 @@ Page sidebar
         /* 1st level links */
         > li {
             display: block;
-            margin: 5px 8px;
+            margin: 5px 8px 5px 0;
             padding: 0;
             border: 0;
+            position: relative;
 
             &.sidebar-toggler-wrapper {
                 border: 0 !important;
@@ -147,7 +147,8 @@ Page sidebar
                     border: none;
                     text-shadow: none;
                     font-size: $sidebar-menu-link-font-size;
-                    border-radius: 5px;
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
 
                     > .selected {
                         display: block;
@@ -236,8 +237,17 @@ Page sidebar
         .sub-menu {
             list-style: none;
             display: none;
-            padding: 0;
+            padding: 0 0 0 22px;
             margin: 8px 0px 8px 0;
+
+            &:before {
+                content: "";
+                height: calc(100% - 60px);
+                width: 2px;
+                background-color: #ccc;
+                position: absolute;
+                left: 23px;
+            }
 
             li {
                 background: none;

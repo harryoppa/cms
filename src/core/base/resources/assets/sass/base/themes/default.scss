@@ -6,7 +6,7 @@ $brand-main-color: #3580d6 !default;
 $brand-main-font-color: #ffffff !default;
 
 // Body and header
-$bg-color: #05050b !default;
+$bg-color: #fff !default;
 $header-bg-color: #00000031 !default;
 $header-toggler-color: lighten($header-bg-color, 40%) !default;
 $header-toggler-bg-color: darken($bg-color, 5%) !default;
@@ -54,15 +54,15 @@ $header-top-menu-dropdown-dark-notification-time-bg-color: darken($header-top-me
 // Sidebar menu
 $sidebar-menu-deliver-border-color: darken(#4d4d4d, 2%) !default;
 
-$sidebar-menu-link-font-color: #e7eef8 !default;
-$sidebar-menu-link-font-color-on-hover: $sidebar-menu-link-font-color !default;
+$sidebar-menu-link-font-color: #888 !default;
+$sidebar-menu-link-font-color-on-hover: #1c4a8c !default;
 $sidebar-menu-link-font-color-on-active: #ffffff !default;
 
 $sidebar-menu-link-icon-font-color: #888888 !default;
 $sidebar-menu-link-icon-font-color-on-active: $sidebar-menu-link-font-color-on-active !default;
 $sidebar-menu-link-icon-font-color-on-hover: $sidebar-menu-link-icon-font-color !default;
 
-$sidebar-menu-link-bg-color-on-hover: #303030 !default;
+$sidebar-menu-link-bg-color-on-hover: #e2edfb !default;
 $sidebar-menu-link-bg-color-on-active: $brand-main-color;
 
 $sidebar-menu-arrow-color: #777777 !default;
@@ -70,7 +70,7 @@ $sidebar-menu-arrow-color-on-active: $sidebar-menu-link-font-color-on-active !de
 $sidebar-menu-arrow-color-on-hover: $sidebar-menu-link-icon-font-color-on-hover !default;
 
 $sidebar-menu-sub-menu-box-shadow-color: $sidebar-menu-link-bg-color-on-hover !default;
-$sidebar-menu-sub-menu-link-font-color: #bdbdbd !default;
+$sidebar-menu-sub-menu-link-font-color: #888 !default;
 $sidebar-menu-sub-menu-link-icon-font-color: $sidebar-menu-arrow-color !default;
 $sidebar-menu-sub-menu-link-bg-color-on-hover: rgba(255, 255, 255, 0.164) !default;
 $sidebar-menu-sub-menu-link-icon-font-color-on-hover: $sidebar-menu-link-icon-font-color-on-hover !default;

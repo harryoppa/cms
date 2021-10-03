@@ -34,7 +34,7 @@
             </div>
 
             <div class="page-content-wrapper">
-                <div class="page-content @if (Route::currentRouteName() == 'media.index') rv-media-integrate-wrapper @endif" style="min-height: calc(100vh - 33px)">
+                <div class="page-content @if (Route::currentRouteName() == 'media.index') rv-media-integrate-wrapper @endif" style="min-height: 100vh">
                     @include('core/base::layouts.partials.top-header')
                     <div class="page-content-inside">
                         {!! Breadcrumbs::render('main', page_title()->getTitle(false)) !!}
@@ -43,11 +43,12 @@
                             @yield('content')
                         </div>
                     </div>
+
+                    @include('core/base::layouts.partials.footer')
                 </div>
             </div>
             <div class="clearfix"></div>
         </div>
-        @include('core/base::layouts.partials.footer')
     </div>
 @stop
 

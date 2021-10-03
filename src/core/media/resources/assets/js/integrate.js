@@ -22,6 +22,9 @@ export class EditorService {
 }
 
 class rvMedia {
+
+    static $model = bootstrap.Modal.getOrCreateInstance(document.getElementById('rv_media_modal'));
+
     constructor(selector, options) {
         window.rvMedia = window.rvMedia || {};
 
@@ -40,7 +43,7 @@ class rvMedia {
         let clickCallback = event => {
             event.preventDefault();
             let $current = $(event.currentTarget);
-            $('#rv_media_modal').modal('show');
+            rvMedia.$model.show();
 
             window.rvMedia.options = options;
             window.rvMedia.options.open_in = 'modal';

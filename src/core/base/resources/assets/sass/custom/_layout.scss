@@ -173,6 +173,8 @@
 }
 
 .page-sidebar {
+    height: 100vh;
+    box-shadow: 0 2px 4px rgb(15 34 58 / 12%);
     .sidebar-content {
         .badge {
             padding: 4px 6px;
