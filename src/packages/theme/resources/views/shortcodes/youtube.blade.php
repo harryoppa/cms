@@ -1,7 +1,5 @@
 @if (!empty($url))
-    <div class="embed-responsive embed-responsive-16by9 mb30">
-        <iframe class="embed-responsive-item" allowfullscreen frameborder="0" height="315" width="420" src="{{ $url }}"></iframe>
+    <div style="position: relative; display: block; height: 0; padding-bottom: 56.25%; overflow: hidden; margin-bottom: 20px;">
+        <iframe style="position: absolute; top: 0; bottom: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen frameborder="0" src="{{ $url }}"></iframe>
     </div>
-@else
-    <p>{{ __('Youtube URL is invalid.') }}</p>
 @endif

@@ -8,6 +8,7 @@ use TVHung\Media\Chunks\Storage\ChunkStorage;
 use TVHung\Media\Commands\ClearChunksCommand;
 use TVHung\Media\Commands\DeleteThumbnailCommand;
 use TVHung\Media\Commands\GenerateThumbnailCommand;
+use TVHung\Media\Commands\InsertWatermarkCommand;
 use TVHung\Media\Facades\RvMediaFacade;
 use TVHung\Media\Models\MediaFile;
 use TVHung\Media\Models\MediaFolder;
@@ -21,6 +22,8 @@ use TVHung\Media\Repositories\Eloquent\MediaSettingRepository;
 use TVHung\Media\Repositories\Interfaces\MediaFileInterface;
 use TVHung\Media\Repositories\Interfaces\MediaFolderInterface;
 use TVHung\Media\Repositories\Interfaces\MediaSettingInterface;
+use TVHung\Media\Storage\BunnyCDN\BunnyCDNAdapter;
+use TVHung\Media\Storage\BunnyCDN\BunnyCDNStorage;
 use TVHung\Setting\Supports\SettingStore;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
@@ -77,7 +80,7 @@ class MediaServiceProvider extends ServiceProvider
             ->publishAssets();
 
         Storage::extend('wasabi', function ($app, $config) {
-            $conf = [
+            $client = new S3Client([
                 'endpoint'        => 'https://' . $config['bucket'] . '.s3.' . $config['region'] . '.wasabisys.com/',
                 'bucket_endpoint' => true,
                 'credentials'     => [
@@ -86,15 +89,17 @@ class MediaServiceProvider extends ServiceProvider
                 ],
                 'region'          => $config['region'],
                 'version'         => 'latest',
-            ];
-
-            $client = new S3Client($conf);
+            ]);
 
             $adapter = new AwsS3Adapter($client, $config['bucket'], $config['root']);
 
-            $filesystem = new Filesystem($adapter);
+            return new Filesystem($adapter);
+        });
 
-            return $filesystem;
+        Storage::extend('bunnycdn', function ($app, $config) {
+            $adapter = new BunnyCDNAdapter(new BunnyCDNStorage($config['zone'], $config['key'], $config['region']));
+
+            return new Filesystem($adapter);
         });
 
         $config = $this->app->make('config');
@@ -130,6 +135,13 @@ class MediaServiceProvider extends ServiceProvider
                 'bucket'     => $setting->get('media_wasabi_bucket'),
                 'root'       => $setting->get('media_wasabi_root', '/'),
             ],
+            'filesystems.disks.bunnycdn'           => [
+                'driver'   => 'bunnycdn',
+                'hostname' => $setting->get('media_bunnycdn_hostname'),
+                'zone'     => $setting->get('media_bunnycdn_zone'),
+                'key'      => $setting->get('media_bunnycdn_key'),
+                'region'   => $setting->get('media_bunnycdn_region'),
+            ],
             'core.media.media.chunk.enabled'       => (bool)$setting->get('media_chunk_enabled',
                 $config->get('core.media.media.chunk.enabled')),
             'core.media.media.chunk.chunk_size'    => (int)$setting->get('media_chunk_size',
@@ -154,6 +166,7 @@ class MediaServiceProvider extends ServiceProvider
             GenerateThumbnailCommand::class,
             DeleteThumbnailCommand::class,
             ClearChunksCommand::class,
+            InsertWatermarkCommand::class,
         ]);
 
         $this->app->booted(function () {

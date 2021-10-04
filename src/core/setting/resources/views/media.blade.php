@@ -25,6 +25,7 @@
                                 <option value="s3" @if (config('filesystems.default') === 's3') selected @endif>Amazon S3</option>
                                 <option value="do_spaces" @if (config('filesystems.default') === 'do_spaces') selected @endif>DigitalOcean Spaces</option>
                                 <option value="wasabi" @if (config('filesystems.default') === 'wasabi') selected @endif>Wasabi</option>
+                                <option value="bunnycdn" @if (config('filesystems.default') === 'bunnycdn') selected @endif>BunnyCDN</option>
                             </select>
                             <svg class="svg-next-icon svg-next-icon-size-16">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select-chevron"></use>

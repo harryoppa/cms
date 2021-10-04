@@ -48,8 +48,8 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="float-start btn btn-secondary" data-bs-dismiss="modal">{{ trans('core/base::tables.cancel') }}</button>
-                                    <button class="float-end btn btn-primary add_short_code_btn" data-add-text="{{ trans('core/base::forms.add') }}" data-update-text="{{ trans('core/base::forms.update') }}">{{ trans('core/base::forms.add') }}</button>
+                                    <button type="button" class="float-start btn btn-secondary" data-bs-dismiss="modal">{{ trans('core/base::tables.cancel') }}</button>
+                                    <button type="button" class="float-end btn btn-primary add_short_code_btn" data-add-text="{{ trans('core/base::forms.add') }}" data-update-text="{{ trans('core/base::forms.update') }}">{{ trans('core/base::forms.add') }}</button>
                                 </div>
                             </div>
                         </div>

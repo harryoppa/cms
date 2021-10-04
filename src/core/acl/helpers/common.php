@@ -6,20 +6,26 @@ if (!function_exists('get_login_background')) {
      */
     function get_login_background(): string
     {
+        $default = url(Arr::random(config('core.acl.general.backgrounds', [])));
+
         $images = setting('login_screen_backgrounds', []);
 
-        if (is_array($images)) {
-            $images = array_filter($images);
+        if (!$images) {
+            return $default;
         }
 
+        $images = is_array($images) ? $images : json_decode($images, true);
+
+        $images = array_filter($images);
+
         if (empty($images) || !is_array($images)) {
-            return url(Arr::random(config('core.acl.general.backgrounds', [])));
+            return $default;
         }
 
         $image = Arr::random($images);
 
         if (!$image) {
-            return url(Arr::random(config('core.acl.general.backgrounds', [])));
+            return $default;
         }
 
         return RvMedia::getImageUrl($image);

@@ -12,7 +12,7 @@
 
             <div class="modal-footer">
                 <a class="float-start btn btn-danger" href="#" id="hide-widget-confirm-bttn">{{ trans('core/dashboard::dashboard.confirm_hide_btn') }}</a>
-                <button class="float-end btn btn-primary" data-bs-dismiss="modal">{{ trans('core/dashboard::dashboard.cancel_hide_btn') }}</button>
+                <button type="button" class="float-end btn btn-primary" data-bs-dismiss="modal">{{ trans('core/dashboard::dashboard.cancel_hide_btn') }}</button>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
                     @endforeach
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('core/base::forms.cancel') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('core/base::forms.cancel') }}</button>
                     <button type="submit" class="btn btn-primary">{{ trans('core/base::forms.save') }}</button>
                 </div>
             {!! Form::close() !!}

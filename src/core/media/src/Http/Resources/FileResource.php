@@ -28,7 +28,7 @@ class FileResource extends JsonResource
             'full_url'   => RvMedia::url($this->url),
             'type'       => $this->type,
             'icon'       => $this->icon,
-            'thumb'      => $this->type == 'image' ? RvMedia::getImageUrl($this->url, 'thumb') : null,
+            'thumb'      => $this->canGenerateThumbnails() ? RvMedia::getImageUrl($this->url, 'thumb') : null,
             'size'       => $this->human_size,
             'mime_type'  => $this->mime_type,
             'created_at' => BaseHelper::formatDate($this->created_at, 'Y-m-d H:i:s'),

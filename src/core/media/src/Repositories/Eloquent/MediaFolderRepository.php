@@ -119,7 +119,7 @@ class MediaFolderRepository extends RepositoriesAbstract implements MediaFolderI
         $data = $this->model
             ->select('media_folders.*')
             ->where($params['where'])
-            ->orderBy('media_folders.name', 'asc')
+            ->orderBy('media_folders.name')
             ->onlyTrashed();
 
         /**

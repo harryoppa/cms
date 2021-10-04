@@ -8,7 +8,6 @@ use File;
 use Illuminate\Contracts\Filesystem\FileExistsException;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
 use League\Flysystem\FileNotFoundException;
 use Mimey\MimeTypes;
 use RvMedia;

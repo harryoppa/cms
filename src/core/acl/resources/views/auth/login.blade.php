@@ -16,7 +16,7 @@
 
         <div>
             <label>
-                {!! Form::checkbox('remember', '1', true, ['class' => 'hrv-checkbox']) !!} {{ trans('core/acl::auth.login.remember') }}
+                {!! Form::checkbox('remember', '1', true) !!} {{ trans('core/acl::auth.login.remember') }}
             </label>
         </div>
         <br>

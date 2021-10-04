@@ -834,6 +834,7 @@ abstract class TableAbstract extends DataTable
 
         switch ($type) {
             case 'select':
+            case 'customSelect':
                 $attributes['class'] = $attributes['class'] . ' select';
                 $attributes['placeholder'] = trans('core/table::table.select_option');
                 $html = Form::customSelect($inputName, $data, $value, $attributes)->toHtml();

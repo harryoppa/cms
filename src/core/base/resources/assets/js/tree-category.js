@@ -262,7 +262,7 @@ $(() => {
 
     $(document).on('click', '#list-others-language a', event => {
         event.preventDefault();
-        fetchData($(event.currentTarget).prop('href'))
+        fetchData($(event.currentTarget).prop('href'));
     });
 
     $(document).on('submit', '.tree-form-container form', event => {
@@ -289,14 +289,14 @@ $(() => {
                     TVHung.showError(data.message);
                 } else {
                     TVHung.showSuccess(data.message);
+                    $formLoading.addClass('d-none');
 
                     const activeId = saveAndEdit && data.data.model ? data.data.model.id : null;
-                    reloadTree(activeId, callback1);
-
-                    function callback1() {
+                    reloadTree(activeId, function() {
                         if (activeId) {
-                            if ($('.folder-root[data-id="' + activeId + '"] a.fetch-data').length) {
-                                $('.folder-root[data-id="' + activeId + '"] a.fetch-data').trigger('click');
+                            let fetchDataButton = $('.folder-root[data-id="' + activeId + '"] a.fetch-data');
+                            if (fetchDataButton.length) {
+                                fetchDataButton.trigger('click');
                             } else {
                                 location.reload();
                             }
@@ -306,7 +306,8 @@ $(() => {
                             reloadForm(data.data?.form);
                             $formLoading.addClass('d-none');
                         }
-                    }
+                    });
+
                 }
             },
             error: data => {

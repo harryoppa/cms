@@ -49,7 +49,7 @@ class SettingController extends BaseController
         Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js');
         Assets::addStylesDirectly('vendor/core/core/setting/css/setting.css');
 
-        return view('core/setting::index', ['host' => request()->getHost()]);
+        return view('core/setting::index');
     }
 
     /**
@@ -104,7 +104,11 @@ class SettingController extends BaseController
     protected function saveSettings(array $data)
     {
         foreach ($data as $settingKey => $settingValue) {
-            setting()->set($settingKey, $settingValue);
+            if (is_array($settingValue)) {
+                $settingValue = json_encode(array_filter($settingValue));
+            }
+
+            setting()->set($settingKey, (string)$settingValue);
         }
 
         setting()->save();

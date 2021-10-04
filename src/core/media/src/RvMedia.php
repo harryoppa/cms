@@ -503,7 +503,7 @@ class RvMedia
             }
 
             if ($folderId == 0 && !empty($folderSlug)) {
-                $folder = $this->folderRepository->getFirstBy(['media_folders.slug' => $folderSlug]);
+                $folder = $this->folderRepository->getFirstBy(['slug' => $folderSlug]);
 
                 if (!$folder) {
                     $folder = $this->folderRepository->createOrUpdate([
@@ -627,46 +627,61 @@ class RvMedia
                 ->save();
         }
 
-        if (setting('media_watermark_enabled', $this->getConfig('watermark.enabled'))) {
-            $image = Image::make($this->getRealPath($file->url));
+        $this->insertWatermark($file->url);
 
-            $watermarkImage = setting('media_watermark_source', $this->getConfig('watermark.source'));
+        return true;
+    }
 
-            if (!$watermarkImage) {
-                return true;
-            }
-
-            $watermarkPath = $this->getRealPath($watermarkImage);
-
-            if (!File::exists($watermarkPath)) {
-                return true;
-            }
-
-            $watermark = Image::make($watermarkPath);
-
-            // 10% less then an actual image (play with this value)
-            // Watermark will be 10 less then the actual width of the image
-            $watermarkSize = round($image->width() * (setting('media_watermark_size',
-                        $this->getConfig('watermark.size')) / 100), 2);
-
-            // Resize watermark width keep height auto
-            $watermark
-                ->resize($watermarkSize, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->opacity(setting('media_watermark_opacity', $this->getConfig('watermark.opacity')));
-
-            $image->insert($watermark,
-                setting('media_watermark_position', $this->getConfig('watermark.position')),
-                setting('watermark_position_x', $this->getConfig('watermark.x')),
-                setting('watermark_position_y', $this->getConfig('watermark.y'))
-            );
-
-            $destinationPath = sprintf('%s/%s', trim(File::dirname($file->url), '/'),
-                File::name($file->url) . '.' . File::extension($file->url));
-
-            $this->uploadManager->saveFile($destinationPath, $image->stream()->__toString());
+    /**
+     * @param string $image
+     * @return bool
+     * @throws \Illuminate\Contracts\Filesystem\FileExistsException
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    public function insertWatermark($image)
+    {
+        if (!$image || !setting('media_watermark_enabled', $this->getConfig('watermark.enabled'))) {
+            return false;
         }
+
+        $watermarkImage = setting('media_watermark_source', $this->getConfig('watermark.source'));
+
+        if (!$watermarkImage) {
+            return true;
+        }
+
+        $watermarkPath = $this->getRealPath($watermarkImage);
+
+        if (!File::exists($watermarkPath)) {
+            return true;
+        }
+
+        $watermark = Image::make($watermarkPath);
+
+        $imageSource = Image::make($this->getRealPath($image));
+
+        // 10% less then an actual image (play with this value)
+        // Watermark will be 10 less then the actual width of the image
+        $watermarkSize = round($imageSource->width() * (setting('media_watermark_size',
+                    $this->getConfig('watermark.size')) / 100), 2);
+
+        // Resize watermark width keep height auto
+        $watermark
+            ->resize($watermarkSize, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->opacity(setting('media_watermark_opacity', $this->getConfig('watermark.opacity')));
+
+        $imageSource->insert($watermark,
+            setting('media_watermark_position', $this->getConfig('watermark.position')),
+            setting('watermark_position_x', $this->getConfig('watermark.x')),
+            setting('watermark_position_y', $this->getConfig('watermark.y'))
+        );
+
+        $destinationPath = sprintf('%s/%s', trim(File::dirname($image), '/'),
+            File::name($image) . '.' . File::extension($image));
+
+        $this->uploadManager->saveFile($destinationPath, $imageSource->stream()->__toString());
 
         return true;
     }
@@ -681,13 +696,9 @@ class RvMedia
             case 'local':
             case 'public':
                 return Storage::path($url);
-            case 's3':
-            case 'do_spaces':
-            case 'wasabi':
+            default:
                 return Storage::url($url);
         }
-
-        return Storage::path($url);
     }
 
     /**
@@ -868,7 +879,10 @@ class RvMedia
      */
     public function createFolder($folderSlug, $parentId = 0)
     {
-        $folder = $this->folderRepository->getFirstBy(['media_folders.slug' => $folderSlug]);
+        $folder = $this->folderRepository->getFirstBy([
+            'slug'      => $folderSlug,
+            'parent_id' => $parentId,
+        ]);
 
 
         if (!$folder) {

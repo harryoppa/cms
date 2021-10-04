@@ -26,7 +26,7 @@
                         <div class="form-group mb-3" id="admin_email_wrapper" data-emails="{{ json_encode(get_admin_email()) }}" data-max="{{ $maxEmailCount }}">
                             <label class="text-title-field"
                                    for="admin_email">{{ trans('core/setting::setting.general.admin_email') }}</label>
-                            <a id="add" class="link" data-placeholder="email{{ '@' . $host }}"><small>+ {{ trans('core/setting::setting.email_add_more') }}</small></a>
+                            <a id="add" class="link" data-placeholder="email{{ '@' . request()->getHost() }}"><small>+ {{ trans('core/setting::setting.email_add_more') }}</small></a>
 
                             {{ Form::helper(trans('core/setting::setting.emails_warning', ['count' => $maxEmailCount])) }}
                         </div>
@@ -70,24 +70,9 @@
                         </div>
 
                         <div class="form-group mb-3">
-
-                            <label class="text-title-field"
-                                   for="locale_direction">{{ trans('core/setting::setting.general.locale_direction') }}
-                            </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="locale_direction" class="hrv-radio" value="ltr"
-                                       @if (setting('locale_direction', 'ltr') == 'ltr') checked @endif>{{ trans('core/setting::setting.locale_direction_ltr') }}
-                            </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="locale_direction" class="hrv-radio" value="rtl"
-                                       @if (setting('locale_direction', 'ltr') == 'rtl') checked @endif>{{ trans('core/setting::setting.locale_direction_rtl') }}
-                            </label>
-                        </div>
-
-                        <div class="form-group mb-3">
                             <input type="hidden" name="enable_send_error_reporting_via_email" value="0">
                             <label>
-                                <input type="checkbox" class="hrv-checkbox" value="1" @if (setting('enable_send_error_reporting_via_email')) checked @endif name="enable_send_error_reporting_via_email">
+                                <input type="checkbox" value="1" @if (setting('enable_send_error_reporting_via_email')) checked @endif name="enable_send_error_reporting_via_email">
                                 {{ trans('core/setting::setting.general.enable_send_error_reporting_via_email') }}
                             </label>
                         </div>
@@ -132,7 +117,7 @@
                                    for="admin-login-screen-backgrounds">{{ trans('core/setting::setting.general.admin_login_screen_backgrounds') }}
                             </label>
                             <div class="admin-login-screen-backgrounds-setting">
-                                {!! Form::mediaImages('login_screen_backgrounds[]', setting('login_screen_backgrounds')) !!}
+                                {!! Form::mediaImages('login_screen_backgrounds[]', setting('login_screen_backgrounds', [])) !!}
                             </div>
                         </div>
 
@@ -148,12 +133,12 @@
                             <label class="text-title-field"
                                    for="admin_locale_direction">{{ trans('core/setting::setting.general.admin_locale_direction') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="admin_locale_direction" class="hrv-radio" value="ltr"
+                            <label>
+                                <input type="radio" name="admin_locale_direction" value="ltr"
                                        @if (setting('admin_locale_direction', 'ltr') == 'ltr') checked @endif>{{ trans('core/setting::setting.locale_direction_ltr') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="admin_locale_direction" class="hrv-radio" value="rtl"
+                            <label>
+                                <input type="radio" name="admin_locale_direction" value="rtl"
                                        @if (setting('admin_locale_direction', 'ltr') == 'rtl') checked @endif>{{ trans('core/setting::setting.locale_direction_rtl') }}
                             </label>
                         </div>
@@ -163,12 +148,12 @@
                             <label class="text-title-field"
                                    for="rich_editor">{{ trans('core/setting::setting.general.rich_editor') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="rich_editor" class="hrv-radio" value="ckeditor"
+                            <label>
+                                <input type="radio" name="rich_editor" value="ckeditor"
                                        @if (BaseHelper::getRichEditor() == 'ckeditor') checked @endif>CKEditor
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="rich_editor" class="hrv-radio" value="tinymce"
+                            <label>
+                                <input type="radio" name="rich_editor" value="tinymce"
                                        @if (BaseHelper::getRichEditor() == 'tinymce') checked @endif>TinyMCE
                             </label>
                         </div>
@@ -194,7 +179,7 @@
                         @if (count(Assets::getThemes()) > 1)
                             <div class="form-group mb-3">
                                     <input type="hidden" name="enable_change_admin_theme" value="0">
-                                    <label><input type="checkbox" class="hrv-checkbox" value="1"
+                                    <label><input type="checkbox" value="1"
                                                   @if (setting('enable_change_admin_theme')) checked @endif name="enable_change_admin_theme"> {{ trans('core/setting::setting.general.enable_change_admin_theme') }} </label>
                             </div>
                         @endif
@@ -219,12 +204,12 @@
                             <label class="text-title-field"
                                    for="enable_cache">{{ trans('core/setting::setting.general.enable_cache') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="enable_cache" class="hrv-radio" value="1" @if (setting('enable_cache')) checked @endif>
+                            <label>
+                                <input type="radio" name="enable_cache" value="1" @if (setting('enable_cache')) checked @endif>
                                 {{ trans('core/setting::setting.general.yes') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="enable_cache" class="hrv-radio" value="0" @if (!setting('enable_cache')) checked @endif>
+                            <label>
+                                <input type="radio" name="enable_cache" value="0" @if (!setting('enable_cache')) checked @endif>
                                 {{ trans('core/setting::setting.general.no') }}
                             </label>
                         </div>
@@ -240,12 +225,12 @@
                             <label class="text-title-field"
                                    for="enable_cache">{{ trans('core/setting::setting.general.cache_admin_menu') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="cache_admin_menu_enable" class="hrv-radio" value="1" @if (setting('cache_admin_menu_enable')) checked @endif>
+                            <label>
+                                <input type="radio" name="cache_admin_menu_enable" value="1" @if (setting('cache_admin_menu_enable')) checked @endif>
                                 {{ trans('core/setting::setting.general.yes') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="cache_admin_menu_enable" class="hrv-radio" value="0" @if (!setting('cache_admin_menu_enable')) checked @endif>
+                            <label>
+                                <input type="radio" name="cache_admin_menu_enable" value="0" @if (!setting('cache_admin_menu_enable')) checked @endif>
                                 {{ trans('core/setting::setting.general.no') }}
                             </label>
                         </div>

@@ -14,13 +14,13 @@
                 <label class="text-title-field"
                        for="optimize_page_speed_enable">{{ trans('packages/optimize::optimize.settings.enable') }}
                 </label>
-                <label class="hrv-label">
-                    <input type="radio" name="optimize_page_speed_enable" class="hrv-radio"
+                <label>
+                    <input type="radio" name="optimize_page_speed_enable"
                            value="1"
                            @if (setting('optimize_page_speed_enable')) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                 </label>
-                <label class="hrv-label">
-                    <input type="radio" name="optimize_page_speed_enable" class="hrv-radio"
+                <label>
+                    <input type="radio" name="optimize_page_speed_enable"
                            value="0"
                            @if (!setting('optimize_page_speed_enable')) checked @endif>{{ trans('core/setting::setting.general.no') }}
                 </label>

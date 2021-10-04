@@ -211,11 +211,12 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
                         -moz-transition: .3s;
                         -o-transition: .3s;
                         transition: .3s;
-                        padding: 8px 15px;
+                        padding: 5px 10px;
                         min-width: 24px;
                         width: auto;
                         height: auto;
                         text-decoration: none !important;
+                        border-radius: 5px !important;
 
                         &:hover {
                             background: #e3e3e3;

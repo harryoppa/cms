@@ -33,13 +33,13 @@
                             <label class="text-title-field"
                                    for="slug_turn_off_automatic_url_translation_into_latin">{{ trans('packages/slug::slug.settings.turn_off_automatic_url_translation_into_latin') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="slug_turn_off_automatic_url_translation_into_latin" class="hrv-radio"
+                            <label>
+                                <input type="radio" name="slug_turn_off_automatic_url_translation_into_latin"
                                        value="1"
                                        @if (SlugHelper::turnOffAutomaticUrlTranslationIntoLatin()) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                             </label>
-                            <label class="hrv-label">
-                                <input type="radio" name="slug_turn_off_automatic_url_translation_into_latin" class="hrv-radio"
+                            <label>
+                                <input type="radio" name="slug_turn_off_automatic_url_translation_into_latin"
                                        value="0"
                                        @if (!SlugHelper::turnOffAutomaticUrlTranslationIntoLatin()) checked @endif>{{ trans('core/setting::setting.general.no') }}
                             </label>

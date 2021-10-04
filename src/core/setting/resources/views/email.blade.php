@@ -143,7 +143,7 @@
                     <div class="form-group mb-3">
                         <input type="hidden" name="using_queue_to_send_mail" value="0">
                         <label>
-                            <input type="checkbox" class="hrv-checkbox" value="1" @if (setting('using_queue_to_send_mail')) checked @endif name="using_queue_to_send_mail">
+                            <input type="checkbox" value="1" @if (setting('using_queue_to_send_mail')) checked @endif name="using_queue_to_send_mail">
                             {{ trans('core/setting::setting.email.using_queue_to_send_mail') }}
                         </label>
                     </div>

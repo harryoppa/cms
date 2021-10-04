@@ -128,13 +128,15 @@ class MediaController extends Controller
             $paramsFile['order_by'][$orderBy[0]] = $orderBy[1];
         }
 
-        if ($request->input('search')) {
+        $search = $request->input('search');
+
+        if ($search) {
             $paramsFolder['condition'] = [
-                ['media_folders.name', 'LIKE', '%' . $request->input('search') . '%',],
+                ['media_folders.name', 'LIKE', '%' . $search . '%',],
             ];
 
             $paramsFile['condition'] = [
-                ['media_files.name', 'LIKE', '%' . $request->input('search') . '%',],
+                ['media_files.name', 'LIKE', '%' . $search . '%',],
             ];
         }
 
@@ -583,6 +585,7 @@ class MediaController extends Controller
                 RvMedia::getRealPath($this->folderRepository->getFullPath($newFolderId)),
                 $file->url
             );
+            
             $file->folder_id = $newFolderId;
         }
 
@@ -610,6 +613,7 @@ class MediaController extends Controller
                     if (!File::exists($filePath)) {
                         return RvMedia::responseError(trans('core/media::media.file_not_exists'));
                     }
+
                     return response()->download($filePath);
                 }
 

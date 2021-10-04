@@ -11,49 +11,6 @@ class Layout {
         this.initFooter();
     }
 
-    // Set proper height for sidebar and content. The content and sidebar height must be synced always.
-    static handleSidebarAndContentHeight() {
-        return;
-        let content = $('.page-content');
-        let sidebar = $('.page-sidebar');
-        let header = $('.page-header');
-        let footer = $('.page-footer');
-        let body = $('body');
-        let height;
-
-        if (body.hasClass('page-footer-fixed') === true && body.hasClass('page-sidebar-fixed') === false) {
-            let available_height = App.getViewPort().height - footer.outerHeight() - header.outerHeight();
-            let sidebar_height = sidebar.outerHeight();
-            if (sidebar_height > available_height) {
-                available_height = sidebar_height + footer.outerHeight();
-            }
-            if (content.height() < available_height) {
-                content.css('min-height', available_height);
-            }
-        } else {
-            if (body.hasClass('page-sidebar-fixed')) {
-                height = Layout._calculateFixedSidebarViewportHeight();
-                if (body.hasClass('page-footer-fixed') === false) {
-                    height = height - footer.outerHeight();
-                }
-            } else {
-                let headerHeight = header.outerHeight();
-                let footerHeight = footer.outerHeight();
-
-                if (App.getViewPort().width < App.getResponsiveBreakpoint('md')) {
-                    height = App.getViewPort().height - headerHeight - footerHeight;
-                } else {
-                    height = sidebar.height() + 20;
-                }
-
-                if ((height + headerHeight + footerHeight) <= App.getViewPort().height) {
-                    height = App.getViewPort().height - headerHeight - footerHeight;
-                }
-            }
-            content.css('min-height', height);
-        }
-    }
-
     // Handle sidebar menu
     handleSidebarMenu() {
         let current = this;
@@ -123,7 +80,6 @@ class Layout {
                     if (autoScroll === true && current.$body.hasClass('page-sidebar-closed') === false) {
                         App.scrollTo(the, slideOffeset);
                     }
-                    Layout.handleSidebarAndContentHeight();
                 });
             } else if (hasSubMenu) {
                 $('.arrow', the).addClass('open');
@@ -132,7 +88,6 @@ class Layout {
                     if (autoScroll === true && current.$body.hasClass('page-sidebar-closed') === false) {
                         App.scrollTo(the, slideOffeset);
                     }
-                    Layout.handleSidebarAndContentHeight();
                 });
             }
 
@@ -162,11 +117,8 @@ class Layout {
     handleFixedSidebar() {
         let menu = $('.page-sidebar-menu');
 
-        Layout.handleSidebarAndContentHeight();
-
         if (App.getViewPort().width >= App.getResponsiveBreakpoint('md') && !$('body').hasClass('page-sidebar-menu-not-fixed')) {
             menu.attr('data-height', Layout._calculateFixedSidebarViewportHeight());
-            Layout.handleSidebarAndContentHeight();
         }
     }
 
@@ -192,7 +144,7 @@ class Layout {
     handleSidebarToggler() {
         // handle sidebar show/hide
         let body = this.$body;
-        this.$body.on('click', '.sidebar-toggler', event =>  {
+        this.$body.on('click', '#sidebar-toggler', event =>  {
             event.preventDefault();
             let sidebarMenu = $('.page-sidebar-menu');
 
@@ -214,9 +166,9 @@ class Layout {
     // Handles Bootstrap Tabs.
     handleTabs() {
         // fix content height on tab click
-        this.$body.on('shown.bs.tab', 'a[data-bs-toggle="tab"]', () => {
-            Layout.handleSidebarAndContentHeight();
-        });
+        // this.$body.on('shown.bs.tab', 'a[data-bs-toggle="tab"]', () => {
+        //     Layout.handleSidebarAndContentHeight();
+        // });
     };
 
     // Handles the go to top button at the footer
@@ -299,7 +251,6 @@ class Layout {
         this.handle100HeightContent(); // handles 100% height elements(block, portlet, etc)
         this.handleTabs(); // handle bootstrap tabs
 
-        App.addResizeHandler(Layout.handleSidebarAndContentHeight); // recalculate sidebar & content height on window resize
         App.addResizeHandler(this.handle100HeightContent); // reinitialize content height on window resize
     }
 

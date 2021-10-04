@@ -7,6 +7,11 @@ Page sidebar
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,800;1,900&display=swap');
 
 .page-sidebar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    
     span, .nav-link {
         font-family: 'Nunito', sans-serif;
         font-weight: 600 !important;

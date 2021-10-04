@@ -71,16 +71,16 @@ body[dir="rtl"] {
     margin-left: 5px;
 }
 
-.hrv-radio, input[type=radio], .hrv-checkbox, input[type=checkbox] {
+input[type=radio], input[type=checkbox] {
     margin: 0 0 0 0.5rem;
 }
 
-.hrv-radio:checked:before, input[type=radio]:checked:before {
+input[type=radio]:checked:before {
     left: 0;
     right: 2px;
 }
 
-.hrv-radio:checked:after, input[type=radio]:checked:after {
+input[type=radio]:checked:after {
     left: 0;
     right: -1px;
 }

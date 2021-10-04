@@ -25,7 +25,7 @@
             <div class="form-group mb-3">
                 <div class="mt5">
                     <input type="hidden" name="show_admin_bar" value="0">
-                    <label><input type="checkbox" class="hrv-checkbox" value="1"
+                    <label><input type="checkbox" value="1"
                                   @if (setting('show_admin_bar')) checked @endif name="show_admin_bar"> {{ trans('packages/theme::theme.show_admin_bar') }} </label>
                 </div>
             </div>

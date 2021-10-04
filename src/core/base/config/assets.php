@@ -9,6 +9,8 @@ return [
     'enable_version' => env('ASSETS_ENABLE_VERSION', true),
     'version'        => env('ASSETS_VERSION', get_cms_version()),
     'scripts'        => [
+        'jquery',
+        'bootstrapjs',
         'respond',
         'excanvas',
         'ie8-fix',
@@ -104,6 +106,22 @@ return [
                 'location' => 'footer',
                 'src'      => [
                     'local' => '/vendor/core/core/base/libraries/jquery.blockui.min.js',
+                ],
+            ],
+            'jquery'       => [
+                'use_cdn'  => true,
+                'location' => 'footer',
+                'src'      => [
+                    'local' => '/vendor/core/core/base/libraries/jquery.min.js',
+                    'cdn'   => '//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js',
+                ],
+            ],
+            'bootstrapjs'       => [
+                'use_cdn'  => true,
+                'location' => 'footer',
+                'src'      => [
+                    'local' => '/vendor/core/core/base/libraries/bootstrap.bundle.min.js',
+                    'cdn'   => '//cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js',
                 ],
             ],
             'jquery-ui'          => [

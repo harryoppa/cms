@@ -142,14 +142,14 @@ a {
     white-space: normal;
 }
 
-.hrv-checkbox, input[type="checkbox"] {
+input[type="checkbox"]:not(.btn-check) {
     position: relative;
     top: 0;
     margin: 0 .5rem 0 0;
     cursor: pointer;
 }
 
-.hrv-checkbox:before, input[type="checkbox"]:not(.hrv-checkbox):before {
+input[type="checkbox"]:before {
     -webkit-transition: -webkit-transform .4s cubic-bezier(.45, 1.8, .5, .75);
     -moz-transition: -moz-transform .4s cubic-bezier(.45, 1.8, .5, .75);
     transition: transform .4s cubic-bezier(.45, 1.8, .5, .75);
@@ -172,7 +172,7 @@ a {
     border-right-style: none;
 }
 
-.hrv-checkbox:checked:before, input[type="checkbox"]:not(.hrv-checkbox):checked:before {
+input[type="checkbox"]:checked:before {
     -webkit-transform: rotate(-45deg) scale(1, 1);
     -moz-transform: rotate(-45deg) scale(1, 1);
     -ms-transform: rotate(-45deg) scale(1, 1);
@@ -180,7 +180,7 @@ a {
     transform: rotate(-45deg) scale(1, 1);
 }
 
-.hrv-checkbox:after, input[type="checkbox"]:not(.hrv-checkbox):after {
+input[type="checkbox"]:after {
     content: "";
     position: absolute;
     left: -1px;
@@ -196,7 +196,7 @@ a {
     border-radius: 3px;
 }
 
-.hrv-checkbox:checked:after, input[type="checkbox"]:not(.hrv-checkbox):checked:after {
+input[type="checkbox"]:checked:after {
     border-color: #58b3f0;
 }
 
@@ -950,7 +950,6 @@ textarea.textarea-auto-height {
     box-shadow: 0 0 0 1px rgba(39, 44, 48, .05), 0 2px 7px 1px rgba(39, 44, 48, .16);
 }
 
-.hrv-radio,
 input[type="radio"] {
     position: relative;
     margin: 0 .5rem 0 0;
@@ -959,7 +958,6 @@ input[type="radio"] {
     padding: 0;
 }
 
-.hrv-radio:before,
 input[type="radio"]:before {
     -webkit-transition: -webkit-transform .4s cubic-bezier(.45, 1.8, .5, .75);
     -moz-transition: -moz-transform .4s cubic-bezier(.45, 1.8, .5, .75);
@@ -983,7 +981,7 @@ input[type="radio"]:before {
     border-radius: 50%;
 }
 
-.hrv-radio:checked:before, input[type="radio"]:checked:before {
+input[type="radio"]:checked:before {
     -webkit-transform: scale(1, 1);
     -moz-transform: scale(1, 1);
     -ms-transform: scale(1, 1);
@@ -992,7 +990,7 @@ input[type="radio"]:before {
     left: 2px;
 }
 
-.hrv-radio:after, input[type="radio"]:after {
+input[type="radio"]:after {
     content: "";
     position: absolute;
     left: -2px;
@@ -1007,13 +1005,9 @@ input[type="radio"]:before {
     border-radius: 50%;
 }
 
-.hrv-radio:checked:after, input[type="radio"]:checked:after {
+input[type="radio"]:checked:after {
     border: 1px solid #58b3f0;
     left: -1px;
-}
-
-.hrv-label {
-    margin-right: 20px;
 }
 
 .modal-body .next-form-section .next-form-grid {

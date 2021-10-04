@@ -97,7 +97,7 @@
                             <div class="col-md-8">
                                 @foreach (Menu::getMenuLocations() as $location => $description)
                                     <div>
-                                        <input type="checkbox" @if (in_array($location, $locations)) checked @endif class="hrv-checkbox" name="locations[]" value="{{ $location }}" id="menu_location_{{ $location }}">
+                                        <input type="checkbox" @if (in_array($location, $locations)) checked @endif name="locations[]" value="{{ $location }}" id="menu_location_{{ $location }}">
                                         <label for="menu_location_{{ $location }}">{{ $description }}</label>
                                     </div>
                                 @endforeach
