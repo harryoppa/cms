@@ -67,4 +67,12 @@ class SlugService
                 ->where('id', '!=', (int)$slugId)
                 ->count() > 0;
     }
+
+    /**
+     * @return SlugInterface
+     */
+    public function getRepository(): SlugInterface
+    {
+        return $this->slugRepository;
+    }
 }

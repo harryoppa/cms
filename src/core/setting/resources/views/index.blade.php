@@ -70,6 +70,21 @@
                         </div>
 
                         <div class="form-group mb-3">
+
+                            <label class="text-title-field"
+                                   for="locale_direction">{{ trans('core/setting::setting.general.locale_direction') }}
+                            </label>
+                            <label>
+                                <input type="radio" name="locale_direction" value="ltr"
+                                       @if (setting('locale_direction', 'ltr') == 'ltr') checked @endif>{{ trans('core/setting::setting.locale_direction_ltr') }}
+                            </label>
+                            <label>
+                                <input type="radio" name="locale_direction" value="rtl"
+                                       @if (setting('locale_direction', 'ltr') == 'rtl') checked @endif>{{ trans('core/setting::setting.locale_direction_rtl') }}
+                            </label>
+                        </div>
+
+                        <div class="form-group mb-3">
                             <input type="hidden" name="enable_send_error_reporting_via_email" value="0">
                             <label>
                                 <input type="checkbox" value="1" @if (setting('enable_send_error_reporting_via_email')) checked @endif name="enable_send_error_reporting_via_email">
