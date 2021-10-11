@@ -427,6 +427,13 @@ Page sidebar
         .page-sidebar {
             width: $sidebar-collapsed-width !important;
 
+            .sidebar-content {
+                overflow: unset;
+                .page-sidebar-menu .sub-menu:before {
+                    height: 100%;;
+                }
+            }
+
             .page-sidebar-menu.page-sidebar-menu-closed {
 
                 /* sidebar */
@@ -643,6 +650,10 @@ Page sidebar
             .page-sidebar {
                 display: none !important;
             }
+        }
+
+        .page-logo {
+            display: none;
         }
     }
 

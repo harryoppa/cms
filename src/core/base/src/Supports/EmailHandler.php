@@ -228,6 +228,10 @@ class EmailHandler
 
             if (empty($to)) {
                 $to = setting('admin_email', setting('email_from_address', config('mail.from.address')));
+
+                if (!is_array($to)) {
+                    $to = json_decode($to, true);
+                }
             }
 
             $content = $this->prepareData($content);

@@ -44,6 +44,7 @@ Page content
     margin-top: 0;
     padding: 0;
     background-color: #ffffff;
+    transition: all 0.3s;
 
     .page-container-bg-solid & {
         background: $page-content-solid-bg-color;

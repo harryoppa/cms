@@ -25,8 +25,7 @@
             <tbody>
             <tr>
                 <td valign="top" style="border-collapse: collapse;">
-                    <table width="800" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                           bgcolor="#3a3a3a" style="border-spacing: 0;">
+                    <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#3E4453" style="border-spacing: 0; border-radius: 0px 0px 20px 20px;max-width :  776px; min-width :  280px; ">
                         <!--start space height -->
                         <tbody>
                         <tr>
@@ -65,8 +64,29 @@
                                                                                 style="border-collapse: collapse;"></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td style="font-size: 13px;line-height: 15px; text-align: center; font-family: Arial,Tahoma, Helvetica, sans-serif;color: #a7a9ac;font-weight: normal;border-collapse: collapse;">
+                                                                            <td style="font-size: 13px;line-height: 15px;padding: 35px 35px 0; text-align: left; font-family: Arial,Tahoma, Helvetica, sans-serif;color: #a7a9ac;font-weight: normal;border-collapse: collapse;">
                                                                                 © Copyright {{ date_year }}. All rights reserved.
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font-size: 13px;line-height: 15px;padding: 35px 35px 60px; text-align: left; font-family: Arial,Tahoma, Helvetica, sans-serif;color: #a7a9ac;font-weight: normal;border-collapse: collapse;">
+                                                                                <div style="width :  100%; max-width :  560px; display :  inline-block; text-align :  left; ">
+                                                                                    <div class="x_1451848527center" style="padding-top :  0px; padding-bottom :  0px; display :  inline-block; vertical-align :  top; text-align :  center; ">
+                                                                                        <a href="https://setapp.cmail19.com/t/n/d-l-b7016df11c2511ec8ecf3448141411c5-l-t-r-l/" style="text-decoration :  none; " target="_blank">
+                                                                                        <img id="1632370888848100001_imgsrc_url_3" alt="" width="28px" style="max-width :  100%; margin-left :  0px; margin-right :  12px; line-height :  0; vertical-align :  top; display :  inline-block; " src="http://i9.cmail19.com/ei/d/10/038/555/181824/img/fb.png">
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    <div class="" style="padding-top :  0px; padding-bottom :  0px; display :  inline-block; vertical-align :  top; text-align :  center; ">
+                                                                                        <a href="https://setapp.cmail19.com/t/n/d-l-b7016df11c2511ec8ecf3448141411c5-l-i-r-l/" style="text-decoration :  none; " target="_blank">
+                                                                                        <img id="1632370888848100001_imgsrc_url_4" alt="" width="28px" style="max-width :  100%; margin-left :  0px; margin-right :  12px; line-height :  0; vertical-align :  top; display :  inline-block; " src="http://i10.cmail19.com/ei/d/10/038/555/181824/img/twitter.png">
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    <div class="" style="padding-top :  0px; padding-bottom :  0px; display :  inline-block; vertical-align :  top; text-align :  center; ">
+                                                                                        <a href="https://setapp.cmail19.com/t/n/d-l-b7016df11c2511ec8ecf3448141411c5-l-d-r-l/" style="text-decoration :  none; " target="_blank">
+                                                                                        <img id="1632370888848100001_imgsrc_url_5" alt="" width="28px" style="max-width :  100%; margin-left :  0px; margin-right :  12px; line-height :  0; vertical-align :  top; display :  inline-block; " src="http://i2.cmail19.com/ei/d/10/038/555/181824/img/youtube.png">
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
                                                                             </td>
                                                                         </tr>
                                                                         </tbody>
@@ -116,8 +136,8 @@
                         <!-- end space height -->
                         <tr>
                             <td align="center" valign="top" style="border-collapse: collapse;">
-                                <table width="800" align="center" border="0" cellspacing="0" cellpadding="0"
-                                       class="container" style="border-spacing: 0;">
+                                <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0"
+                                       class="container" style="border-spacing: 0;max-width :  776px; min-width :  280px; ">
                                     <tbody>
                                     <tr>
                                         <td valign="top" align="center" style="border-collapse: collapse;">

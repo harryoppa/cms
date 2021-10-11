@@ -16,8 +16,8 @@
                 <tbody>
                 <tr>
                     <td valign="top" height="6" style="border-collapse: collapse;">
-                        <table width="800" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                               style="border-spacing: 0;">
+                        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
+                               style="border-spacing: 0;max-width :  776px; min-width :  280px; ">
                             <!-- start space height -->
                             <tbody>
                             <tr>
@@ -54,14 +54,14 @@
                 <tr>
                     <td valign="middle" style="border-collapse: collapse;">
                         <!-- start top navigation container -->
-                        <table width="800" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                               style="border-spacing: 0;">
+                        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
+                               style="border-spacing: 0;max-width :  776px; min-width :  280px; ">
                             <tbody>
                             <tr>
-                                <td valign="middle" bgcolor="00a0e0" style="border-collapse: collapse;">
+                                <td valign="middle" bgcolor="#FFF" style="border-collapse :  collapse;border-top-left-radius: 20px;border-top-right-radius: 20px;">
                                     <!-- start top navigation -->
-                                    <table width="800" align="center" border="0" cellspacing="0" cellpadding="0"
-                                           class="full-width" style="border-spacing: 0;">
+                                    <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0"
+                                           class="full-width" style="border-spacing: 0;max-width :  776px; min-width :  280px; ">
                                         <tbody>
                                         <tr>
                                             <td valign="middle" style="border-collapse: collapse;">
@@ -77,7 +77,7 @@
                                                                    style="border-spacing: 0;">
                                                                 <tbody>
                                                                 <tr>
-                                                                    <td style="padding:15px;border-collapse:collapse; height: 70px; line-height: 70px">
+                                                                    <td style="padding:35px;border-collapse:collapse; height: 70px; line-height: 70px">
                                                                         <a href="{{ site_url }}" style="color: #fff; text-decoration: none !important;"
                                                                            target="_blank">
                                                                             <img title="Logo"
@@ -110,7 +110,7 @@
                                                                    style="border-spacing: 0;">
                                                                 <tbody>
                                                                 <tr>
-                                                                    <td style="font-size: 13px;line-height: 22px;color: #FFF;padding: 15px;font-weight: normal;text-align: center;font-family: Tahoma, Helvetica, Arial, sans-serif;border-collapse: collapse;"><span style="display: inline-block; height: 70px; line-height: 70px;">{{ date_time }}</span></td>
+                                                                    <td style="font-size: 13px;line-height: 22px;color: #888;padding: 35px;font-weight: normal;text-align: center;font-family: Tahoma, Helvetica, Arial, sans-serif;border-collapse: collapse;"><span style="display: inline-block; height: 70px; line-height: 70px;border: none">{{ date_time }}</span></td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
@@ -146,8 +146,8 @@
                 <tbody>
                 <tr>
                     <td valign="top" style="border-collapse: collapse;">
-                        <table width="800" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
-                               bgcolor="#ffffff" style="background-color: #ffffff;border-spacing: 0;">
+                        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
+                               bgcolor="#ffffff" style="background-color: #ffffff;border-spacing: 0;max-width :  776px; min-width :  280px; ">
                             <!--start space height -->
                             <tbody>
                             <tr>
@@ -155,4 +155,4 @@
                             </tr>
                             <!--end space height -->
                             <tr>
-                                <td style="min-height: 400px; padding: 15px; font-size: 13px;">
+                                <td style="min-height: 400px; padding: 0 35px; font-size: 13px;">
