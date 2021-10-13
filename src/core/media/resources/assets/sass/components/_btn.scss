@@ -11,11 +11,15 @@
             background-color: $color-success;
             border-color: $color-success;
 
+            line-height: 1.8 !important;
+            border-radius: 5px;
+
             &:hover,
             &:active,
             &:focus {
                 background-color: $color-secondary;
                 border-color: $color-secondary;
+                color: #FFF;
             }
         }
 

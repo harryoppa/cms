@@ -94,7 +94,9 @@ class RoleForm extends FormAbstract
     {
         $permissions = [];
 
-        foreach (scan_folder(platform_path($type)) as $module) {
+        $path = $type === 'core' || $type === 'packages' ? source_path($type) : platform_path($type);
+
+        foreach (scan_folder($path) as $module) {
             $configuration = config(strtolower($type . '.' . $module . '.permissions'));
             if (!empty($configuration)) {
                 foreach ($configuration as $config) {
