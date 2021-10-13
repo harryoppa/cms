@@ -23,7 +23,7 @@ export class EditorService {
 
 class rvMedia {
 
-    static $model = bootstrap.Modal.getOrCreateInstance(document.getElementById('rv_media_modal'));
+    static $model = document.getElementById('rv_media_modal') !== null ? bootstrap.Modal.getOrCreateInstance(document.getElementById('rv_media_modal')) : null;
 
     constructor(selector, options) {
         window.rvMedia = window.rvMedia || {};
