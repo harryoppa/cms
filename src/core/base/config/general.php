@@ -34,7 +34,7 @@ return [
     'force_schema'              => env('FORCE_SCHEMA'),
     'memory_limit'              => env('CMS_MEMORY_LIMIT'),
     'date_format'               => [
-        'date'      => env('CMS_DATE_FORMAT', 'Y-m-d'),
+        'date'      => env('CMS_DATE_FORMAT', 'd/m/Y'),
         'date_time' => env('CMS_DATE_TIME_FORMAT', 'Y-m-d H:i:s'),
         'js'        => [
             'date'      => env('CMS_JS_DATE_FORMAT', 'yyyy-mm-dd'),

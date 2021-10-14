@@ -1,0 +1,9 @@
+.input-group {
+    &.input-group-white {
+        .input-group-text {
+            background-color: #FFF;
+            border-color: #ced4da;
+            border-left: 0;
+        }
+    }
+}

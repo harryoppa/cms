@@ -1,3 +1,4 @@
+import { data } from 'jquery';
 import './datetime-format';
 
 class TVHung {
@@ -327,21 +328,41 @@ class TVHung {
     }
 
     static initDatePicker(element) {
-        if (jQuery().bootstrapDP) {
+        if (typeof SimplePicker !== 'undefined') {
+
+            TVHung.initSimplePicker(element);
+        } else if (window.tempusDominus) {
             let format = $(document).find(element).data('date-format');
             if (!format) {
                 format = 'yyyy-mm-dd';
             }
-            $(document).find(element).bootstrapDP({
-                maxDate: 0,
-                changeMonth: true,
-                changeYear: true,
-                autoclose: true,
-                dateFormat: format,
-            });
-        } else if (typeof SimplePicker !== 'undefined') {
 
-            TVHung.initSimplePicker(element);
+            let hasTime = format.indexOf('h') !== -1;
+            
+            let els = document.querySelectorAll(element);
+
+            els.forEach(function(el) {
+                new tempusDominus.TempusDominus(el, {
+                    hooks: {
+                        inputFormat(context, date) {
+                            return date.format(format)
+                        }
+                    },
+                    display: {
+                        components: {
+                            decades: true,
+                            year: true,
+                            month: true,
+                            date: true,
+                            hours: hasTime,
+                            minutes: hasTime,
+                            seconds: hasTime,
+                        }
+                    }
+                })
+            })
+
+
         } else {
             if ($(element).length) {
                 console.error('Assets datepicker is not added')

@@ -39,7 +39,7 @@ class BaseHelper
         if (empty($date)) {
             return $date;
         }
-
+        
         return format_time(Carbon::parse($date), $format);
     }
 

@@ -10,13 +10,14 @@ return [
     'version'        => env('ASSETS_VERSION', get_cms_version()),
     'scripts'        => [
         'jquery',
+        'popperjs',
         'bootstrapjs',
         'respond',
         'excanvas',
-        'ie8-fix',
         'modernizr',
         'select2',
         'cookie',
+        'datepicker',
         'core',
         'app',
         'toastr',
@@ -31,6 +32,7 @@ return [
         'fontawesome',
         'simple-line-icons',
         'select2',
+        'datepicker',
         'pace',
         'toastr',
         'custom-scrollbar',
@@ -122,6 +124,14 @@ return [
                 'src'      => [
                     'local' => '/vendor/core/core/base/libraries/bootstrap.bundle.min.js',
                     'cdn'   => '//cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js',
+                ],
+            ],
+            'popperjs'       => [
+                'use_cdn'  => true,
+                'location' => 'footer',
+                'src'      => [
+                    'local' => '/vendor/core/core/base/libraries/popper.min.js',
+                    'cdn'   => '//cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js',
                 ],
             ],
             'jquery-ui'          => [
@@ -231,7 +241,7 @@ return [
                 'use_cdn'  => false,
                 'location' => 'footer',
                 'src'      => [
-                    'local' => '/vendor/core/core/base/libraries/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                    'local' => '/vendor/core/core/base/libraries/bootstrap-datepicker/js/tempus-dominus.js',
                 ],
             ],
             'simple-picker'         => [
@@ -429,7 +439,7 @@ return [
                 'use_cdn'  => false,
                 'location' => 'header',
                 'src'      => [
-                    'local' => '/vendor/core/core/base/libraries/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                    'local' => '/vendor/core/core/base/libraries/bootstrap-datepicker/css/tempus-dominus.css',
                 ],
             ],
             'simple-picker'         => [

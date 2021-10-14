@@ -172,3 +172,15 @@ if (!function_exists('array_insert'))
         return $result;
     }
 }
+
+if (!function_exists('str_contains_all'))
+{
+    function str_contains_all($haystack, array $needles) {
+        foreach ($needles as $needle) {
+            if (!str_contains($haystack, $needle)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
