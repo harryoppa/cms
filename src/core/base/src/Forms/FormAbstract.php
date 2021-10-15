@@ -431,7 +431,7 @@ abstract class FormAbstract extends Form
         return $this;
     }
 
-    protected function withHiddenValues(array $values = [], $reset = false): self
+    public function withHiddenValues(array $values = [], $reset = false): self
     {
         if ($reset) {
             $this->hiddenFields = $values;

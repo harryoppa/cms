@@ -147,9 +147,9 @@ abstract class TableAbstract extends DataTable
      * @param string $key
      * @return string
      */
-    public function getOption(string $key): ?string
+    public function getOption(string $key, $default = null): ?string
     {
-        return Arr::get($this->options, $key);
+        return Arr::get($this->options, $key, $default);
     }
 
     /**
@@ -657,7 +657,7 @@ abstract class TableAbstract extends DataTable
                 });
             }
 
-            $("[data-toggle=tooltip]").tooltip({
+            $("[data-bs-toggle=tooltip]").tooltip({
                 placement: "top"
             });
         ';
