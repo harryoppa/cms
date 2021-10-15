@@ -177,10 +177,11 @@ if (!function_exists('str_contains_all'))
 {
     function str_contains_all($haystack, array $needles) {
         foreach ($needles as $needle) {
-            if (!str_contains($haystack, $needle)) {
-                return false;
+            if (str_contains($haystack, $needle)) {
+                return true;
+                break;
             }
         }
-        return true;
+        return false;
     }
 }

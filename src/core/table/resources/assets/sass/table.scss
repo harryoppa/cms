@@ -21,7 +21,7 @@ table.dataTable {
     padding: 0;
 }
 
-$brand-main-color: #4d69fa;
+$brand-main-color: #3580d6;
 $general-img-path: '/vendor/core/core/base/images/' !default;
 
 .table-has-actions, .table-has-filter {
@@ -32,7 +32,7 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
 
 .table-has-actions.table-has-filter {
     .dataTables_filter {
-        left: 250px;
+        left: 210px;
     }
 }
 
@@ -130,11 +130,23 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
     }
 }
 
+.wrapper-action {
+    .btn {
+        padding: 10px 15px;
+        font-size: 14px;
+
+    }
+}
+
 .page-content {
     .dataTables_wrapper {
         position: relative;
         padding: 0;
         margin: 0;
+
+        .wrapper-action {
+            display: none;
+        }
 
         .datatables__info_wrap {
             background-color: #fbfcfd;
@@ -144,13 +156,13 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
 
         .dt-buttons {
             margin-right: 10px;
-            top: -46px;
+            top: -62px;
             right: 0;
             position: absolute;
 
             .btn {
-                padding: 5px 10px;
-                font-size: 12px;
+                padding: 10px 15px;
+                font-size: 14px;
                 line-height: 1.5;
                 background: $brand-main-color;
                 border-color: $brand-main-color;
@@ -159,9 +171,17 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
                 &:active,
                 &:active:focus,
                 &:focus,
-                &:hover {
-                    background: #1dc3d2;
-                    border-color: #1dc3d2;
+                &:hover,
+                &.action-item {
+                    background: lighten($brand-main-color, 5%);
+                    border-color: lighten($brand-main-color, 1%);
+                }
+
+                &.action-item {
+                   transition: all 0.3s ease-in;
+                    &:hover {
+                        transform: scale(1.1)
+                    }
                 }
 
                 &:last-child {
@@ -367,41 +387,44 @@ $general-img-path: '/vendor/core/core/base/images/' !default;
 div.dataTables_info {
     color: #afafaf;
 }
-
-.dataTables_filter {
-    padding: 0;
-    display: block;
-    float: left;
-    position: absolute;
-    top: -50px;
-    left: 10px;
-
-    input[type=search] {
-        margin-top: 3px;
-        height: 36px;
-        width: 250px;
-        padding-right: 30px;
-    }
-
-    label {
-        &::after {
-            font: normal normal normal 14px/1 Font Awesome\ 5 Free;
-            content: "\f002";
-            position: absolute;
-            right: -4px;
-            top: 6px;
-            width: 40px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            color: #495057;
-            font-weight: 900;
+.dataTables_wrapper {
+    div.dataTables_filter {
+        padding: 0;
+        display: block;
+        float: left;
+        position: absolute;
+        top: -62px;
+        left: 10px;
+    
+        input[type=search] {
+            margin-left: 0.5em;
+            display: inline-block;
+            width: 250px;
+            padding: 10px 15px;
+            height: auto;
         }
-
-        font-size: 0;
-
-        input {
-            margin: 0;
+    
+        label {
+            &::after {
+                content: "";
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'%3E%3Ctitle%3ESearch%3C/title%3E%3Cpath d='M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z' fill='none' stroke='%23ccc' stroke-miterlimit='10' stroke-width='32'/%3E%3Cpath fill='none' stroke='%23ccc' stroke-linecap='round' stroke-miterlimit='10' stroke-width='32' d='M338.29 338.29L448 448'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                position: absolute;
+                right: -4px;
+                top: 6px;
+                width: 40px;
+                height: 26px;
+                line-height: 30px;
+                text-align: center;
+                color: #495057;
+                font-weight: 900;
+            }
+    
+            font-size: 0;
+    
+            input {
+                margin: 0;
+            }
         }
     }
 }

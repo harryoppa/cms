@@ -332,19 +332,22 @@ class TVHung {
 
             TVHung.initSimplePicker(element);
         } else if (window.tempusDominus) {
-            let format = $(document).find(element).data('date-format');
-            if (!format) {
-                format = 'yyyy-mm-dd';
-            }
-
-            let hasTime = format.indexOf('h') !== -1;
-            
+                       
             let els = document.querySelectorAll(element);
 
             els.forEach(function(el) {
+
+                let format = el.getAttribute('data-date-format');
+                if (!format) {
+                    format = 'yyyy-mm-dd';
+                }
+
+                let hasTime = format.indexOf('H') !== -1;
+
                 new tempusDominus.TempusDominus(el, {
                     hooks: {
-                        inputFormat(context, date) {
+                        inputFormat(context, origin) {
+                            let date = new Date(origin)
                             return date.format(format)
                         }
                     },

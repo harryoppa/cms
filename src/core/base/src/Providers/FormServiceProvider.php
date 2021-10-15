@@ -146,5 +146,11 @@ class FormServiceProvider extends ServiceProvider
             'fields'     => [],
             'attributes' => [],
         ]);
+
+        Form::component('datepicker', 'core/base::forms.partials.datepicker', [
+            'name',
+            'value'      => null,
+            'attributes' => [],
+        ]);
     }
 }
