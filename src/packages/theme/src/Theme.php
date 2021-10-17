@@ -952,7 +952,7 @@ class Theme implements ThemeContract
 
     /**
      * @param int $statusCode
-     * @return Response
+     * @return \Illuminate\Http\Response
      * @throws FileNotFoundException
      */
     public function render(int $statusCode = 200): Response
