@@ -337,12 +337,26 @@ class TVHung {
 
             els.forEach(function(el) {
 
+                let restrictions= {};
+
                 let format = el.getAttribute('data-date-format');
+                let minDate = el.getAttribute('data-min-date');
+                let maxDate = el.getAttribute('data-max-date');
+
                 if (!format) {
                     format = 'yyyy-mm-dd';
                 }
 
+
                 let hasTime = format.indexOf('H') !== -1;
+
+                if (minDate) {
+                    restrictions.minDate = new Date(minDate);
+                }
+
+                if (maxDate) {
+                    restrictions.maxDate = new Date(maxDate);
+                }
 
                 new tempusDominus.TempusDominus(el, {
                     hooks: {
@@ -361,7 +375,8 @@ class TVHung {
                             minutes: hasTime,
                             seconds: hasTime,
                         }
-                    }
+                    },
+                    restrictions,
                 })
             })
 

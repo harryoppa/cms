@@ -431,6 +431,11 @@ abstract class FormAbstract extends Form
         return $this;
     }
 
+    /**
+     * @param array $values
+     * @param false $reset
+     * @return $this
+     */
     public function withHiddenValues(array $values = [], $reset = false): self
     {
         if ($reset) {
@@ -438,6 +443,25 @@ abstract class FormAbstract extends Form
         } else {
             $this->hiddenFields = array_merge($this->hiddenFields, $values);
         }
+
+        return $this;
+    }
+
+    /**
+     * @param \Closure $closure
+     * @param string $className
+     * @return $this
+     */
+    public function addRow(\Closure $closure, $className = 'row'): self
+    {
+        $last = count($this->fields);
+        $closure($this);
+
+        $slice = array_splice($this->fields, $last);
+
+        $this->add(Str::random(5), 'html', [
+            'html'  => view('core/base::forms.fields.rows', ['fields' => $slice, 'className' => $className])->render()
+        ]);
 
         return $this;
     }
