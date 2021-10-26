@@ -119,4 +119,10 @@ Route::group(['namespace' => 'TVHung\ACL\Http\Controllers', 'middleware' => ['we
     });
 
     Route::get('admin-theme/{theme}', [UserController::class, 'getTheme'])->name('admin.theme');
+    Route::group(['prefix' => BaseHelper::getAdminPrefix()], function () {
+        Route::post('/sidebar-menu/toggle', [
+            'as'   => 'admin.sidebar-menu.toggle',
+            'uses' => 'UserController@toggleSidebarMenu',
+        ]);
+    });
 });

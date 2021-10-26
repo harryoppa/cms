@@ -223,6 +223,7 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             } else {
                 $item = $this->getFirstBy($condition);
             }
+
             if (empty($item)) {
                 $item = new $this->model;
             }
@@ -234,12 +235,11 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             return false;
         }
 
+        $this->resetModel();
+
         if ($item->save()) {
-            $this->resetModel();
             return $item;
         }
-
-        $this->resetModel();
 
         return false;
     }

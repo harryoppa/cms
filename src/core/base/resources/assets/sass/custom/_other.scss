@@ -675,3 +675,19 @@ h4.modal-title {
         padding-right: 5px;
     }
 }
+
+.form-group:not(.mb-3) {
+    margin-bottom: 1rem;
+}
+
+.table > :not(:first-child) {
+    border-top: none;
+}
+
+.datepicker.dropdown-menu {
+    z-index: 1004 !important;
+}
+
+.page-sidebar-closed .page-footer {
+    margin-left: 45px;
+}

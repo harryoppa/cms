@@ -133,7 +133,7 @@ class Menu
             $item = $this->menuNodeRepository->getModel();
         }
 
-        $item->title = Arr::get($menuItem, 'title');
+        $item->title = str_replace('&amp;', '&', Arr::get($menuItem, 'title'));
         $item->css_class = Arr::get($menuItem, 'class');
         $item->position = Arr::get($menuItem, 'position');
         $item->icon_font = Arr::get($menuItem, 'iconFont');

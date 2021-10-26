@@ -205,7 +205,7 @@ class Theme implements ThemeContract
         }
 
         // Is theme ready?
-        if (!$this->exists($theme)) {
+        if (!$this->exists($theme) && !app()->runningInConsole()) {
             throw new UnknownThemeException('Theme [' . $theme . '] not found.');
         }
 
@@ -280,7 +280,9 @@ class Theme implements ThemeContract
             // Require public theme config.
             $minorConfigPath = theme_path($this->theme . '/config.php');
 
-            $this->themeConfig['themes'][$this->theme] = $this->files->getRequire($minorConfigPath);
+            if ($this->files->exists($minorConfigPath)) {
+                $this->themeConfig['themes'][$this->theme] = $this->files->getRequire($minorConfigPath);
+            }
         }
 
         // Evaluate theme config.
@@ -984,8 +986,6 @@ class Theme implements ThemeContract
 
         $content->withHeaders([
             'CMS-Version'       => get_cms_version(),
-            'Authorization-At'  => setting('membership_authorization_at'),
-            'Activated-License' => !empty(setting('licensed_to')) ? 'Yes' : 'No',
         ]);
 
         return $content;

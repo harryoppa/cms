@@ -13,7 +13,7 @@ $values = (array)$values;
             $label = isset($line[1]) ? $line[1] : '';
             $disabled = isset($line[2]) ? $line[2] : '';
         @endphp
-        <label>
+        <label class="me-2">
             <input type="radio"
                    value="{{ $value }}"
                    {{ (string)$selected === (string)$value ? 'checked' : '' }}

@@ -5,6 +5,7 @@ namespace TVHung\Base\Traits;
 use TVHung\Base\Supports\Helper;
 use Exception;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use ReflectionClass;
 
 /**
@@ -69,7 +70,7 @@ trait LoadAndPublishDataTrait
     {
         $file = $this->getBasePath() . $this->getDashedNamespace() . '/config/' . $file . '.php';
 
-        if (!file_exists($file) && str_contains($file, plugin_path())) {
+        if (!file_exists($file) && Str::contains($file, plugin_path())) {
             $this->throwInvalidPluginError();
         }
 
@@ -137,7 +138,7 @@ trait LoadAndPublishDataTrait
     {
         $file = $this->getBasePath() . $this->getDashedNamespace() . '/routes/' . $file . '.php';
 
-        if (!file_exists($file) && str_contains($file, plugin_path())) {
+        if (!file_exists($file) && Str::contains($file, plugin_path())) {
             $this->throwInvalidPluginError();
         }
 

@@ -39,7 +39,7 @@ if (!function_exists('get_admin_email')) {
             return collect([]);
         }
 
-        $email = is_array($email) ? $email : json_decode($email, true);
+        $email = is_array($email) ? $email : (array)json_decode($email, true);
 
         return collect(array_filter($email));
     }

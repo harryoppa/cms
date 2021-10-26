@@ -1,4 +1,4 @@
-@extends('core/base::layouts.master')
+@extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     {!! Form::open(['route' => ['settings.email.edit']]) !!}
     <div class="max-width-1200 email-settings">

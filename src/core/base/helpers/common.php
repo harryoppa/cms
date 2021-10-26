@@ -4,6 +4,7 @@ use TVHung\Base\Facades\DashboardMenuFacade;
 use TVHung\Base\Facades\PageTitleFacade;
 use TVHung\Base\Supports\Editor;
 use TVHung\Base\Supports\PageTitle;
+use Illuminate\Support\Arr;
 
 if (!function_exists('anchor_link')) {
     /**
@@ -90,10 +91,14 @@ if (!function_exists('get_cms_version')) {
      */
     function get_cms_version(): string
     {
+        $version = '5.22';
+
         try {
-            return trim(get_file_data(core_path('VERSION'), false));
+            $core = get_file_data(core_path('core.json'));
+
+            return Arr::get($core, 'version', $version);
         } catch (Exception $exception) {
-            return '5.20';
+            return $version;
         }
     }
 }

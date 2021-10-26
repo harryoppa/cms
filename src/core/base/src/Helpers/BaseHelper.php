@@ -168,6 +168,14 @@ class BaseHelper
     /**
      * @return string
      */
+    public function getAdminMasterLayoutTemplate(): string
+    {
+        return apply_filters('base_filter_admin_master_layout_template', 'core/base::layouts.master');
+    }
+
+    /**
+     * @return string
+     */
     public function siteLanguageDirection()
     {
         return apply_filters(BASE_FILTER_SITE_LANGUAGE_DIRECTION, setting('locale_direction', 'ltr'));

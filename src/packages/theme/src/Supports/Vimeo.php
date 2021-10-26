@@ -2,8 +2,6 @@
 
 namespace TVHung\Theme\Supports;
 
-use Illuminate\Support\Arr;
-
 class Vimeo
 {
     /**

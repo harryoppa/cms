@@ -27,14 +27,14 @@
                 <button type="button" class="btn btn-secondary" id="change_slug">{{ trans('core/base::forms.edit') }}</button>
                 <button type="button" class="save btn btn-secondary" id="btn-ok">{{ trans('core/base::forms.ok') }}</button>
                 <button type="button" class="cancel button-link">{{ trans('core/base::forms.cancel') }}</button>
-                @if (Auth::user() && $preview)
+                @if (Auth::user() && $preview && $id)
                     <a class="btn btn-info btn-preview" target="_blank" href="{{ $previewURL }}">{{ trans('packages/slug::slug.preview') }}</a>
                 @endif
             </span>
 
             <input type="hidden" id="current-slug" name="{{ $name }}" value="{{ $value }}">
             <div data-url="{{ route('slug.create') }}" data-view="{{ rtrim(str_replace('--slug--', '', url($prefix) . '/' . config('packages.slug.general.pattern')), '/') . '/' }}" id="slug_id" data-id="{{ $id ?: 0 }}"></div>
-            <input type="hidden" name="slug_id" value="{{ $id ? : 0 }}">
+            <input type="hidden" name="slug_id" value="{{ $id ?: 0 }}">
         @endif
     @endif
 </div>

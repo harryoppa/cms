@@ -1,13 +1,30 @@
+let callbackWidgets = {};
 class BDashboard {
     static loadWidget(el, url, data, callback) {
+
+        const widgetItem = el.closest('.widget_item');
+        const widgetId = widgetItem.attr('id');
+        if (typeof (callback) !== 'undefined') {
+            callbackWidgets[widgetId] = callback;
+        }
+        const $collapseExpand = widgetItem.find('a.collapse-expand');
+        if ($collapseExpand.length && $collapseExpand.hasClass('collapse')) {
+            return;
+        }
+
         TVHung.blockUI({
             target: el,
             iconOnly: true,
             overlayColor: 'none'
         });
 
-        if (typeof data === 'undefined') {
+        if (typeof data === 'undefined' || data == null) {
             data = {};
+        }
+
+        const predefinedRange = widgetItem.find('select[name=predefined_range]');
+        if (predefinedRange.length) {
+            data.predefined_range = predefinedRange.val();
         }
 
         $.ajax({
@@ -21,6 +38,10 @@ class BDashboard {
                     el.html(res.data);
                     if (typeof (callback) !== 'undefined') {
                         callback();
+                    } else {
+                        if (callbackWidgets[widgetId]) {
+                            callbackWidgets[widgetId]();
+                        }
                     }
                     if (el.find('.scroller').length !== 0) {
                         TVHung.callScroll(el.find('.scroller'));
@@ -62,8 +83,8 @@ class BDashboard {
                 scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
                 scrollSpeed: 10, // px
 
-                // dragging ended
-                onEnd: () => {
+                // Changed sorting within list
+                onUpdate: () => {
                     let items = [];
                     $.each($('.widget_item'), (index, widget) => {
                         items.push($(widget).prop('id'));
@@ -155,11 +176,7 @@ class BDashboard {
                         $(document).removeClass('page-portlet-fullscreen');
                     }
 
-                    portlet.find('.portlet-title .fullscreen').tooltip('destroy');
-                    portlet.find('.portlet-title .tools > .reload').tooltip('destroy');
-                    portlet.find('.portlet-title .tools > .remove').tooltip('destroy');
-                    portlet.find('.portlet-title .tools > .config').tooltip('destroy');
-                    portlet.find('.portlet-title .tools > .collapse, .portlet > .portlet-title .tools > .expand').tooltip('destroy');
+                    portlet.find('[data-bs-toggle=tooltip]').tooltip('destroy');
 
                     portlet.remove();
                 },
@@ -178,12 +195,13 @@ class BDashboard {
         $(document).on('click', '.portlet > .portlet-title .tools > .collapse, .portlet .portlet-title .tools > .expand', event =>  {
             event.preventDefault();
             let _self = $(event.currentTarget);
+            let $portlet = _self.closest('.portlet');
             let state = $.trim(_self.data('state'));
             if (state === 'expand') {
-                _self.closest('.portlet').find('.portlet-body').removeClass('collapse').addClass('expand');
-                BDashboard.loadWidget(_self.closest('.portlet').find('.portlet-body'), _self.closest('.widget_item').attr('data-url'));
+                $portlet.find('.portlet-body').removeClass('collapse').addClass('expand');
+                BDashboard.loadWidget($portlet.find('.portlet-body'), _self.closest('.widget_item').attr('data-url'));
             } else {
-                _self.closest('.portlet').find('.portlet-body').removeClass('expand').addClass('collapse');
+                $portlet.find('.portlet-body').removeClass('expand').addClass('collapse');
             }
 
             $.ajax({
@@ -198,14 +216,26 @@ class BDashboard {
                 success: () => {
                     if (state === 'collapse') {
                         _self.data('state', 'expand');
+                        $portlet.find('.predefined-ranges').addClass('d-none');
+                        $portlet.find('a.reload').addClass('d-none');
+                        $portlet.find('a.fullscreen').addClass('d-none');
                     } else {
                         _self.data('state', 'collapse');
+                        $portlet.find('.predefined-ranges').removeClass('d-none');
+                        $portlet.find('a.reload').removeClass('d-none');
+                        $portlet.find('a.fullscreen').removeClass('d-none');
                     }
                 },
                 error: data =>  {
-                    TVHung.handleError(data);
+                    Botble.handleError(data);
                 }
             });
+        });
+
+        $(document).on('change', '.portlet select[name=predefined_range]', (e) => {
+            e.preventDefault();
+            const $this = $(e.currentTarget);
+            BDashboard.loadWidget($(e.currentTarget).closest('.portlet').find('.portlet-body'), $(e.currentTarget).closest('.widget_item').attr('data-url'));
         });
 
         let manage_widget_modal = $('#manage_widget_modal');

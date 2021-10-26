@@ -13,7 +13,7 @@ $values = (array)$values;
         $selected = isset($value[3]) ? (bool)$value[3] : false;
         $disabled = isset($value[4]) ? (bool)$value[4] : false;
     @endphp
-    <label>
+    <label class="mb-2">
         <input type="checkbox"
                value="{{ $currentValue }}"
                {{ $selected ? 'checked' : '' }}

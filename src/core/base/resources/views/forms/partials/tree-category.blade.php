@@ -20,7 +20,7 @@
                     target="_blank"
                     class="text-info"
                     data-bs-toggle="tooltip"
-                    title="{{ trans('core/base::forms.view_new_tab') }}">
+                    data-bs-original-title="{{ trans('core/base::forms.view_new_tab') }}">
                     <i class="fas fa-external-link-alt"></i>
                 </a>
             @endif
@@ -30,7 +30,7 @@
                     data-section="{{ route($deleteRoute, $category->id) }}"
                     role="button"
                     data-bs-toggle="tooltip"
-                    title="{{ trans('core/table::table.delete') }}">
+                    data-bs-original-title="{{ trans('core/table::table.delete') }}">
                     <i class="fa fa-trash"></i>
                 </a>
             @endif

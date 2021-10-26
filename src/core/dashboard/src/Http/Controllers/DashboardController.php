@@ -86,9 +86,10 @@ class DashboardController extends BaseController
             return !in_array($item->id, $availableWidgetIds);
         });
 
-        $userWidgets = collect($widgetData)->pluck('view')->all();
+        $statWidgets = collect($widgetData)->where('type', '!=', 'widget')->pluck('view')->all();
+        $userWidgets = collect($widgetData)->where('type', 'widget')->pluck('view')->all();
 
-        return view('core/dashboard::list', compact('widgets', 'userWidgets'));
+        return view('core/dashboard::list', compact('widgets', 'userWidgets', 'statWidgets'));
     }
 
     /**

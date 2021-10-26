@@ -1,4 +1,4 @@
-@extends('core/base::layouts.master')
+@extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     {!! Form::open(['route' => ['slug.settings']]) !!}
         <div class="max-width-1200">
@@ -33,7 +33,7 @@
                             <label class="text-title-field"
                                    for="slug_turn_off_automatic_url_translation_into_latin">{{ trans('packages/slug::slug.settings.turn_off_automatic_url_translation_into_latin') }}
                             </label>
-                            <label>
+                            <label class="me-2">
                                 <input type="radio" name="slug_turn_off_automatic_url_translation_into_latin"
                                        value="1"
                                        @if (SlugHelper::turnOffAutomaticUrlTranslationIntoLatin()) checked @endif>{{ trans('core/setting::setting.general.yes') }}

@@ -71,21 +71,21 @@ class Cache implements CacheInterface
      *
      * @param string $key Cache item key
      * @param mixed $value The data to store
-     * @param boolean $minutes The number of minutes to store the item
+     * @param boolean $seconds The number of minutes to store the item
      * @return bool
      * @throws FileNotFoundException
      */
-    public function put($key, $value, $minutes = false)
+    public function put($key, $value, $seconds = false)
     {
-        if (!$minutes) {
-            $minutes = $this->config['cache_time'];
+        if (!$seconds) {
+            $seconds = $this->config['cache_time'];
         }
 
         $key = $this->generateCacheKey($key);
 
         $this->storeCacheKey($key);
 
-        $this->cache->put($key, $value, $minutes);
+        $this->cache->put($key, $value, $seconds);
 
         return true;
     }

@@ -419,4 +419,16 @@ class UserController extends BaseController
             ->setNextUrl(route('users.index'))
             ->setMessage(trans('core/base::system.supper_revoked'));
     }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function toggleSidebarMenu(Request $request, BaseHttpResponse $response)
+    {
+        $status = $request->input('status') == 'true';
+        session()->put('sidebar-menu-toggle', $status ? now() : '');
+
+        return $response->setMessage($status);
+    }
 }

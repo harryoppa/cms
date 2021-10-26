@@ -2,11 +2,14 @@
 
 namespace TVHung\Support\Http\Middleware;
 
+use Closure;
+use Illuminate\Http\Request;
+
 class BaseMiddleware
 {
     /**
-     * @param $request
-     * @param $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, $next)
