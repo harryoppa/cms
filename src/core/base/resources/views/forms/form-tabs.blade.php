@@ -1,4 +1,4 @@
-@extends('core/base::layouts.master')
+@extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     @if ($showStart)
         {!! Form::open(Arr::except($formOptions, ['template'])) !!}

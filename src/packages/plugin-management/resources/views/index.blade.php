@@ -1,4 +1,4 @@
-@extends('core/base::layouts.master')
+@extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     <div id="plugin-list" class="clearfix app-grid--blank-slate row">
         @foreach ($list as $plugin)

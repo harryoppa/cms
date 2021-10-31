@@ -3,6 +3,7 @@
 namespace TVHung\Theme\Supports;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class Youtube
 {
@@ -14,13 +15,15 @@ class Youtube
     {
         $url = rtrim($url, '/');
 
-        if (str_contains($url, 'watch?v=')) {
+        if (Str::contains($url, 'watch?v=')) {
             $url = str_replace('watch?v=', 'embed/', $url);
         } else {
             $exploded = explode('/', $url);
 
             if (count($exploded) > 1) {
-                $url = 'https://www.youtube.com/embed/' . Arr::last($exploded);
+                $videoID = str_replace('embed', '', str_replace('watch?v=', '', Arr::last($exploded)));
+
+                $url = 'https://www.youtube.com/embed/' . $videoID;
             }
         }
 
@@ -35,13 +38,15 @@ class Youtube
     {
         $url = rtrim($url, '/');
 
-        if (str_contains($url, 'embed/')) {
+        if (Str::contains($url, 'embed/')) {
             $url = str_replace('embed/', 'watch?v=', $url);
         } else {
             $exploded = explode('/', $url);
 
             if (count($exploded) > 1) {
-                $url = 'https://www.youtube.com/watch?v=' . Arr::last($exploded);
+                $videoID = str_replace('embed', '', str_replace('watch?v=', '', Arr::last($exploded)));
+
+                $url = 'https://www.youtube.com/watch?v=' . $videoID;
             }
         }
 

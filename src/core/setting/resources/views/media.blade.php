@@ -1,4 +1,4 @@
-@extends('core/base::layouts.master')
+@extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     {!! Form::open(['route' => ['settings.media']]) !!}
     <div class="max-width-1200">
@@ -149,12 +149,12 @@
                         <label class="text-title-field"
                                for="media_turn_off_automatic_url_translation_into_latin">{{ trans('core/setting::setting.media.turn_off_automatic_url_translation_into_latin') }}
                         </label>
-                        <label class="hrv-label">
+                        <label class="me-2">
                             <input type="radio" name="media_turn_off_automatic_url_translation_into_latin" class="hrv-radio"
                                    value="1"
                                    @if (RvMedia::turnOffAutomaticUrlTranslationIntoLatin()) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                         </label>
-                        <label class="hrv-label">
+                        <label>
                             <input type="radio" name="media_turn_off_automatic_url_translation_into_latin" class="hrv-radio"
                                    value="0"
                                    @if (!RvMedia::turnOffAutomaticUrlTranslationIntoLatin()) checked @endif>{{ trans('core/setting::setting.general.no') }}
@@ -172,13 +172,13 @@
                         <label class="text-title-field"
                                for="media_chunk_enabled">{{ trans('core/setting::setting.media.enable_chunk') }}
                         </label>
-                        <label class="hrv-label">
-                            <input type="radio" name="media_chunk_enabled" class="hrv-radio"
+                        <label class="me-2">
+                            <input type="radio" name="media_chunk_enabled"
                                    value="1"
                                    @if (RvMedia::isChunkUploadEnabled()) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                         </label>
-                        <label class="hrv-label">
-                            <input type="radio" name="media_chunk_enabled" class="hrv-radio"
+                        <label>
+                            <input type="radio" name="media_chunk_enabled"
                                    value="0"
                                    @if (!RvMedia::isChunkUploadEnabled()) checked @endif>{{ trans('core/setting::setting.general.no') }}
                         </label>
@@ -202,12 +202,12 @@
                         <label class="text-title-field"
                                for="media_watermark_enabled">{{ trans('core/setting::setting.media.enable_watermark') }}
                         </label>
-                        <label class="hrv-label">
+                        <label class="me-2">
                             <input type="radio" name="media_watermark_enabled" class="hrv-radio"
                                    value="1"
                                    @if (setting('media_watermark_enabled', RvMedia::getConfig('watermark.enabled'))) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                         </label>
-                        <label class="hrv-label">
+                        <label>
                             <input type="radio" name="media_watermark_enabled" class="hrv-radio"
                                    value="0"
                                    @if (!setting('media_watermark_enabled', RvMedia::getConfig('watermark.enabled'))) checked @endif>{{ trans('core/setting::setting.general.no') }}

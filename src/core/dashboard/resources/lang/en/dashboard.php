@@ -15,4 +15,13 @@ return [
     'manage_widgets'          => 'Manage Widgets',
     'fullscreen'              => 'Full screen',
     'title'                   => 'Dashboard',
+    'predefined_ranges'       => [
+        'today'        => 'Today',
+        'yesterday'    => 'Yesterday',
+        'this_week'    => 'This Week',
+        'last_7_days'  => 'Last 7 Days',
+        'this_month'   => 'This Month',
+        'last_30_days' => 'Last 30 Days',
+        'this_year'    => 'This Year',
+    ],
 ];

@@ -10,10 +10,10 @@ mix.options({
 });
 
 // Run all webpack.mix.js in app
-// glob.sync('./src/**/**/webpack.mix.js').forEach(item => require(item));
+glob.sync('./src/**/**/webpack.mix.js').forEach(item => require(item));
 
 // require('./src/packages/[package]/webpack.mix.js');
 
-require('./src/core/base/webpack.mix');
+// require('./src/core/base/webpack.mix');
 
 // require('./src/core/dashboard/webpack.mix');

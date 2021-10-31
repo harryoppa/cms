@@ -40,7 +40,13 @@ class TableController extends Controller
      */
     public function getDataForBulkChanges(BulkChangeRequest $request)
     {
-        $object = $this->tableBuilder->create($request->input('class'));
+        $class = $request->input('class');
+
+        if (!$class || !class_exists($class)) {
+            return [];
+        }
+
+        $object = $this->tableBuilder->create($class);
 
         $data = $object->getValueInput(null, null, 'text');
         if (!$request->input('key')) {
@@ -96,7 +102,15 @@ class TableController extends Controller
         $inputKey = $request->input('key');
         $inputValue = $request->input('value');
 
-        $object = $this->tableBuilder->create($request->input('class'));
+        $class = $request->input('class');
+
+        if (!$class || !class_exists($class)) {
+            return $response
+                ->setError();
+        }
+
+        $object = $this->tableBuilder->create($class);
+
         $columns = $object->getBulkChanges();
 
         if (!empty($columns[$inputKey]['validate'])) {
@@ -130,7 +144,13 @@ class TableController extends Controller
      */
     public function getFilterInput(FilterRequest $request)
     {
-        $object = $this->tableBuilder->create($request->input('class'));
+        $class = $request->input('class');
+
+        if (!$class || !class_exists($class)) {
+            return [];
+        }
+
+        $object = $this->tableBuilder->create($class);
 
         $data = $object->getValueInput(null, null, 'text');
         if (!$request->input('key')) {

@@ -95,7 +95,7 @@ class MenuNestable {
                 html += '<div class="dd-handle dd3-handle"></div>';
                 html += '<div class="dd3-content">';
                 html += '<span class="text float-start" data-update="title">' + data_title + '</span>';
-                html += '<span class="text float-end">' + data_type + '</span>';
+                html += '<span class="text float-end">' + data_type.split('\\').pop() + '</span>';
                 html += '<a href="#" class="show-item-details"><i class="fa fa-angle-down"></i></a>';
                 html += '<div class="clearfix"></div>';
                 html += '</div>';
@@ -136,7 +136,7 @@ class MenuNestable {
                     html += '<div class="dd-handle dd3-handle"></div>';
                     html += '<div class="dd3-content">';
                     html += '<span class="text float-start" data-update="title">' + data_title + '</span>';
-                    html += '<span class="text float-end">' + data_type + '</span>';
+                    html += '<span class="text float-end">' + data_type.split('\\').pop() + '</span>';
                     html += '<a href="#" class="show-item-details"><i class="fa fa-angle-down"></i></a>';
                     html += '<div class="clearfix"></div>';
                     html += '</div>';

@@ -14,7 +14,7 @@
                 <label class="text-title-field"
                        for="optimize_page_speed_enable">{{ trans('packages/optimize::optimize.settings.enable') }}
                 </label>
-                <label>
+                <label class="me-2">
                     <input type="radio" name="optimize_page_speed_enable"
                            value="1"
                            @if (setting('optimize_page_speed_enable')) checked @endif>{{ trans('core/setting::setting.general.yes') }}

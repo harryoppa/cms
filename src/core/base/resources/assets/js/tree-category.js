@@ -95,14 +95,16 @@
 })(jQuery);
 
 $(() => {
-    $('.file-tree-wrapper').dragScroll();
+    $treeWrapper = $('.file-tree-wrapper');
+
+    $treeWrapper.dragScroll();
 
     const $formLoading = $('.tree-form-container').find('.tree-loading');
     const $treeLoading = $('.tree-categories-container').find('.tree-loading');
 
     function loadTree(activeId) {
         $treeLoading.removeClass('d-none');
-        $('.file-tree-wrapper')
+        $treeWrapper
             .filetree()
             .removeClass('d-none')
             .hide()

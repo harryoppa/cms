@@ -171,6 +171,23 @@ class AssetContainer
     }
 
     /**
+     * @param string $name
+     * @return array
+     */
+    public function get($name)
+    {
+        foreach ($this->assets as $type) {
+            foreach ($type as $assetKey => $asset) {
+                if ($assetKey == $name) {
+                    return $asset;
+                }
+            }
+        }
+
+        return [];
+    }
+
+    /**
      * Write a script to the container.
      *
      * @param string $name

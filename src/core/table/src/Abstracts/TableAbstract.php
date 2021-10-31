@@ -747,10 +747,18 @@ abstract class TableAbstract extends DataTable
         if ($request->has('filter_columns') && ($request->input('filter_table_id') == $this->getOption('id'))) {
             $requestFilters = [];
             foreach ($request->input('filter_columns') as $key => $item) {
+                $operator = $request->input('filter_operators.' . $key);
+
+                $value = $request->input('filter_values.' . $key);
+
+                if (is_array($operator) || is_array($value) || is_array($item)) {
+                    continue;
+                }
+
                 $requestFilters[] = [
                     'column'   => $item,
-                    'operator' => $request->input('filter_operators.' . $key),
-                    'value'    => $request->input('filter_values.' . $key),
+                    'operator' => $operator,
+                    'value'    => $value,
                 ];
             }
         }
@@ -936,7 +944,7 @@ abstract class TableAbstract extends DataTable
     public function renderFilter(): string
     {
         $tableId = $this->getOption('id');
-        $class = $this::class;
+        $class = get_class($this);
         $columns = $this->getFilters();
 
         $request = request();
@@ -951,10 +959,19 @@ abstract class TableAbstract extends DataTable
         if ($request->input('filter_columns')) {
             $requestFilters = [];
             foreach ($request->input('filter_columns', []) as $key => $item) {
+
+                $operator = $request->input('filter_operators.' . $key);
+
+                $value = $request->input('filter_values.' . $key);
+
+                if (is_array($operator) || is_array($value) || is_array($item)) {
+                    continue;
+                }
+
                 $requestFilters[] = [
                     'column'   => $item,
-                    'operator' => $request->input('filter_operators.' . $key),
-                    'value'    => $request->input('filter_values.' . $key),
+                    'operator' => $operator,
+                    'value'    => $value,
                 ];
             }
         }

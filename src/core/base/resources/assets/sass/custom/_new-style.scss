@@ -1519,6 +1519,8 @@ svg:not(:root) {
 }
 
 .ui-select-wrapper {
+    position: relative;
+
     .svg-next-icon,
     .next-icon-text {
         cursor: pointer;
@@ -1528,7 +1530,6 @@ svg:not(:root) {
         right: 7px;
         top: 9px;
         pointer-events: none;
-        z-index: 99999;
     }
 }
 

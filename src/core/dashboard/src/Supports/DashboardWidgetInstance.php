@@ -3,6 +3,7 @@
 namespace TVHung\Dashboard\Supports;
 
 use TVHung\Dashboard\Repositories\Interfaces\DashboardWidgetInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -68,6 +69,16 @@ class DashboardWidgetInstance
      * @var bool
      */
     public $hasLoadCallback = false;
+
+    /**
+     * @var array
+     */
+    public $settings = [];
+
+    /**
+     * @var array
+     */
+    public $predefinedRanges = [];
 
     /**
      * @return string
@@ -297,6 +308,90 @@ class DashboardWidgetInstance
         return $this;
     }
 
+
+    /**
+     * @param array $settings
+     * @return DashboardWidgetInstance
+     */
+    public function setSettings(array $settings): self
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
+    /**
+     * @param array $predefinedRanges
+     * @return DashboardWidgetInstance
+     */
+    public function setPredefinedRanges(array $predefinedRanges): self
+    {
+        $this->predefinedRanges = $predefinedRanges;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPredefinedRangesDefault(): array
+    {
+        $endDate = today()->endOfDay();
+
+        return [
+            [
+                'key'       => 'today',
+                'label'     => trans('core/dashboard::dashboard.predefined_ranges.today'),
+                'startDate' => today()->startOfDay(),
+                'endDate'   => $endDate,
+            ],
+            [
+                'key'       => 'yesterday',
+                'label'     => trans('core/dashboard::dashboard.predefined_ranges.yesterday'),
+                'startDate' => Carbon::yesterday()->startOfDay(),
+                'endDate'   => Carbon::yesterday()->endOfDay(),
+            ],
+            [
+                'key'       => 'this_week',
+                'label'     => trans('core/dashboard::dashboard.predefined_ranges.this_week'),
+                'startDate' => now()->startOfWeek(),
+                'endDate'   => now()->endOfWeek(),
+            ],
+            [
+                'key'       => 'last_7_days',
+                'label'     => trans('core/dashboard::dashboard.predefined_ranges.last_7_days'),
+                'startDate' => now()->subDays(7)->startOfDay(),
+                'endDate'   => $endDate,
+            ],
+            [
+                'key'       => 'this_month',
+                'label'     => trans('core/dashboard::dashboard.predefined_ranges.this_month'),
+                'startDate' => now()->startOfMonth(),
+                'endDate'   => $endDate,
+            ],
+            [
+                'key'       => 'last_30_days',
+                'label'     => trans('core/dashboard::dashboard.predefined_ranges.last_30_days'),
+                'startDate' => now()->subDays(29)->startOfDay(),
+                'endDate'   => $endDate,
+            ],
+            [
+                'key'       => 'this_year',
+                'label'     => trans('core/dashboard::dashboard.predefined_ranges.this_year'),
+                'startDate' => now()->startOfYear(),
+                'endDate'   => $endDate,
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getPredefinedRanges(): array
+    {
+        return $this->predefinedRanges ?: $this->getPredefinedRangesDefault();
+    }
+
     /**
      * @param array $widgets
      * @param Collection $widgetSettings
@@ -325,10 +420,13 @@ class DashboardWidgetInstance
             $widget->bodyClass = $this->bodyClass;
             $widget->column = $this->column;
 
+            $settings = array_merge($widgetSetting && $widgetSetting->settings ? $widgetSetting->settings : [], $this->settings);
+            $predefinedRanges = $this->getPredefinedRanges();
+
             $data = [
                 'id'   => $widget->id,
                 'type' => $this->type,
-                'view' => view('core/dashboard::widgets.base', compact('widget', 'widgetSetting'))->render(),
+                'view' => view('core/dashboard::widgets.base', compact('widget', 'settings', 'predefinedRanges'))->render(),
             ];
 
             if (empty($widgetSetting) || array_key_exists($widgetSetting->order, $widgets)) {
@@ -349,5 +447,27 @@ class DashboardWidgetInstance
         ];
 
         return $widgets;
+    }
+
+    /**
+     * @param string $filterRangeInput
+     * @return mixed
+     */
+    public function getFilterRange(?string $filterRangeInput)
+    {
+        $predefinedRanges = $this->getPredefinedRanges();
+        $predefinedRanges = collect($predefinedRanges);
+
+        if (!$filterRangeInput) {
+            return $predefinedRanges->first();
+        }
+
+        $predefinedRangeFound = $predefinedRanges->firstWhere('key', $filterRangeInput);
+
+        if ($predefinedRangeFound) {
+            return $predefinedRangeFound;
+        }
+
+        return $predefinedRanges->first();
     }
 }

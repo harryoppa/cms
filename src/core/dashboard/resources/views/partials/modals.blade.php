@@ -35,7 +35,7 @@
                             <i class="{{ $widget->icon ?? 'box_img_sale ' . $widget->name }} @if ($widget_setting && $widget_setting->status == 0) widget_none_color @endif" style="background-color: {{ $widget->color ?? '#7c87b6' }}"></i>
                             <span class="widget_name">{{ $widget->title }}</span>
                             <div class="swc_wrap">
-                                {!! Form::onOff('widgets[' . $widget->name . ']', $widget_setting ? $widget_setting->status : true, ['data-target' => $widget->name]) !!}
+                                {!! Form::onOff('widgets[' . $widget->name . ']', $widget_setting ? $widget_setting->status : true) !!}
                             </div>
                         </section>
                     @endforeach

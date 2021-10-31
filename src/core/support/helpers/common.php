@@ -45,9 +45,9 @@ if (!function_exists('get_file_data')) {
      * @param bool $convertToArray
      * @return bool|mixed
      */
-    function get_file_data($file, $convertToArray = true)
+    function get_file_data($file, $toArray = true)
     {
-        return BaseHelper::getFileData($file, $convertToArray);
+        return BaseHelper::getFileData($file, $toArray);
     }
 }
 

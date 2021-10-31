@@ -1,4 +1,4 @@
-@extends('core/base::layouts.master')
+@extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     <div id="main-settings">
         <license-component
@@ -74,7 +74,7 @@
                             <label class="text-title-field"
                                    for="locale_direction">{{ trans('core/setting::setting.general.locale_direction') }}
                             </label>
-                            <label>
+                            <label class="me-2">
                                 <input type="radio" name="locale_direction" value="ltr"
                                        @if (setting('locale_direction', 'ltr') == 'ltr') checked @endif>{{ trans('core/setting::setting.locale_direction_ltr') }}
                             </label>
@@ -132,7 +132,7 @@
                                    for="admin-login-screen-backgrounds">{{ trans('core/setting::setting.general.admin_login_screen_backgrounds') }}
                             </label>
                             <div class="admin-login-screen-backgrounds-setting">
-                                {!! Form::mediaImages('login_screen_backgrounds[]', setting('login_screen_backgrounds', [])) !!}
+                                {!! Form::mediaImages('login_screen_backgrounds[]', is_array(setting('login_screen_backgrounds', '')) ? setting('login_screen_backgrounds', '') : json_decode(setting('login_screen_backgrounds', ''), true)) !!}
                             </div>
                         </div>
 
@@ -148,7 +148,7 @@
                             <label class="text-title-field"
                                    for="admin_locale_direction">{{ trans('core/setting::setting.general.admin_locale_direction') }}
                             </label>
-                            <label>
+                            <label class="me-2">
                                 <input type="radio" name="admin_locale_direction" value="ltr"
                                        @if (setting('admin_locale_direction', 'ltr') == 'ltr') checked @endif>{{ trans('core/setting::setting.locale_direction_ltr') }}
                             </label>
@@ -163,7 +163,7 @@
                             <label class="text-title-field"
                                    for="rich_editor">{{ trans('core/setting::setting.general.rich_editor') }}
                             </label>
-                            <label>
+                            <label class="me-2">
                                 <input type="radio" name="rich_editor" value="ckeditor"
                                        @if (BaseHelper::getRichEditor() == 'ckeditor') checked @endif>CKEditor
                             </label>
@@ -219,7 +219,7 @@
                             <label class="text-title-field"
                                    for="enable_cache">{{ trans('core/setting::setting.general.enable_cache') }}
                             </label>
-                            <label>
+                            <label class="me-2">
                                 <input type="radio" name="enable_cache" value="1" @if (setting('enable_cache')) checked @endif>
                                 {{ trans('core/setting::setting.general.yes') }}
                             </label>
@@ -240,7 +240,7 @@
                             <label class="text-title-field"
                                    for="enable_cache">{{ trans('core/setting::setting.general.cache_admin_menu') }}
                             </label>
-                            <label>
+                            <label class="me-2">
                                 <input type="radio" name="cache_admin_menu_enable" value="1" @if (setting('cache_admin_menu_enable')) checked @endif>
                                 {{ trans('core/setting::setting.general.yes') }}
                             </label>

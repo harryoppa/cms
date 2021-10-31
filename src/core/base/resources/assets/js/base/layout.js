@@ -144,22 +144,37 @@ class Layout {
     handleSidebarToggler() {
         // handle sidebar show/hide
         let body = this.$body;
-        this.$body.on('click', '#sidebar-toggler', event =>  {
+        const _self = this;
+        this.$body.on('click', '.sidebar-toggler', event =>  {
             event.preventDefault();
             let sidebarMenu = $('.page-sidebar-menu');
 
             if (body.hasClass('page-sidebar-closed')) {
                 body.removeClass('page-sidebar-closed');
                 sidebarMenu.removeClass('page-sidebar-menu-closed');
+                _self._toggleSidebarMenu();
             } else {
                 body.addClass('page-sidebar-closed');
                 sidebarMenu.addClass('page-sidebar-menu-closed');
                 if (body.hasClass('page-sidebar-fixed')) {
                     sidebarMenu.trigger('mouseleave');
                 }
+                _self._toggleSidebarMenu(true);
             }
 
             $(window).trigger('resize');
+        });
+    }
+
+    _toggleSidebarMenu(status = false) {
+        $.ajax({
+            url: route('admin.sidebar-menu.toggle'),
+            type: 'POST',
+            dataType: 'json',
+            data: {status},
+            error: (data) => {
+                Botble.handleError(data);
+            }
         });
     }
 

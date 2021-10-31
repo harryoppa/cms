@@ -7,7 +7,7 @@
                 <i class="fa fa-angle-down narrow-icon"></i>
             </h4>
         </a>
-        <div id="{{ $id }}" class="panel-collapse collapse">
+        <div id="{{ $id }}" class="panel-collapse collapse @if (Str::slug($name) == 'pages') show @endif">
             <div class="widget-body">
                 <div class="box-links-for-menu">
                     <div class="the-box">

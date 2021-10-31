@@ -227,10 +227,9 @@ class EmailHandler
         try {
 
             if (empty($to)) {
-                $to = setting('admin_email', setting('email_from_address', config('mail.from.address')));
-
-                if (!is_array($to)) {
-                    $to = json_decode($to, true);
+                $to = get_admin_email()->toArray();
+                if (empty($to)) {
+                    $to = setting('email_from_address', config('mail.from.address'));
                 }
             }
 

@@ -3,12 +3,12 @@
         <div class="portlet light bordered portlet-no-padding @if ($widget->hasLoadCallback) widget-load-has-callback @endif">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="{{ $widget->icon }} font-dark" style="font-weight: 700;"></i>
+                    <i class="{{ $widget->icon }} font-dark fw-bold"></i>
                     <span class="caption-subject font-dark">{{ $widget->title }}</span>
                 </div>
-                @include('core/dashboard::partials.tools', ['settings' => !empty($widgetSetting) ? $widgetSetting->settings : []])
+                @include('core/dashboard::partials.tools')
             </div>
-            <div class="portlet-body @if ($widget->isEqualHeight) equal-height @endif widget-content {{ $widget->bodyClass }} {{ Arr::get(!empty($widgetSetting) ? $widgetSetting->settings : [], 'state') }}"></div>
+            <div class="portlet-body @if ($widget->isEqualHeight) equal-height @endif widget-content {{ $widget->bodyClass }} {{ Arr::get($settings, 'state') }}"></div>
         </div>
     </div>
 @endif
