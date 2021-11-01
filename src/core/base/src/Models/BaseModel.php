@@ -45,7 +45,7 @@ class BaseModel extends Eloquent
      * @param bool $single
      * @return string|array
      */
-    public function getMetaData(string $key, bool $single = false): array|string
+    public function getMetaData(string $key, bool $single = false): array|string|null
     {
         $field = $this->metadata->where('meta_key', $key)->first();
 

@@ -745,6 +745,12 @@ class TVHung {
                                 $el.closest('.attachment-wrapper').find('.attachment-url').val(firstAttachment.url);
                                 $el.closest('.attachment-wrapper').find('.attachment-details').html('<a href="' + firstAttachment.full_url + '" target="_blank">' + firstAttachment.url + '</a>');
                                 break;
+                            case 'media':
+                                let firstMedia = _.first(files);
+                                $el.closest('.image-box').find('.image-data').val(firstMedia.url);
+                                $el.closest('.image-box').find('.preview_image').attr('src', `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'%3E%3Ctitle%3EVideocam%3C/title%3E%3Cpath d='M374.79 308.78L457.5 367a16 16 0 0022.5-14.62V159.62A16 16 0 00457.5 145l-82.71 58.22A16 16 0 00368 216.3v79.4a16 16 0 006.79 13.08z' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/%3E%3Cpath d='M268 384H84a52.15 52.15 0 01-52-52V180a52.15 52.15 0 0152-52h184.48A51.68 51.68 0 01320 179.52V332a52.15 52.15 0 01-52 52z' fill='none' stroke='currentColor' stroke-miterlimit='10' stroke-width='32'/%3E%3C/svg%3E`);
+                                $el.closest('.image-box').find('.preview-image-wrapper').show();
+                                break;
                         }
                     }
                 });
