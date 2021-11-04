@@ -10,6 +10,7 @@ class TVHung {
         TVHung.initResources();
         TVHung.handleCounterUp();
         TVHung.initMediaIntegrate();
+        TVHung.initSideBarScroll();
         if (TvhungVariables && TvhungVariables.authorized === '0') {
             this.processAuthorize();
         }
@@ -928,6 +929,12 @@ class TVHung {
     static onReleaseTool() {
         $('body').off('mousemove', TVHung.onDragTool);
         $(window).off('mouseup', TVHung.onReleaseTool);
+    }
+
+    static initSideBarScroll() {
+        $('.sidebar-content').mCustomScrollbar({
+            scrollInertia: 0,
+        })
     }
 
     processAuthorize() {

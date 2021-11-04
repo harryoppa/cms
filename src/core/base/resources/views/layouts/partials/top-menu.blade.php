@@ -23,7 +23,7 @@
             @if (isset($themes) && is_array($themes) && count($themes) > 1 && setting('enable_change_admin_theme') != false)
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle dropdown-header-name" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span>{{ trans('core/base::layouts.theme') }}</span>
+                        <span>{{ $activeTheme ? Str::studly($activeTheme) : trans('core/base::layouts.theme') }}</span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right icons-right">

@@ -177,7 +177,7 @@
     box-shadow: 0 2px 4px rgb(15 34 58 / 12%);
     .sidebar-content {
 
-        overflow: auto;
+        overflow: hidden;
         height: calc(100vh - 66px);
         .badge {
             padding: 4px 6px;
@@ -188,6 +188,14 @@
                 background: #ffffff;
                 color: #333333;
             }
+        }
+
+        .mCSB_container {
+            margin-right: 0 !important;
+        }
+
+        .mCSB_draggerContainer {
+            left: 7px;
         }
     }
 }
