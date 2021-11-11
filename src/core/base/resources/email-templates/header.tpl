@@ -150,9 +150,6 @@
                                bgcolor="#ffffff" style="background-color: #ffffff;border-spacing: 0;max-width :  776px; min-width :  280px; ">
                             <!--start space height -->
                             <tbody>
-                            <tr>
-                                <td height="30" style="border-collapse: collapse;"></td>
-                            </tr>
                             <!--end space height -->
                             <tr>
                                 <td style="min-height: 400px; padding: 0 35px; font-size: 13px;">
