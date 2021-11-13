@@ -545,7 +545,7 @@
                 __thumb__
             </div>
             <div class="rv-media-description">
-                <div class="title title{{Request::get('file_id')}}">__name__</div>
+                <div class="title title{{ Request::input('file_id') }}">__name__</div>
             </div>
         </div>
     </li>

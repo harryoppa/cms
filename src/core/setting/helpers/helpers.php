@@ -9,7 +9,7 @@ if (!function_exists('setting')) {
      *
      * @param string|null $key
      * @param string|null $default
-     * @return array|\Botble\Setting\Supports\SettingStore|string|null
+     * @return array|\TVHung\Setting\Supports\SettingStore|string|null
      */
     function setting($key = null, $default = null)
     {

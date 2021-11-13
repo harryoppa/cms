@@ -227,7 +227,7 @@ class BDashboard {
                     }
                 },
                 error: data =>  {
-                    Botble.handleError(data);
+                    TVHung.handleError(data);
                 }
             });
         });

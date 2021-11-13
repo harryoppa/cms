@@ -391,21 +391,46 @@ class TVHung {
 
     static initResources() {
         if (jQuery().select2) {
-            $(document).find('.select-multiple').select2({
-                width: '100%',
-                allowClear: true,
-                theme: 'bootstrap4',
+            $.each($(document).find('.select-multiple'), function (index, element) {
+                let options = {
+                    width: '100%',
+                    allowClear: true,
+                    theme: 'bootstrap4',
+                };
+
+                let parent = $(element).closest('.modal');
+                if (parent.length) {
+                    options.dropdownParent = parent;
+                }
+
+                $(element).select2(options);
             });
 
-            $(document).find('.select-search-full').select2({
-                width: '100%',
-                theme: 'bootstrap4',
+            $.each($(document).find('.select-search-full'), function (index, element) {
+                let options = {
+                    width: '100%',
+                };
+
+                let parent = $(element).closest('.modal');
+                if (parent.length) {
+                    options.dropdownParent = parent;
+                }
+
+                $(element).select2(options);
             });
 
-            $(document).find('.select-full').select2({
-                width: '100%',
-                minimumResultsForSearch: -1,
-                theme: 'bootstrap4',
+            $.each($(document).find('.select-full'), function (index, element) {
+                let options = {
+                    width: '100%',
+                    minimumResultsForSearch: -1
+                };
+
+                let parent = $(element).closest('.modal');
+                if (parent.length) {
+                    options.dropdownParent = parent;
+                }
+
+                $(element).select2(options);
             });
 
             $('select[multiple].select-sorting').on('select2:select', function (evt) {
@@ -416,16 +441,15 @@ class TVHung {
                 $(this).trigger('change');
             });
 
-            $.each($(document).find('.select-search-ajax'), function (index, value) {
-                const $elSelect = $(value);
-                if ($elSelect.data('url')) {
-                    $elSelect.select2({
-                        placeholder: $elSelect.data('placeholder') || '--Select--',
-                        minimumInputLength: $elSelect.data('minimum-input') || 1,
+            $.each($(document).find('.select-search-ajax'), function (index, element) {
+                if ($(element).data('url')) {
+                    let options = {
+                        placeholder: $(element).data('placeholder') || '--Select--',
+                        minimumInputLength: $(element).data('minimum-input') || 1,
                         width: '100%',
                         delay: 250,
                         ajax: {
-                            url: $elSelect.data('url'),
+                            url: $(element).data('url'),
                             dataType: 'json',
                             type: $(value).data('type') || 'GET',
                             quietMillis: 50,
@@ -464,7 +488,14 @@ class TVHung {
                             cache: true
                         },
                         allowClear: true
-                    });
+                    };
+
+                    let parent = $(element).closest('.modal');
+                    if (parent.length) {
+                        options.dropdownParent = parent;
+                    }
+
+                    $(element).select2(options);
                 }
             });
         }
@@ -643,11 +674,8 @@ class TVHung {
 
     static callScroll(obj) {
         obj.mCustomScrollbar({
-            axis: 'yx',
-            theme: 'minimal-dark',
-            scrollButtons: {
-                enable: true
-            },
+            theme: 'dark',
+            scrollInertia: 0,
             callbacks: {
                 whileScrolling: function () {
                     obj.find('.tableFloatingHeaderOriginal').css({
@@ -656,6 +684,7 @@ class TVHung {
                 }
             }
         });
+
         obj.stickyTableHeaders({scrollableArea: obj, 'fixedOffset': 2});
     }
 
@@ -663,7 +692,7 @@ class TVHung {
         if ($('#waypoint').length > 0) {
             new Waypoint({
                 element: document.getElementById('waypoint'),
-                handler: (direction) => {
+                handler: direction => {
                     if (direction === 'down') {
                         $('.form-actions-fixed-top').removeClass('hidden');
                     } else {

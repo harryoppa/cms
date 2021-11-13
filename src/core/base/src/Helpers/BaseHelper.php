@@ -251,4 +251,23 @@ class BaseHelper
     {
         return array_insert($array, $pairs, $key, $position);
     }
+
+    /**
+     * @param string $url
+     * @param string|array $key
+     * @return false|mixed|string
+     */
+    public function removeQueryStringVars($url, $key)
+    {
+        if (!is_array($key)) {
+            $key = [$key];
+        }
+
+        foreach ($key as $item) {
+            $url = preg_replace('/(.*)(?|&)' . $item . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
+            $url = substr($url, 0, -1);
+        }
+
+        return $url;
+    }
 }

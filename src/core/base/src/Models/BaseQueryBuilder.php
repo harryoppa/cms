@@ -11,7 +11,7 @@ class BaseQueryBuilder extends Builder
      * @param string|null $term
      * @return BaseQueryBuilder
      */
-    public function addSearch(string $column, ?string $term)
+    public function addSearch(string $column, ?string $term, $isPartial = true)
     {
         $searchTerms = explode(' ', $term);
 
@@ -22,7 +22,9 @@ class BaseQueryBuilder extends Builder
             $searchTerm = str_replace('\\', $this->getBackslashByPdo(), $searchTerm);
             $searchTerm = addcslashes($searchTerm, '%_');
 
-            $this->orWhereRaw($sql, ['%' . $searchTerm . '%', '\\']);
+            $isPartial
+                ? $this->orWhereRaw($sql, ['%' . $searchTerm . '%', '\\'])
+                : $this->orWhere($column, $searchTerm);
         }
 
         return $this;

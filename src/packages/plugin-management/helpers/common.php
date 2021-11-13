@@ -18,18 +18,13 @@ if (!function_exists('is_plugin_active')) {
      */
     function is_plugin_active($alias)
     {
+        if (!in_array($alias, get_active_plugins())) {
+            return false;
+        }
+
         $path = plugin_path($alias);
 
-        if (!File::isDirectory($path) || !File::exists($path . '/plugin.json')) {
-            return false;
-        }
-
-        $content = get_file_data($path . '/plugin.json');
-        if (empty($content)) {
-            return false;
-        }
-
-        return class_exists($content['provider']);
+        return File::isDirectory($path) && File::exists($path . '/plugin.json');
     }
 }
 

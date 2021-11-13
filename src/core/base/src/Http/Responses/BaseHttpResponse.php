@@ -191,6 +191,10 @@ class BaseHttpResponse implements Responsable
                 $json['next_url'] = $this->nextUrl;
             }
 
+            if ($this->additional) {
+                $json = array_merge($json, ['additional' => $this->additional]);
+            }
+
             return response()
                 ->json($json, $this->code);
         }

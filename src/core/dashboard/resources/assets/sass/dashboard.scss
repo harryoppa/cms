@@ -678,3 +678,17 @@
         min-height: 370px;
     }
 }
+
+.predefined-ranges {
+    &.ui-select-wrapper {
+        .ui-select {
+            height: auto !important;
+            padding-right: 20px;
+        }
+
+        .svg-next-icon {
+            top: 4px;
+            right: 3px;
+        }
+    }
+}

@@ -80,7 +80,11 @@ class Shortcode
         $this->enable();
 
         // return compiled contents
-        return $this->compiler->compile($value);
+        $html = $this->compiler->compile($value);
+
+        $this->disable();
+
+        return $html;
     }
 
     /**

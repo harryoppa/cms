@@ -11,8 +11,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->booted(function () {
-            $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
-        });
+        $this->loadRoutesFrom(package_path('page/routes/web.php'));
     }
 }

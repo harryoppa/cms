@@ -6,12 +6,15 @@
         }
     @endphp
     @if (Arr::get($settings, 'show_predefined_ranges', false) && count($predefinedRanges))
-        <div class="predefined-ranges d-inline-block {{ $hiddenIcons }}">
-            <select name="predefined_range" class="form-control py-0">
+        <div class="predefined-ranges ui-select-wrapper d-inline-block {{ $hiddenIcons }}">
+            <select name="predefined_range" class="ui-select py-0">
                 @foreach ($predefinedRanges as $key => $item)
                     <option value="{{ $item['key'] }}">{{ $item['label'] }}</option>
                 @endforeach
             </select>
+            <svg class="svg-next-icon svg-next-icon-size-16">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select-chevron"></use>
+            </svg>
         </div>
     @endif
 

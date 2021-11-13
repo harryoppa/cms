@@ -56,10 +56,9 @@ class PageServiceProvider extends ServiceProvider
 
         $this->app->booted(function () {
             $this->app->register(HookServiceProvider::class);
+            $this->app->register(RouteServiceProvider::class);
         });
 
         $this->app->register(EventServiceProvider::class);
-
-        $this->app->register(RouteServiceProvider::class);
     }
 }

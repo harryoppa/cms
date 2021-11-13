@@ -173,7 +173,7 @@ class Layout {
             dataType: 'json',
             data: {status},
             error: (data) => {
-                Botble.handleError(data);
+                TVHung.handleError(data);
             }
         });
     }

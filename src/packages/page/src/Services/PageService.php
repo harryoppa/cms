@@ -58,12 +58,13 @@ class PageService
             $meta->setDescription($page->description);
         } else {
             $siteTitle = theme_option('seo_title') ? theme_option('seo_title') : theme_option('site_title');
+            $seoDescription = theme_option('seo_description');
 
             SeoHelper::setTitle($siteTitle)
-                ->setDescription(theme_option('seo_description'));
+                ->setDescription($seoDescription);
 
             $meta->setTitle($siteTitle);
-            $meta->setDescription(theme_option('seo_description'));
+            $meta->setDescription($seoDescription);
         }
 
         $meta->setUrl($page->url);

@@ -70,7 +70,6 @@
     img {
         height: 150px;
         max-width: 100%;
-        border-radius: 5px;
     }
 
     &.preview-image-wrapper-not-allow-thumb {
@@ -144,7 +143,7 @@
         padding: 0;
         min-height: 45px;
         border-radius: 0 !important;
-        background: #34c38f;
+        background: #36c6d3;
         border: none;
         line-height: 45px;
         color: #ffffff;
@@ -434,6 +433,12 @@ h4.modal-title {
     }
 }
 
+.form-group .ui-select-wrapper {
+    .select2-container {
+        z-index: 0;
+    }
+}
+
 .widget-title > h4 .control-label {
     padding-left: 10px;
 }
@@ -559,12 +564,12 @@ h4.modal-title {
 }
 
 .half-circle-spinner .circle.circle-1 {
-    border-top-color: #34c38f;
+    border-top-color: #36c6d3;
     animation: half-circle-spinner-animation 1s infinite;
 }
 
 .half-circle-spinner .circle.circle-2 {
-    border-bottom-color: #34c38f;
+    border-bottom-color: #36c6d3;
     animation: half-circle-spinner-animation 1s infinite alternate;
 }
 
@@ -667,19 +672,6 @@ h4.modal-title {
     margin-bottom: 1rem;
 }
 
-.open-link {
-    &:before {
-        font-family: "Font Awesome 5 Free";
-        content: "\f35d";
-        font-weight: 900;
-        padding-right: 5px;
-    }
-}
-
-.form-group:not(.mb-3) {
-    margin-bottom: 1rem;
-}
-
 .table > :not(:first-child) {
     border-top: none;
 }
@@ -690,4 +682,20 @@ h4.modal-title {
 
 .page-sidebar-closed .page-footer {
     margin-left: 45px;
+}
+
+.ck.ck-content {
+    ul,
+    ul li {
+        list-style-type: inherit;
+    }
+
+    ol,
+    ol li {
+        list-style-type: decimal;
+    }
+
+    ul, ol {
+        padding-left: 25px;
+    }
 }

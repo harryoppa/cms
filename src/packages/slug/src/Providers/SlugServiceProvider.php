@@ -36,12 +36,14 @@ class SlugServiceProvider extends ServiceProvider
         $this->app->singleton(SlugHelper::class, function () {
             return new SlugHelper;
         });
+
+        $this->setNamespace('packages/slug')
+            ->loadHelpers();
     }
 
     public function boot()
     {
-        $this->setNamespace('packages/slug')
-            ->loadHelpers()
+        $this
             ->loadAndPublishConfigurations(['general'])
             ->loadAndPublishViews()
             ->loadRoutes(['web'])
@@ -49,7 +51,6 @@ class SlugServiceProvider extends ServiceProvider
             ->loadMigrations()
             ->publishAssets();
 
-        $this->app->register(FormServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
         $this->app->register(CommandServiceProvider::class);
 
@@ -67,7 +68,13 @@ class SlugServiceProvider extends ServiceProvider
         });
 
         $this->app->booted(function () {
+            $this->app->register(FormServiceProvider::class);
+
             foreach (array_keys($this->app->make(SlugHelper::class)->supportedModels()) as $item) {
+                if (!class_exists($item)) {
+                    continue;
+                }
+
                 /**
                  * @var BaseModel $item
                  */
@@ -102,7 +109,7 @@ class SlugServiceProvider extends ServiceProvider
                             return url('');
                         }
 
-                        if ($this::class == Page::class && BaseHelper::isHomepage($this->id)) {
+                        if (get_class($this) == Page::class && BaseHelper::isHomepage($this->id)) {
                             return url('');
                         }
 

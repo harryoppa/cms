@@ -33,7 +33,7 @@ class LocaleMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $this->app->setLocale(setting('locale', config('app.locale')));
+        $this->app->setLocale(config('app.locale'));
 
         if (!$request->session()->has('site-locale')) {
             return $next($request);

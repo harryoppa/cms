@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Arr;
+use TVHung\Base\Facades\ActionFacade as Action;
+use TVHung\Base\Facades\FilterFacade as Filter;
 
 if (!function_exists('add_filter')) {
     /**

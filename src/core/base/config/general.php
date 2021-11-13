@@ -540,7 +540,7 @@ return [
     'purifier'  => [
         'default' => [
             'HTML.Doctype'             => 'HTML 4.01 Transitional',
-            'HTML.Allowed'             => 'div,b,strong,i,em,u,a[href|title],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|style],button,svg',
+            'HTML.Allowed'             => 'div,b,strong,i,em,u,a[href|title|rel],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|style],button',
             'HTML.AllowedElements'     => [
                 'a',
                 'b',
@@ -594,7 +594,7 @@ return [
                 'svg',
             ],
             'HTML.SafeIframe'          => 'true',
-            'URI.SafeIframeRegexp'     => env('CMS_IFRAME_FILTER_URL_REGEX', '%^(http://|https://|//)(www.youtube.com/embed/|player.vimeo.com/video/)%'),
+            'URI.SafeIframeRegexp'     => env('CMS_IFRAME_FILTER_URL_REGEX', '%^(http://|https://|//)(' . env('CMS_IFRAME_ALLOWED_URLS', 'www.youtube.com/embed/|player.vimeo.com/video/') . ')%'),
             'CSS.AllowedProperties'    => [
                 'font',
                 'font-size',
@@ -627,6 +627,9 @@ return [
             ['u', 'Inline', 'Inline', 'Common'],
             ['button', 'Inline', 'Inline', 'Common'],
             ['svg', 'Inline', 'Inline', 'Common']
+        ],
+        'custom_attributes' => [
+            ['a', 'rel', 'Text'],
         ],
     ],
 ];
