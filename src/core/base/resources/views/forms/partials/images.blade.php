@@ -2,6 +2,10 @@
     @php
         $values = $values == '[null]' ? '[]' : $values;
         $attributes = isset($attributes) ? $attributes : [];
+
+        if (!str_contains($name, '[]')) {
+            $name .= '[]';
+        }
     @endphp
     @php $images = old($name, !is_array($values) ? json_decode($values) : $values); @endphp
     <div class="images-wrapper">

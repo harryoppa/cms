@@ -110,11 +110,11 @@ class MembershipAuthorization
      */
     protected function processAuthorize(): bool
     {
-        $this->client->post('https://tranvinhhung.com/membership/authorize', [
-            'form_params' => [
-                'website' => $this->url,
-            ],
-        ]);
+        // $this->client->post('https://tranvinhhung.com/membership/authorize', [
+        //     'form_params' => [
+        //         'website' => $this->url,
+        //     ],
+        // ]);
 
         $this->settingStore
             ->set('membership_authorization_at', now()->toDateTimeString())
