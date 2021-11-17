@@ -59,7 +59,7 @@ abstract class PageSpeed
      */
     protected function isEnable()
     {
-        return setting('optimize_page_speed_enable', false);
+        return !is_in_admin() && setting('optimize_page_speed_enable', false);
     }
 
     /**
