@@ -17,6 +17,24 @@ class InsertDNSPrefetch extends PageSpeed
             PREG_OFFSET_CAPTURE
         );
 
+        $profileCms = env('SHOW_PROFILE') ? "
+        <!--
+
+
+    
+        _                           _       _       _                                          
+        | |_ _ __ __ _ _ __   __   _(_)_ __ | |__   | |__  _   _ _ __   __ _     _ __ ___   ___ 
+        | __| '__/ _` | '_ \  \ \ / | | '_ \| '_ \  | '_ \| | | | '_ \ / _` |   | '_ ` _ \ / _ \
+        | |_| | | (_| | | | |  \ V /| | | | | | | | | | | | |_| | | | | (_| |  _| | | | | |  __/
+         \__|_|  \__,_|_| |_|   \_/ |_|_| |_|_| |_| |_| |_|\__,_|_| |_|\__, | (_|_| |_| |_|\___|
+                                                                  |___/                    
+        
+        
+        
+                                                                -->
+        
+        " : '';
+
         $dnsPrefetch = collect($match[0])->map(function ($item) {
             $domain = (new TrimUrls)->apply($item[0]);
             $domain = explode(
@@ -28,7 +46,7 @@ class InsertDNSPrefetch extends PageSpeed
         })->unique()->implode("\n");
 
         $replace = [
-            '#<head>(.*?)#' => '<head>' . "\n" . $dnsPrefetch,
+            '#<head>(.*?)#' => '<head>' . "\n" . $dnsPrefetch . "\n" . $profileCms,
         ];
 
         return $this->replace($replace, $buffer);
