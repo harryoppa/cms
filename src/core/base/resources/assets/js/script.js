@@ -741,6 +741,12 @@ class TVHung {
                                         content += '<iframe width="420" height="315" src="' + link + '" frameborder="0" allowfullscreen></iframe><br />';
                                     } else if (file.type === 'image') {
                                         content += '<img src="' + link + '" alt="' + file.name + '" /><br />';
+                                    } else if (file.type === 'document' && file.mime_type === 'application/pdf') {
+                                        html += `
+                                        <div style="height: 900px" class="embed-responsive embed-responsive-16by9 mb30">
+                                            <iframe allowfullscreen="true" frameborder="0" height="900" src="${link}" width="100%"></iframe>
+                                        </div>
+                                        `
                                     } else {
                                         content += '<a href="' + link + '">' + file.name + '</a><br />';
                                     }
@@ -758,6 +764,12 @@ class TVHung {
                                         html += '<iframe width="420" height="315" src="' + link + '" frameborder="0" allowfullscreen></iframe><br />';
                                     } else if (file.type === 'image') {
                                         html += '<img src="' + link + '" alt="' + file.name + '" /><br />';
+                                    } else if (file.type === 'document' && file.mime_type === 'application/pdf') {
+                                        html += `
+                                        <div style="height: 900px" class="embed-responsive embed-responsive-16by9 mb30">
+                                            <iframe allowfullscreen="true" frameborder="0" height="900" src="${link}" width="100%"></iframe>
+                                        </div>
+                                        `
                                     } else {
                                         html += '<a href="' + link + '">' + file.name + '</a><br />';
                                     }
