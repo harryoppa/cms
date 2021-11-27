@@ -183,7 +183,8 @@ abstract class RepositoriesAbstract implements RepositoryInterface
                         $newModel = $newModel->whereNotIn($field, $val);
                         break;
                     case 'SEARCH':
-                        $newModel = $newModel->whereLike($field, is_array($val) ? $val : [$val]);
+                        // $field is array [field1, field2..]
+                        $newModel = $newModel->whereLike($field, $val);
                         break;
                     default:
                         $newModel = $newModel->where($field, $condition, $val);
