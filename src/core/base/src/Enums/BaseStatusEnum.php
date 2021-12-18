@@ -26,18 +26,14 @@ class BaseStatusEnum extends Enum
      */
     public function toHtml()
     {
-        switch ($this->value) {
-            case self::DRAFT:
-                return Html::tag('span', self::DRAFT()->label(), ['class' => 'label-info status-label'])
-                    ->toHtml();
-            case self::PENDING:
-                return Html::tag('span', self::PENDING()->label(), ['class' => 'label-warning status-label'])
-                    ->toHtml();
-            case self::PUBLISHED:
-                return Html::tag('span', self::PUBLISHED()->label(), ['class' => 'label-success status-label'])
-                    ->toHtml();
-            default:
-                return parent::toHtml();
-        }
+        return match ($this->value) {
+            self::DRAFT => Html::tag('span', self::DRAFT()->label(), ['class' => 'label-info status-label'])
+                ->toHtml(),
+            self::PENDING => Html::tag('span', self::PENDING()->label(), ['class' => 'label-warning status-label'])
+                ->toHtml(),
+            self::PUBLISHED => Html::tag('span', self::PUBLISHED()->label(), ['class' => 'label-success status-label'])
+                ->toHtml(),
+            default => parent::toHtml(),
+        };
     }
 }

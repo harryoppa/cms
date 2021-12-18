@@ -1,10 +1,35 @@
 <script>
     jQuery(document).ready(function () {
         'use strict';
+
+        function findValueByName(name, list, defaultValue) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].name === name) {
+                    return list[i].value;
+                }
+            }
+
+            return defaultValue;
+        }
+        
         $("{{ $validator['selector'] }}").each(function () {
-            $(this).validate({
+            let $form = $(this);
+            $form.validate({
                 errorElement: 'span',
                 errorClass: 'invalid-feedback',
+
+                submitHandler: function(form) {
+                    if ($form.valid())
+                    {
+                        var s = findValueByName('submit', $form.serializeArray(), 'apply');
+
+                        $form.off('submit')
+                        setTimeout(() => {
+                            $form.find('[type="submit"][value="'+s+'"]').click()
+                        }, 5);
+                    }
+                    return false; // prevent normal form posting
+                },
 
                 errorPlacement: function (error, element) {
                     if (element.parent('.input-group').length ||
