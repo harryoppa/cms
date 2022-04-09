@@ -50,7 +50,9 @@
             "TVHung\\Sitemap\\": "src/packages/sitemap/src",
             "TVHung\\Slug\\": "src/packages/slug/src",
             "TVHung\\Theme\\": "src/packages/theme/src",
-            "TVHung\\Widget\\": "src/packages/widget/src"
+            "TVHung\\Widget\\": "src/packages/widget/src",
+            "TVHung\\PageCache\\": "src/packages/page-cache/src",
+            "TVHung\\PaginateRoute\\": "src/packages/paginate-route/src"
         }
     },
 
@@ -83,7 +85,9 @@
                 "TVHung\\Slug\\Providers\\SlugServiceProvider",
                 "TVHung\\Theme\\Providers\\ThemeServiceProvider",
                 "TVHung\\Theme\\Providers\\RouteServiceProvider",
-                "TVHung\\Widget\\Providers\\WidgetServiceProvider"
+                "TVHung\\Widget\\Providers\\WidgetServiceProvider",
+                "TVHung\\PageCache\\Providers\\PageCacheServiceProvider",
+                "TVHung\\PaginateRoute\\Providers\\PaginateRouteServiceProvider"
             ],
             "aliases": {
                 "Assets": "TVHung\\Base\\Facades\\AssetsFacade",
@@ -103,7 +107,8 @@
                 "AdminBar": "TVHung\\Theme\\Facades\\AdminBarFacade",
                 "SiteMapManager": "TVHung\\Theme\\Facades\\SiteMapManagerFacade",
                 "Widget": "TVHung\\Widget\\Facades\\WidgetFacade",
-                "WidgetGroup": "TVHung\\Widget\\Facades\\WidgetGroupFacade"
+                "WidgetGroup": "TVHung\\Widget\\Facades\\WidgetGroupFacade",
+                "PaginateRoute": "TVHung\\PaginateRoute\\Facades\\PaginateRouteFacade"
             }
         }
     },

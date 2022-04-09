@@ -1,0 +1,23 @@
+{
+    "name": "TVHung/paginateroute",
+    "description": "Paginate Route system for TVHung without query string",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            
+        }
+    },
+    "require": {
+        "TVHung/platform": "*@dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                
+            ],
+            "aliases": {
+                
+            }
+        }
+    }
+}
