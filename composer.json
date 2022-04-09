@@ -10,7 +10,7 @@
         "botble/assets": "^1.0",
         "predis/predis": "^1.1",
         "intervention/image": "^2.6",
-        "kris/laravel-form-builder": "1.16.x-dev",
+        "kris/laravel-form-builder": "dev-master",
         "laravelcollective/html": "^6.2",
         "xantios/mimey": "^2.2",
         "tightenco/ziggy": "^1.4",

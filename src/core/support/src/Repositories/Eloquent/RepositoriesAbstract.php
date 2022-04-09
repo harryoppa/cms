@@ -386,7 +386,8 @@ abstract class RepositoriesAbstract implements RepositoryInterface
             'select'    => ['*'],
             'with'      => [],
             'withCount' => [],
-            'withAvg' => [],
+            'withAvg'   => [],
+            'has'       => '',
         ], $params);
 
         $this->applyConditions($params['condition']);
@@ -417,6 +418,10 @@ abstract class RepositoriesAbstract implements RepositoryInterface
 
         if (!empty($params['withAvg'])) {
             $data = $data->withAvg($params['withAvg'][0], $params['withAvg'][1]);
+        }
+
+        if (!empty($params['has'])) {
+            $data = $data->has($params['has']);
         }
 
         if ($params['take'] == 1) {
