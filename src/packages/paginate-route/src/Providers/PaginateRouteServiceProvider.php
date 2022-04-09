@@ -31,7 +31,7 @@ class PaginateRouteServiceProvider extends ServiceProvider
     {
         PaginateRoute::registerMacros();
 
-        Paginator::defaultView('packages/paginateroute::bootstrap-pagination');
+        Paginator::defaultView('packages/paginate-route::bootstrap-pagination');
 
         $this->publishes([
             __DIR__.'/../resources/lang' => base_path('resources/lang/vendor/paginateroute'),
@@ -41,7 +41,7 @@ class PaginateRouteServiceProvider extends ServiceProvider
             __DIR__.'/../config/paginateroute.php' => config_path('paginateroute.php'),
         ], 'config');
 
-        $this->setNamespace('packages/paginateroute')
+        $this->setNamespace('packages/paginate-route')
             ->loadAndPublishViews();
     }
 }
