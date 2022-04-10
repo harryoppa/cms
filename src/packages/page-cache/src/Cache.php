@@ -219,9 +219,15 @@ class Cache
 
         $file = "{$filename}.{$extension}";
 
+        $locale = '';
+
+        if (defined('LANGUAGE_MODULE_SCREEN_NAME')) {
+            $locale = '/' . \Language::getCurrentLocale();
+        }
+
         return [
             [$this->getCachePath(implode('/', $segments)), $file],
-            [$this->getCachePath(implode('/', $segments)) . '/' . \Language::getCurrentLocale(), $file]
+            [$this->getCachePath(implode('/', $segments)) . $locale, $file]
         ];
     }
 
