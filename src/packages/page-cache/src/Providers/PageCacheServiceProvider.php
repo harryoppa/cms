@@ -35,5 +35,21 @@ class PageCacheServiceProvider extends ServiceProvider
         $router = $this->app['router'];
 
         $router->aliasMiddleware('page-cache', CacheResponse::class);
+
+        $this->app->booted(function() {
+            if (is_page_cache_enabled()) {
+                add_action(BASE_ACTION_AFTER_CREATE_CONTENT, [$this, 'clearCache'], 127, 3);
+                add_action(BASE_ACTION_AFTER_UPDATE_CONTENT, [$this, 'clearCache'], 127, 3);
+            }
+        });
+    }
+
+    public function clearCache($screen, $request, $object)
+    {
+        try {
+            clear_page_cache();
+        } catch(\Exception $exception) {
+
+        }
     }
 }

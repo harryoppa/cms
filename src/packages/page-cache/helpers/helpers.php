@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Artisan;
 
 if (!function_exists('sanitize_output'))
 {
@@ -21,5 +22,21 @@ if (!function_exists('sanitize_output'))
         $buffer = preg_replace($search, $replace, $buffer);
     
         return $buffer;
+    }
+}
+
+if (!function_exists('clear_page_cache'))
+{
+    function clear_page_cache($slug = '', $recursive = false): int
+    {
+        return Artisan::call('page-cache:clear', ['--recursive' => $recursive, 'slug' => $slug]);
+    }
+}
+
+if (!function_exists('is_page_cache_enabled'))
+{
+    function is_page_cache_enabled(): bool
+    {
+        return env('ENABLE_PAGE_CACHE', false);
     }
 }
