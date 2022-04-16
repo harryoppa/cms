@@ -19,7 +19,6 @@ class UpdatedContentListener
     protected $slugRepository;
 
     /**
-     * UpdatedContentListener constructor.
      * @param SlugInterface $slugRepository
      */
     public function __construct(SlugInterface $slugRepository)
@@ -35,7 +34,7 @@ class UpdatedContentListener
      */
     public function handle(UpdatedContentEvent $event)
     {
-        if (SlugHelper::isSupportedModel(get_class($event->data))) {
+        if (SlugHelper::isSupportedModel(get_class($event->data)) && $event->request->input('is_slug_editable', 0)) {
             try {
                 $slug = $event->request->input('slug');
 

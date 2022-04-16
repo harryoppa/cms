@@ -53,7 +53,7 @@ class ThemeSupport
             return '';
         }
 
-        if (!Str::contains($js, '<script') || !Str::contains($js, '</script>')) {
+        if ((!Str::contains($js, '<script') || !Str::contains($js, '</script>')) && !Str::contains($js, '<noscript') && !Str::contains($js, '</noscript>')) {
             $js = Html::tag('script', $js);
         }
 

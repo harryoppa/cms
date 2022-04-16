@@ -3,7 +3,7 @@
 @endif
 
 @if (Arr::get($metaBox, 'wrap', true))
-    <div class="widget meta-boxes" {{ Html::attributes(Arr::get($metaBox, 'attributes', [])) }}>
+    <div class="widget meta-boxes" {!! Html::attributes(Arr::get($metaBox, 'attributes', [])) !!}>
         <div class="widget-title">
             <h4>
                 <span> {{ Arr::get($metaBox, 'title') }}</span>

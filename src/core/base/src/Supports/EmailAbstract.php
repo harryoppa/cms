@@ -54,6 +54,15 @@ class EmailAbstract extends Mailable
 
         $fromName = setting('email_from_name', config('mail.from.name'));
 
+        if (isset($this->data['from'])) {
+            if (is_array($this->data['from'])) {
+                $fromAddress = Arr::first(array_keys($this->data['from']));
+                $fromName = Arr::first($this->data['from']);
+            } else {
+                $fromAddress = $this->data['from'];
+            }
+        }
+
         $email = $this
             ->from($fromAddress, $fromName)
             ->subject($this->subject)
@@ -75,6 +84,10 @@ class EmailAbstract extends Mailable
 
         if (isset($this->data['bcc'])) {
             $email = $this->bcc($this->data['bcc']);
+        }
+
+        if (isset($this->data['replyTo'])) {
+            $email = $this->replyTo($this->data['replyTo']);
         }
 
         return $email;

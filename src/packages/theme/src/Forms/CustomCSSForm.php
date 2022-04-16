@@ -16,7 +16,7 @@ class CustomCSSForm extends FormAbstract
     public function buildForm()
     {
         $css = null;
-        $file = public_path(Theme::path() . '/css/style.integration.css');
+        $file = Theme::getStyleIntegrationPath();
         if (File::exists($file)) {
             $css = get_file_data($file, false);
         }

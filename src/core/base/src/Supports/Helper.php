@@ -191,6 +191,27 @@ class Helper
     }
 
     /**
+     * @param string $countryName
+     * @return string
+     */
+    public static function getCountryCodeByName(?string $countryName): ?string
+    {
+        if (empty($countryName)) {
+            return null;
+        }
+
+        $found = array_filter(self::countries(), function ($item) use ($countryName) {
+            return $item == $countryName;
+        });
+
+        if (!$found) {
+            return null;
+        }
+
+        return Arr::first(array_keys($found));
+    }
+
+    /**
      * @return string[]
      */
     public static function countries(): array
@@ -210,9 +231,16 @@ class Helper
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
         $response = curl_exec($curl);
+
+        $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
         curl_close($curl);
 
-        return $response ?: Request::ip();
+        if ($httpStatus == 200) {
+            return $response ?: Request::ip();
+        }
+
+        return Request::ip();
     }
 
     /**

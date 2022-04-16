@@ -3,8 +3,8 @@
         <div class="portlet light bordered portlet-no-padding @if ($widget->hasLoadCallback) widget-load-has-callback @endif">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="{{ $widget->icon }} font-dark fw-bold"></i>
-                    <span class="caption-subject font-dark">{{ $widget->title }}</span>
+                    <i class="{{ $widget->icon }} font-dark fw-bold" data-bs-toggle="tooltip" title="{{ $widget->title }}"></i>
+                    <span class="caption-subject font-dark d-none d-xl-inline">{{ $widget->title }}</span>
                 </div>
                 @include('core/dashboard::partials.tools')
             </div>

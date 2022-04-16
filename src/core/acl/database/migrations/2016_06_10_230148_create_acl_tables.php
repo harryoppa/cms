@@ -3,8 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateAclTables extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -78,4 +77,4 @@ class CreateAclTables extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('user_meta');
     }
-}
+};

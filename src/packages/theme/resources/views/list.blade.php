@@ -8,10 +8,10 @@
                 </div>
                 <div class="widget-body">
                     <div class="row pad">
-                        @foreach(ThemeManager::getThemes() as $key =>  $theme)
+                        @foreach(ThemeManager::getThemes() as $key => $theme)
                             <div class="col-sm-6 col-md-4 col-lg-4">
                                 <div class="thumbnail h-100 d-flex justify-content-between flex-column" style="background: #eee; padding: 15px;">
-                                    <div class="img-thumbnail-wrap" style="background-image: url('{{ url(config('packages.theme.general.themeDir')) }}/{{ $key }}/screenshot.png')"></div>
+                                    <div class="img-thumbnail-wrap" style="background-image: url('{{ url(config('packages.theme.general.themeDir')) }}/{{ Theme::getThemeName() == $key && Theme::getPublicThemeName() ? Theme::getPublicThemeName() : $key }}/screenshot.png')"></div>
                                     <div class="caption">
                                         <div class="col-12">
                                             <div style="word-break: break-all" class="pt-3">

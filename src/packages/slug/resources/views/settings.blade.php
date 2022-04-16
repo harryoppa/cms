@@ -17,10 +17,15 @@
                     <div class="wrapper-content pd-all-20">
                         @foreach(SlugHelper::supportedModels() as $model => $name)
                             <div class="form-group mb-3">
-                                <label class="text-title-field" for="{{ SlugHelper::getPermalinkSettingKey($model) }}">{{ $name }}</label>
-                                <input type="text" class="next-input" name="{{ SlugHelper::getPermalinkSettingKey($model) }}" id="{{ SlugHelper::getPermalinkSettingKey($model) }}"
-                                       value="{{ setting(SlugHelper::getPermalinkSettingKey($model), SlugHelper::getPrefix($model)) }}">
+                                <label class="text-title-field" for="{{ SlugHelper::getPermalinkSettingKey($model) }}">{{ trans('packages/slug::slug.prefix_for', ['name' => $name]) }}</label>
+                                <input type="text" class="next-input form-control {{ $errors->has(SlugHelper::getPermalinkSettingKey($model)) ? 'is-invalid' : ''}}" name="{{ SlugHelper::getPermalinkSettingKey($model) }}" id="{{ SlugHelper::getPermalinkSettingKey($model) }}"
+                                       value="{{ ltrim(rtrim(old(SlugHelper::getPermalinkSettingKey($model), setting(SlugHelper::getPermalinkSettingKey($model), SlugHelper::getPrefix($model))), '/'), '/') }}">
                                 <input type="hidden" name="{{ SlugHelper::getPermalinkSettingKey($model) }}-model-key" value="{{ $model }}">
+                                @if ($errors->has(SlugHelper::getPermalinkSettingKey($model)))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first(SlugHelper::getPermalinkSettingKey($model)) }}</strong>
+                                    </span>
+                                @endif
                                 <span class="help-ts">
                                     {{ trans('packages/slug::slug.settings.preview') }}: <a href="javascript:void(0)">{{ url((string)setting(SlugHelper::getPermalinkSettingKey($model), SlugHelper::getPrefix($model))) }}/{{ Str::slug('your url here') }}</a>
                                 </span>

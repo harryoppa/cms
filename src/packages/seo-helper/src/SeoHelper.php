@@ -182,7 +182,7 @@ class SeoHelper implements SeoHelperContract
      */
     public function saveMetaData($screen, $request, $object)
     {
-        if (in_array($object::class, config('packages.seo-helper.general.supported', []))) {
+        if (in_array(get_class($object), config('packages.seo-helper.general.supported', [])) && $request->has('seo_meta')) {
             try {
                 if (empty($request->input('seo_meta'))) {
                     MetaBox::deleteMetaData($object, 'seo_meta');

@@ -9,7 +9,7 @@
 @endif
 
 @if ($showField)
-    {!! Form::repeater($name, $options['selected'], $options['fields']) !!}
+    {!! Form::repeater($name, $options['value'] ?: $options['selected'], $options['fields']) !!}
     @include('core/base::forms.partials.help-block')
 @endif
 

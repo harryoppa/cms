@@ -147,7 +147,7 @@ class Menu
             case '':
                 $item->reference_id = 0;
                 $item->reference_type = null;
-                $item->url = Arr::get($menuItem, 'customUrl');
+                $item->url = str_replace('&amp;', '&', Arr::get($menuItem, 'customUrl'));
                 break;
             default:
                 $item->reference_id = (int)Arr::get($menuItem, 'referenceId');
@@ -226,6 +226,24 @@ class Menu
         }
 
         return $html;
+    }
+
+    /**
+     * @param string $location
+     * @return bool
+     * @throws Throwable
+     */
+    public function isLocationHasMenu(string $location): bool
+    {
+        $this->load();
+
+        foreach ($this->data as $menu) {
+            if (in_array($location, $menu->locations->pluck('location')->all())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

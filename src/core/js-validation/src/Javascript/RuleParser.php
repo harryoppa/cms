@@ -95,7 +95,8 @@ class RuleParser
     {
         foreach ((array)$attribute as $key) {
             $current = isset($this->conditional[$key]) ? $this->conditional[$key] : [];
-            $merge = head($this->validator->explodeRules((array)$rules));
+            $rules = $this->validator->explodeRules((array)$rules);
+            $merge = reset($rules);
             $this->conditional[$key] = array_merge($current, $merge);
         }
     }

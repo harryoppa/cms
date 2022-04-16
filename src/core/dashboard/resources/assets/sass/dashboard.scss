@@ -597,6 +597,13 @@
     font-size: 0.95em;
     float: left;
     outline: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    -webkit-appearance: textfield;
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 }
 
 .f_com {
@@ -632,29 +639,21 @@
     a {
         text-decoration: none;
         color: #777777;
-        margin: 0 20px;
     }
-}
-
-.widget_footer .page_previous {
-    width: 25px;
-    height: 24px;
-    background-image: url("#{$general-img-path}img.png");
-    background-position: -10px -203px;
-    opacity: 0.8;
-    filter: alpha(opacity=80);
-    margin-right: -18px;
-}
-
-.widget_footer {
-    .page_next {
-        width: 25px;
-        height: 24px;
-        background-image: url("#{$general-img-path}img.png");
-        opacity: 0.8;
-        filter: alpha(opacity=80);
-        background-position: -54px -203px;
-        margin-right: 10px !important;
+    .widget_pagination {
+        .btn {
+            width: 25px;
+            height: 24px;
+            background-image: url("#{$general-img-path}img.png");
+            filter: alpha(opacity=80);
+            margin-left: 5px;
+        }
+        .page_previous {
+            background-position: -10px -203px;
+        }
+        .page_next {
+            background-position: -54px -203px;
+        }
     }
 }
 

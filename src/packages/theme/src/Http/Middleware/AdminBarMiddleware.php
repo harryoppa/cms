@@ -9,6 +9,7 @@ use Html;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -75,6 +76,7 @@ class AdminBarMiddleware
             || $this->isDebugbarRequest()
             || $request->expectsJson()
             || $response->headers->get('Content-Type') == 'application/json'
+            || $response instanceof BinaryFileResponse
         ) {
             return $response;
         }

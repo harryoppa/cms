@@ -2,6 +2,9 @@
 
 namespace TVHung\Theme;
 
+use File;
+use Theme as ThemeFacade;
+
 class Manager
 {
     /**
@@ -37,7 +40,15 @@ class Manager
         $themes = [];
         $themePath = theme_path();
         foreach (scan_folder($themePath) as $folder) {
-            $theme = get_file_data($themePath . DIRECTORY_SEPARATOR . $folder . '/theme.json');
+            $jsonFile = $themePath . '/' . $folder . '/theme.json';
+
+            $publicJsonFile = public_path('themes/' . ThemeFacade::getPublicThemeName() . '/theme.json');
+
+            if (File::exists($publicJsonFile)) {
+                $jsonFile = $publicJsonFile;
+            }
+
+            $theme = get_file_data($jsonFile);
             if (!empty($theme)) {
                 $themes[$folder] = $theme;
             }

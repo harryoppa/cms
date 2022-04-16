@@ -6,6 +6,7 @@ use TVHung\Base\Http\Controllers\BaseController;
 use TVHung\Base\Http\Responses\BaseHttpResponse;
 use TVHung\Setting\Supports\SettingStore;
 use TVHung\Slug\Http\Requests\SlugRequest;
+use TVHung\Slug\Http\Requests\SlugSettingsRequest;
 use TVHung\Slug\Repositories\Interfaces\SlugInterface;
 use TVHung\Slug\Services\SlugService;
 use Illuminate\Contracts\View\Factory;
@@ -66,7 +67,7 @@ class SlugController extends BaseController
      * @param SettingStore $settingStore
      * @return BaseHttpResponse
      */
-    public function postSettings(Request $request, BaseHttpResponse $response, SettingStore $settingStore)
+    public function postSettings(SlugSettingsRequest $request, BaseHttpResponse $response, SettingStore $settingStore)
     {
         foreach ($request->except(['_token']) as $settingKey => $settingValue) {
             if (Str::contains($settingKey, '-model-key')) {

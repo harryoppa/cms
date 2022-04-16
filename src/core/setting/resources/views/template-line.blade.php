@@ -43,7 +43,7 @@
                                             ['data-key' => 'email-config-status-btn', 'data-change-url' => route('setting.email.status.change')]
                                         ) !!}
                                     </div>
-                                @else
+                                @elseif ($type !== 'core')
                                     &mdash;
                                 @endif
                             </td>

@@ -91,7 +91,7 @@ if (!function_exists('get_cms_version')) {
      */
     function get_cms_version(): string
     {
-        $version = '5.22';
+        $version = '5.26.2';
 
         try {
             $core = get_file_data(core_path('core.json'));

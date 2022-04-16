@@ -663,9 +663,16 @@ h4.modal-title {
 }
 
 .status-label {
-    display: inline-block;
-    padding: 3px 5px;
-    color: #ffffff !important;
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 500;
+    line-height: 1;
+    padding: 0.3em 0.7em 0.4em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
 }
 
 .form-group:not(.mb-3) {
@@ -697,5 +704,13 @@ h4.modal-title {
 
     ul, ol {
         padding-left: 25px;
+    }
+}
+
+.template-setting-on-off {
+    .form-group {
+        .onoffswitch {
+            margin: 0 auto;
+        }
     }
 }

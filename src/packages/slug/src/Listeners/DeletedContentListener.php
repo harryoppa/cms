@@ -16,7 +16,6 @@ class DeletedContentListener
     protected $slugRepository;
 
     /**
-     * DeletedContentListener constructor.
      * @param SlugInterface $slugRepository
      */
     public function __construct(SlugInterface $slugRepository)

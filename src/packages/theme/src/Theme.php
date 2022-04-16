@@ -218,8 +218,18 @@ class Theme implements ThemeContract
         // Before from a public theme config.
         $this->fire('appendBefore', $this);
 
+        $publicThemeName = $this->getPublicThemeName();
+
+        $currentTheme = $this->getThemeName();
+
+        $assetPath = $this->path();
+
+        if ($publicThemeName != $currentTheme) {
+            $assetPath = substr($assetPath, 0, -strlen($currentTheme)) . $publicThemeName;
+        }
+
         // Add asset path to asset container.
-        $this->asset->addPath($this->path() . '/' . $this->getConfig('containerDir.asset'));
+        $this->asset->addPath($assetPath . '/' . $this->getConfig('containerDir.asset'));
 
         return $this;
     }
@@ -387,6 +397,33 @@ class Theme implements ThemeContract
         }
 
         return Arr::first(scan_folder(theme_path()));
+    }
+
+    /**
+     * @param string $theme
+     * @return $this
+     */
+    public function setThemeName($theme)
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicThemeName()
+    {
+        $theme = $this->getThemeName();
+
+        $publicThemeName = $this->config->get('packages.theme.general.public_theme_name');
+
+        if ($publicThemeName && $publicThemeName != $theme) {
+            return $publicThemeName;
+        }
+
+        return $theme;
     }
 
     /**
@@ -1043,5 +1080,13 @@ class Theme implements ThemeContract
     public function loadView(string $view)
     {
         return $this->view->make($this->getThemeNamespace('views') . '.' . $view)->render();
+    }
+
+    /**
+     * @return string
+     */
+    public function getStyleIntegrationPath()
+    {
+        return public_path(Theme::path() . '/css/style.integration.css');
     }
 }

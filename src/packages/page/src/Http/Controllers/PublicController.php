@@ -4,6 +4,7 @@ namespace TVHung\Page\Http\Controllers;
 
 use TVHung\Page\Models\Page;
 use TVHung\Page\Services\PageService;
+use TVHung\Theme\Events\RenderingSingleEvent;
 use Illuminate\Routing\Controller;
 use Response;
 use SlugHelper;
@@ -29,6 +30,8 @@ class PublicController extends Controller
         if (isset($data['slug']) && $data['slug'] !== $slug->key) {
             return redirect()->to(url(SlugHelper::getPrefix(Page::class) . '/' . $data['slug']));
         }
+
+        event(new RenderingSingleEvent($slug));
 
         return Theme::scope($data['view'], $data['data'], $data['default_view'])->render();
     }

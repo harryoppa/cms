@@ -28,6 +28,10 @@ class ThemeController extends BaseController
      */
     public function index()
     {
+        if (!config('packages.theme.general.display_theme_manager_in_admin_panel', true)) {
+            abort(404);
+        }
+        
         page_title()->setTitle(trans('packages/theme::theme.name'));
 
         if (File::exists(theme_path('.DS_Store'))) {

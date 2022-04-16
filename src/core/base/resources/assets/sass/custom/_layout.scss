@@ -52,6 +52,14 @@
     }
 }
 
+.page-sidebar-closed {
+    .form-actions {
+        &.form-actions-fixed-top {
+            left: 45px;
+        }
+    }
+}
+
 .top-menu {
     .dropdown-menu {
         .dropdown-menu-list {

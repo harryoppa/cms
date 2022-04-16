@@ -102,8 +102,6 @@ class SlugServiceProvider extends ServiceProvider
                         /**
                          * @var BaseModel $this
                          */
-                        $prefix = $this->slugable ? $this->slugable->prefix : null;
-                        $prefix = apply_filters(FILTER_SLUG_PREFIX, $prefix);
 
                         if (!$this->slug) {
                             return url('');
@@ -113,7 +111,10 @@ class SlugServiceProvider extends ServiceProvider
                             return url('');
                         }
 
-                        return url($prefix ? $prefix . '/' . $this->slug : $this->slug);
+                        $prefix = $this->slugable ? $this->slugable->prefix : null;
+                        $prefix = apply_filters(FILTER_SLUG_PREFIX, $prefix);
+
+                        return apply_filters('slug_filter_url', url($prefix ? $prefix . '/' . $this->slug : $this->slug));
                     });
             }
 

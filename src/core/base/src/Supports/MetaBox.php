@@ -182,6 +182,8 @@ class MetaBox
      */
     public function saveMetaBoxData($object, string $key, $value, $options = null)
     {
+        $key = apply_filters('stored_meta_box_key', $key, $object);
+
         try {
             $fieldMeta = $this->metaBoxRepository->getFirstBy([
                 'meta_key'       => $key,
@@ -241,6 +243,8 @@ class MetaBox
      */
     public function getMeta($object, string $key, $select = ['meta_value'])
     {
+        $key = apply_filters('stored_meta_box_key', $key, $object);
+
         return $this->metaBoxRepository->getFirstBy([
             'meta_key'       => $key,
             'reference_id'   => $object->id,
@@ -256,6 +260,8 @@ class MetaBox
      */
     public function deleteMetaData($object, string $key)
     {
+        $key = apply_filters('stored_meta_box_key', $key, $object);
+
         return $this->metaBoxRepository->deleteBy([
             'meta_key'       => $key,
             'reference_id'   => $object->id,

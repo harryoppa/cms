@@ -9,4 +9,5 @@ return [
         'turn_off_automatic_url_translation_into_latin' => 'Turn off automatic URL translation into Latin?',
     ],
     'preview'            => 'Preview',
+    'prefix_for'         => 'Prefix for :name',
 ];

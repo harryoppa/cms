@@ -2,6 +2,8 @@
 
 namespace TVHung\Base\Supports;
 
+use File;
+
 class Language
 {
     /**
@@ -391,6 +393,7 @@ class Language
             if ($locale === 'vendor') {
                 continue;
             }
+
             foreach (Language::getListLanguages() as $key => $language) {
                 if (in_array($key, [$locale, str_replace('-', '_', $locale)]) ||
                     in_array($language[1], [$locale, str_replace('-', '_', $locale)])
@@ -400,6 +403,8 @@ class Language
                         'name'   => $language[2],
                         'flag'   => $language[4],
                     ];
+
+                    break;
                 }
 
                 if (!array_key_exists($locale, $languages) &&
@@ -410,6 +415,14 @@ class Language
                         'flag'   => $language[4],
                     ];
                 }
+            }
+
+            if (!array_key_exists($locale, $languages) && File::isDirectory(resource_path('lang/' . $locale))) {
+                $languages[$locale] = [
+                    'locale' => $locale,
+                    'name'   => $locale,
+                    'flag'   => $locale,
+                ];
             }
         }
 

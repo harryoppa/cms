@@ -99,7 +99,7 @@ class Avatar
     /**
      * @var string
      */
-    protected $font = __DIR__ . '/../../public/fonts/Roboto-Bold.ttf';
+    protected $font;
 
     /**
      * @var string
@@ -115,6 +115,7 @@ class Avatar
     {
         $this->foreground = $this->getRandomElement($this->availableForegrounds, $this->foreground);
         $this->background = $this->getRandomElement($this->availableBackgrounds, $this->background);
+        $this->font = core_path('base/public/fonts/Roboto-Bold.ttf');
     }
 
     /**
@@ -385,6 +386,7 @@ class Avatar
         if ($this->borderColor == 'foreground') {
             return $this->foreground;
         }
+        
         if ($this->borderColor == 'background') {
             return $this->background;
         }

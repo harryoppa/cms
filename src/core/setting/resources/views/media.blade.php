@@ -56,13 +56,19 @@
                             <label class="text-title-field"
                                    for="media_aws_bucket">{{ trans('core/setting::setting.media.aws_bucket') }}</label>
                             <input type="text" class="next-input" name="media_aws_bucket" id="media_aws_bucket"
-                                   value="{{ config('filesystems.disks.s3.bucket') }}" placeholder="Ex: tvhung">
+                                   value="{{ config('filesystems.disks.s3.bucket') }}" placeholder="Ex: botble">
                         </div>
-                        <div class="form-group mb-3" style="margin-bottom: 1rem;">
+                        <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="media_aws_url">{{ trans('core/setting::setting.media.aws_url') }}</label>
                             <input type="text" class="next-input" name="media_aws_url" id="media_aws_url"
-                                   value="{{ config('filesystems.disks.s3.url') }}" placeholder="Ex: https://s3-ap-southeast-1.amazonaws.com/tvhung">
+                                   value="{{ config('filesystems.disks.s3.url') }}" placeholder="Ex: https://s3-ap-southeast-1.amazonaws.com/botble">
+                        </div>
+                        <div class="form-group mb-3" style="margin-bottom: 1rem;">
+                            <label class="text-title-field"
+                                   for="media_aws_endpoint">{{ trans('core/setting::setting.media.aws_endpoint') }}</label>
+                            <input type="text" class="next-input" name="media_aws_endpoint" id="media_aws_endpoint"
+                                   value="{{ config('filesystems.disks.s3.endpoint') }}" placeholder="{{ trans('core/setting::setting.media.optional') }}">
                         </div>
                     </div>
 
@@ -89,7 +95,7 @@
                             <label class="text-title-field"
                                    for="media_do_spaces_bucket">{{ trans('core/setting::setting.media.do_spaces_bucket') }}</label>
                             <input type="text" class="next-input" name="media_do_spaces_bucket" id="media_do_spaces_bucket"
-                                   value="{{ config('filesystems.disks.do_spaces.bucket') }}" placeholder="Ex: tvhung">
+                                   value="{{ config('filesystems.disks.do_spaces.bucket') }}" placeholder="Ex: botble">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
@@ -100,7 +106,7 @@
                         <div class="form-group mb-3">
                             <input type="hidden" name="media_do_spaces_cdn_enabled" value="0">
                             <label>
-                                <input type="checkbox" class="hrv-checkbox" value="1" @if (setting('media_do_spaces_cdn_enabled')) checked @endif name="media_do_spaces_cdn_enabled">
+                                <input type="checkbox"  value="1" @if (setting('media_do_spaces_cdn_enabled')) checked @endif name="media_do_spaces_cdn_enabled">
                                 {{ trans('core/setting::setting.media.do_spaces_cdn_enabled') }}
                             </label>
                         </div>
@@ -135,7 +141,7 @@
                             <label class="text-title-field"
                                    for="media_wasabi_bucket">{{ trans('core/setting::setting.media.wasabi_bucket') }}</label>
                             <input type="text" class="next-input" name="media_wasabi_bucket" id="media_wasabi_bucket"
-                                   value="{{ config('filesystems.disks.wasabi.bucket') }}" placeholder="Ex: tvhung">
+                                   value="{{ config('filesystems.disks.wasabi.bucket') }}" placeholder="Ex: botble">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
@@ -145,17 +151,54 @@
                         </div>
                     </div>
 
+                    <div data-type="bunnycdn" class="setting-wrapper @if (setting('media_driver', config('filesystems.default')) !== 'bunnycdn') hidden @endif">
+                        <div class="form-group mb-3">
+                            <label class="text-title-field"
+                                   for="media_bunnycdn_hostname">{{ trans('core/setting::setting.media.bunnycdn_hostname') }}</label>
+                            <input type="text" class="next-input" name="media_bunnycdn_hostname" id="media_bunnycdn_hostname"
+                                   value="{{ setting('media_bunnycdn_hostname') }}" placeholder="Ex: botble.b-cdn.net">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="text-title-field"
+                                   for="media_bunnycdn_zone">{{ trans('core/setting::setting.media.bunnycdn_zone') }}</label>
+                            <input type="text" class="next-input" name="media_bunnycdn_zone" id="media_bunnycdn_zone"
+                                   value="{{ setting('media_bunnycdn_zone') }}" placeholder="Ex: botble">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="text-title-field"
+                                   for="media_bunnycdn_key">{{ trans('core/setting::setting.media.bunnycdn_key') }}</label>
+                            <input type="text" class="next-input" name="media_bunnycdn_key" id="media_bunnycdn_key"
+                                   value="{{ setting('media_bunnycdn_key') }}" placeholder="Ex: 9a734df7-844b-...">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="text-title-field"
+                                   for="media_bunnycdn_region">{{ trans('core/setting::setting.media.bunnycdn_region') }}</label>
+                            <div class="ui-select-wrapper">
+                                <select name="media_bunnycdn_region" class="ui-select">
+                                    <option value="" @if (setting('media_bunnycdn_region') === '') selected @endif>Falkenstein</option>
+                                    <option value="ny" @if (setting('media_bunnycdn_region') === 'ny') selected @endif>New York</option>
+                                    <option value="la" @if (setting('media_bunnycdn_region') === 'la') selected @endif>Los Angeles</option>
+                                    <option value="sg" @if (setting('media_bunnycdn_region') === 'sg') selected @endif>Singapore</option>
+                                    <option value="syd" @if (setting('media_bunnycdn_region') === 'syd') selected @endif>Sydney</option>
+                                </select>
+                                <svg class="svg-next-icon svg-next-icon-size-16">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select-chevron"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group mb-3">
                         <label class="text-title-field"
                                for="media_turn_off_automatic_url_translation_into_latin">{{ trans('core/setting::setting.media.turn_off_automatic_url_translation_into_latin') }}
                         </label>
                         <label class="me-2">
-                            <input type="radio" name="media_turn_off_automatic_url_translation_into_latin" class="hrv-radio"
+                            <input type="radio" name="media_turn_off_automatic_url_translation_into_latin"
                                    value="1"
                                    @if (RvMedia::turnOffAutomaticUrlTranslationIntoLatin()) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                         </label>
                         <label>
-                            <input type="radio" name="media_turn_off_automatic_url_translation_into_latin" class="hrv-radio"
+                            <input type="radio" name="media_turn_off_automatic_url_translation_into_latin"
                                    value="0"
                                    @if (!RvMedia::turnOffAutomaticUrlTranslationIntoLatin()) checked @endif>{{ trans('core/setting::setting.general.no') }}
                         </label>
@@ -203,12 +246,12 @@
                                for="media_watermark_enabled">{{ trans('core/setting::setting.media.enable_watermark') }}
                         </label>
                         <label class="me-2">
-                            <input type="radio" name="media_watermark_enabled" class="hrv-radio"
+                            <input type="radio" name="media_watermark_enabled"
                                    value="1"
                                    @if (setting('media_watermark_enabled', RvMedia::getConfig('watermark.enabled'))) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                         </label>
                         <label>
-                            <input type="radio" name="media_watermark_enabled" class="hrv-radio"
+                            <input type="radio" name="media_watermark_enabled"
                                    value="0"
                                    @if (!setting('media_watermark_enabled', RvMedia::getConfig('watermark.enabled'))) checked @endif>{{ trans('core/setting::setting.general.no') }}
                         </label>

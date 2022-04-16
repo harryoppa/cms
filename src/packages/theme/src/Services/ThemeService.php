@@ -100,6 +100,8 @@ class ThemeService
             ];
         }
 
+        Theme::setThemeName($theme);
+
         $published = $this->publishAssets($theme);
 
         if ($published['error']) {
@@ -183,7 +185,7 @@ class ThemeService
                 ];
             }
 
-            $publishPath = $themePath . '/' . $theme;
+            $publishPath = $themePath . '/' . ($theme == Theme::getThemeName() ? Theme::getPublicThemeName() : $theme);
 
             if (!$this->files->isDirectory($publishPath)) {
                 $this->files->makeDirectory($publishPath, 0755, true);

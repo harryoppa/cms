@@ -74,4 +74,7 @@ return [
     'version'                         => 'Version',
     'cms_version'                     => 'CMS Version',
     'imagick_or_gd_ext'               => 'Imagick/GD Ext',
+    'zip'                             => 'Zip Ext',
+    'memory_limit'                    => 'Memory limit',
+    'max_execution_time'              => 'Max execution time (s)',
 ];

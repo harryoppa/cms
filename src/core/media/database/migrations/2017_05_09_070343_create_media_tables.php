@@ -3,8 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateMediaTables extends Migration
-{
+return new class extends Migration {
 
     /**
      * Run the migrations.
@@ -57,4 +56,4 @@ class CreateMediaTables extends Migration
         Schema::dropIfExists('media_files');
         Schema::dropIfExists('media_settings');
     }
-}
+};

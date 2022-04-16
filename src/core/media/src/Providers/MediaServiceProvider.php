@@ -107,16 +107,17 @@ class MediaServiceProvider extends ServiceProvider
 
         $config->set([
             'filesystems.default'                  => $setting->get('media_driver', 'public'),
-            'filesystems.disks.s3.key'             => $setting
-                ->get('media_aws_access_key_id', $config->get('filesystems.disks.s3.key')),
-            'filesystems.disks.s3.secret'          => $setting
-                ->get('media_aws_secret_key', $config->get('filesystems.disks.s3.secret')),
-            'filesystems.disks.s3.region'          => $setting
-                ->get('media_aws_default_region', $config->get('filesystems.disks.s3.region')),
-            'filesystems.disks.s3.bucket'          => $setting
-                ->get('media_aws_bucket', $config->get('filesystems.disks.s3.bucket')),
-            'filesystems.disks.s3.url'             => $setting
-                ->get('media_aws_url', $config->get('filesystems.disks.s3.url')),
+            'filesystems.disks.s3'                 => [
+                'driver'     => 's3',
+                'visibility' => 'public',
+                'key'        => $setting->get('media_aws_access_key_id', $config->get('filesystems.disks.s3.key')),
+                'secret'     => $setting->get('media_aws_secret_key', $config->get('filesystems.disks.s3.secret')),
+                'region'     => $setting->get('media_aws_default_region', $config->get('filesystems.disks.s3.region')),
+                'bucket'     => $setting->get('media_aws_bucket', $config->get('filesystems.disks.s3.bucket')),
+                'url'        => $setting->get('media_aws_url', $config->get('filesystems.disks.s3.url')),
+                'endpoint'   => $setting->get('media_aws_endpoint', $config->get('filesystems.disks.s3.endpoint')) ?: null,
+                'use_path_style_endpoint' => $config->get('filesystems.disks.s3.use_path_style_endpoint'),
+            ],
             'filesystems.disks.do_spaces'          => [
                 'driver'     => 's3',
                 'visibility' => 'public',

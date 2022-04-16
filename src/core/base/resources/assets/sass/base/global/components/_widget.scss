@@ -848,14 +848,6 @@ $widget-height-size-lg: 500px !default;
         padding: 0;
 
         li {
-            width: 49%;
-            float: left;
-            margin-bottom: 20px;
-
-            &:nth-child(2n) {
-                margin-left: 2%;
-            }
-
             .widget-content {
                 display: none;
             }

@@ -3,9 +3,9 @@
 namespace TVHung\Base\Models;
 
 use Eloquent;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use MacroableModels;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use MetaBox as MetaBoxSupport;
 
 class BaseModel extends Eloquent
@@ -45,9 +45,15 @@ class BaseModel extends Eloquent
      * @param bool $single
      * @return string|array
      */
-    public function getMetaData(string $key, bool $single = false): array|string|null
+    public function getMetaData(string $key, bool $single = false)
     {
-        $field = $this->metadata->where('meta_key', $key)->first();
+        $field = $this->metadata
+            ->where('meta_key', apply_filters('stored_meta_box_key', $key, $this))
+            ->first();
+
+        if (!$field) {
+            $field = $this->metadata->where('meta_key', $key)->first();
+        }
 
         if (!$field) {
             return $single ? '' : [];

@@ -126,15 +126,16 @@ class BaseServiceProvider extends ServiceProvider
         $router->aliasMiddleware('preventDemo', DisableInDemoModeMiddleware::class);
         $router->middlewareGroup('core', [CoreMiddleware::class]);
 
-        if ($this->app->environment('demo')) {
+        $config = $this->app->make('config');
+
+        if ($this->app->environment('demo') || $config->get('core.base.general.disable_verify_csrf_token', false)) {
             $this->app->instance(VerifyCsrfToken::class, new BaseMiddleware);
         }
 
-        $this->app->booted(function () {
+        $this->app->booted(function () use ($config) {
             do_action(BASE_ACTION_INIT);
             add_action(BASE_ACTION_META_BOXES, [MetaBox::class, 'doMetaBoxes'], 8, 2);
 
-            $config = $this->app->make('config');
             $setting = $this->app->make(SettingStore::class);
             $timezone = $setting->get('time_zone', $config->get('app.timezone'));
             $locale = $setting->get('locale', $config->get('core.base.general.locale', $config->get('app.locale')));
@@ -166,12 +167,12 @@ class BaseServiceProvider extends ServiceProvider
 
         $forceSchema = $this->app->make('config')->get('core.base.general.force_schema');
         if (!empty($forceSchema)) {
+            $this->app['request']->server->set('HTTPS', 'on');
+
             URL::forceScheme($forceSchema);
         }
 
         $this->configureIni();
-
-        $config = $this->app->make('config');
 
         $config->set([
             'purifier.settings' => array_merge(
@@ -241,7 +242,7 @@ class BaseServiceProvider extends ServiceProvider
         // Set memory limits.
         $limitInt = Helper::convertHrToBytes($memoryLimit);
         if (-1 !== $currentLimitInt && (-1 === $limitInt || $limitInt > $currentLimitInt)) {
-            ini_set('memory_limit', $memoryLimit);
+            @ini_set('memory_limit', $memoryLimit);
         }
     }
 

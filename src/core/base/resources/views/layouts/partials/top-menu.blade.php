@@ -13,7 +13,12 @@
         @auth
             @if (BaseHelper::getAdminPrefix() != '')
                 <li class="dropdown">
-                    <a class="dropdown-toggle dropdown-header-name" style="padding-right: 10px" href="{{ url('/') }}" target="_blank"><i class="fa fa-globe"></i> <span @if (isset($themes) && is_array($themes) && count($themes) > 1 && setting('enable_change_admin_theme') != false) class="d-none d-sm-inline" @endif>{{ trans('core/base::layouts.view_website') }}</span> </a>
+                    <a class="dropdown-toggle dropdown-header-name pe-2" href="{{ url('/') }}" target="_blank">
+                        <i class="fa fa-globe"></i>
+                        <span class="d-none d-sm-inline">
+                            {{ trans('core/base::layouts.view_website') }}
+                        </span>
+                    </a>
                 </li>
             @endif
             @if (Auth::check())
@@ -23,7 +28,8 @@
             @if (isset($themes) && is_array($themes) && count($themes) > 1 && setting('enable_change_admin_theme') != false)
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle dropdown-header-name" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span>{{ $activeTheme ? Str::studly($activeTheme) : trans('core/base::layouts.theme') }}</span>
+                        <span class="d-inline d-sm-none"><i class="fas fa-palette"></i></span>
+                        <span class="d-none d-sm-inline">{{ trans('core/base::layouts.theme') }}</span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right icons-right">

@@ -21,6 +21,8 @@
                         ### {{ trans('core/base::system.server_environment') }}
 
                         - {{ trans('core/base::system.php_version') }}: {{ $serverEnv['version'] . (!$matchPHPRequirement ? '(' . trans('core/base::system.php_version_error', ['version' => $requiredPhpVersion]) . ')' : '') }}
+                        - {{ trans('core/base::system.memory_limit') }}: {!! $serverEnv['memory_limit'] ?: '&mdash;' !!}
+                        - {{ trans('core/base::system.max_execution_time') }}: {!! $serverEnv['max_execution_time'] ?: '&mdash;' !!}
                         - {{ trans('core/base::system.server_software') }}: {{ $serverEnv['server_software'] }}
                         - {{ trans('core/base::system.server_os') }}: {{ $serverEnv['server_os'] }}
                         - {{ trans('core/base::system.database') }}: {{ $serverEnv['database_connection_name'] }}
@@ -36,6 +38,7 @@
                         - {{ trans('core/base::system.file_info_ext') }}: {!! $serverEnv['fileinfo'] ? '&#10004;' : '&#10008;' !!}
                         - {{ trans('core/base::system.tokenizer_ext') }}: {!! $serverEnv['tokenizer']  ? '&#10004;' : '&#10008;'!!}
                         - {{ trans('core/base::system.imagick_or_gd_ext') }}: {!! $serverEnv['imagick_or_gd']  ? '&#10004;' : '&#10008;'!!}
+                        - {{ trans('core/base::system.zip') }}: {!! $serverEnv['zip']  ? '&#10004;' : '&#10008;'!!}
 
                         ### {{ trans('core/base::system.installed_packages') }}
 
@@ -92,6 +95,8 @@
 
                 <ul class="list-group">
                     <li class="list-group-item">{{ trans('core/base::system.php_version') }}: {{ $serverEnv['version'] }} @if ($matchPHPRequirement) <span class="fas fa-check"></span> @else <span class="fas fa-times"></span> <span class="text-danger">({{ trans('core/base::system.php_version_error', ['version' => $requiredPhpVersion]) }})</span> @endif</li>
+                    <li class="list-group-item">{{ trans('core/base::system.memory_limit') }}: {!! $serverEnv['memory_limit'] ?: '&mdash;' !!}</li>
+                    <li class="list-group-item">{{ trans('core/base::system.max_execution_time') }}: {!! $serverEnv['max_execution_time'] ?: '&mdash;' !!}</li>
                     <li class="list-group-item">{{ trans('core/base::system.server_software') }}: {{ $serverEnv['server_software'] }}</li>
                     <li class="list-group-item">{{ trans('core/base::system.server_os') }}: {{ $serverEnv['server_os'] }}</li>
                     <li class="list-group-item">{{ trans('core/base::system.database') }}: {{ $serverEnv['database_connection_name'] }}</li>
@@ -107,6 +112,7 @@
                     <li class="list-group-item">{{ trans('core/base::system.file_info_ext') }}: {!! $serverEnv['fileinfo'] ? '<span class="fas fa-check"></span>' : '<span class="fas fa-times"></span>' !!}</li>
                     <li class="list-group-item">{{ trans('core/base::system.tokenizer_ext') }}: {!! $serverEnv['tokenizer']  ? '<span class="fas fa-check"></span>' : '<span class="fas fa-times"></span>'!!}</li>
                     <li class="list-group-item">{{ trans('core/base::system.imagick_or_gd_ext') }}: {!! $serverEnv['imagick_or_gd']  ? '<span class="fas fa-check"></span>' : '<span class="fas fa-times"></span>'!!}</li>
+                    <li class="list-group-item">{{ trans('core/base::system.zip') }}: {!! $serverEnv['zip']  ? '<span class="fas fa-check"></span>' : '<span class="fas fa-times"></span>'!!}</li>
                 </ul>
             </div>
         </div> <!-- / Server Environment column -->

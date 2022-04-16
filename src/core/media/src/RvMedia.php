@@ -662,7 +662,7 @@ class RvMedia
 
         // 10% less then an actual image (play with this value)
         // Watermark will be 10 less then the actual width of the image
-        $watermarkSize = round($imageSource->width() * (setting('media_watermark_size',
+        $watermarkSize = round($imageSource->width() * ((int)setting('media_watermark_size',
                     $this->getConfig('watermark.size')) / 100), 2);
 
         // Resize watermark width keep height auto
@@ -670,12 +670,12 @@ class RvMedia
             ->resize($watermarkSize, null, function ($constraint) {
                 $constraint->aspectRatio();
             })
-            ->opacity(setting('media_watermark_opacity', $this->getConfig('watermark.opacity')));
+            ->opacity((int)setting('media_watermark_opacity', $this->getConfig('watermark.opacity')));
 
         $imageSource->insert($watermark,
             setting('media_watermark_position', $this->getConfig('watermark.position')),
-            setting('watermark_position_x', $this->getConfig('watermark.x')),
-            setting('watermark_position_y', $this->getConfig('watermark.y'))
+            (int)setting('watermark_position_x', $this->getConfig('watermark.x')),
+            (int)setting('watermark_position_y', $this->getConfig('watermark.y'))
         );
 
         $destinationPath = sprintf('%s/%s', trim(File::dirname($image), '/'),
@@ -821,7 +821,7 @@ class RvMedia
      */
     public function getUploadPath(): string
     {
-        return public_path('storage');
+        return is_link(public_path('storage')) ? storage_path('app/public') : public_path('storage');
     }
 
     /**

@@ -9,6 +9,12 @@ use Illuminate\Support\Str;
 
 class SlugHelper
 {
+
+    /**
+     * @var array
+     */
+    protected $canEmptyPrefixes = [Page::class];
+
     /**
      * @param string|array $model
      * @param string|null $name
@@ -57,14 +63,19 @@ class SlugHelper
     /**
      * @param string $model
      * @param string|null $prefix
+     * @param bool $canEmptyPrefix
      * @return $this
      */
-    public function setPrefix(string $model, ?string $prefix): self
+    public function setPrefix(string $model, ?string $prefix, bool $canEmptyPrefix = false): self
     {
         $prefixes = config('packages.slug.general.prefixes', []);
         $prefixes[$model] = $prefix;
 
         config(['packages.slug.general.prefixes' => $prefixes]);
+
+        if ($canEmptyPrefix) {
+            $this->canEmptyPrefixes[] = $model;
+        }
 
         return $this;
     }
@@ -173,5 +184,13 @@ class SlugHelper
     public function turnOffAutomaticUrlTranslationIntoLatin(): bool
     {
         return setting('slug_turn_off_automatic_url_translation_into_latin', 0) == 1;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function getCanEmptyPrefixes(): array
+    {
+        return $this->canEmptyPrefixes;
     }
 }

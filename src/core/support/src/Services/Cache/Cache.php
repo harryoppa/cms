@@ -29,7 +29,7 @@ class Cache implements CacheInterface
     /**
      * Cache constructor.
      * @param Repository|CacheManager $cache
-     * @param null $cacheGroup
+     * @param null|string $cacheGroup
      * @param array $config
      */
     public function __construct(CacheManager $cache, $cacheGroup, $config = [])

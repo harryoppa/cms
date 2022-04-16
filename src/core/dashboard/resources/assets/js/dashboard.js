@@ -121,38 +121,53 @@ class BDashboard {
             $('#hide_widget_modal').modal('show');
         });
 
-        list_widgets.on('click', '.page_next, .page_previous', event =>  {
-            event.preventDefault();
-            BDashboard.loadWidget($(event.currentTarget).closest('.portlet').find('.portlet-body'), $(event.currentTarget).prop('href'));
+        list_widgets.on('click', '.page_next, .page_previous', e =>  {
+            e.preventDefault();
+            const $this = $(e.currentTarget);
+            const href = $this.prop('href');
+            if (href) {
+                BDashboard.loadWidget($this.closest('.portlet').find('.portlet-body'), href);
+            }
         });
 
-        list_widgets.on('change', '.number_record .numb', event =>  {
-            event.preventDefault();
-            let paginate = $('.number_record .numb').val();
-            if (!isNaN(paginate)) {
-                BDashboard.loadWidget($(event.currentTarget).closest('.portlet').find('.portlet-body'), $(event.currentTarget).closest('.widget_item').attr('data-url'), {paginate: paginate});
+        list_widgets.on('change', '.number_record .numb', e =>  {
+            e.preventDefault();
+            const $this = $(e.currentTarget);
+            const numb = $this.closest('.number_record').find('.numb');
+            let paginate = numb.val();
+            if (!isNaN(paginate) && paginate > 0) {
+                BDashboard.loadWidget($this.closest('.portlet').find('.portlet-body'), $this.closest('.widget_item').attr('data-url'), {paginate: paginate});
             } else {
-                TVHung.showError('Please input a number!')
+                Botble.showError('Please input a number!')
             }
-
         });
 
-        list_widgets.on('click', '.btn_change_paginate', event =>  {
-            event.preventDefault();
-            let numb = $('.number_record .numb');
+        list_widgets.on('click', '.btn_change_paginate', e =>  {
+            e.preventDefault();
+            const $this = $(e.currentTarget);
+            const numb = $this.closest('.number_record').find('.numb');
+            const min = parseInt(numb.prop('min') || 5);
+            const max = parseInt(numb.prop('max') || 100);
+            const step = parseInt(numb.prop('step') || 5);
             let paginate = parseInt(numb.val());
-            if ($(event.currentTarget).hasClass('btn_up')) {
-                paginate += 5;
-            }
-            if ($(event.currentTarget).hasClass('btn_down')) {
-                if (paginate - 5 > 0) {
-                    paginate -= 5;
+            if ($this.hasClass('btn_up')) {
+                if (paginate < max) {
+                    paginate += step;
+                }
+            } else if ($this.hasClass('btn_down')) {
+                if (paginate - step > 0) {
+                    paginate -= step;
                 } else {
-                    paginate = 0;
+                    paginate = step;
+                }
+                if (paginate < min) {
+                    paginate = min;
                 }
             }
-            numb.val(paginate);
-            BDashboard.loadWidget($(event.currentTarget).closest('.portlet').find('.portlet-body'), $(event.currentTarget).closest('.widget_item').attr('data-url'), {paginate: paginate});
+
+            if (paginate != parseInt(numb.val())) {
+                numb.val(paginate).trigger('change');
+            }
         });
 
         $('#hide-widget-confirm-bttn').on('click', event =>  {
@@ -165,9 +180,9 @@ class BDashboard {
                 success: res =>  {
                     if (!res.error) {
                         $('#' + name).fadeOut();
-                        TVHung.showSuccess(res.message);
+                        Botble.showSuccess(res.message);
                     } else {
-                        TVHung.showError(res.message);
+                        Botble.showError(res.message);
                     }
                     $('#hide_widget_modal').modal('hide');
                     let portlet = $(event.currentTarget).closest('.portlet');
@@ -181,16 +196,16 @@ class BDashboard {
                     portlet.remove();
                 },
                 error: data =>  {
-                    TVHung.handleError(data);
+                    Botble.handleError(data);
                 }
             });
         });
 
-        $(document).on('click', '.portlet:not(.widget-load-has-callback) > .portlet-title .tools > a.reload', event =>  {
-            event.preventDefault();
-            BDashboard.loadWidget($(event.currentTarget).closest('.portlet').find('.portlet-body'), $(event.currentTarget).closest('.widget_item').attr('data-url'));
+        $(document).on('click', '.portlet:not(.widget-load-has-callback) > .portlet-title .tools > a.reload', e =>  {
+            e.preventDefault();
+            const $this = $(e.currentTarget);
+            BDashboard.loadWidget($this.closest('.portlet').find('.portlet-body'), $this.closest('.widget_item').attr('data-url'));
         });
-
 
         $(document).on('click', '.portlet > .portlet-title .tools > .collapse, .portlet .portlet-title .tools > .expand', event =>  {
             event.preventDefault();
@@ -227,15 +242,15 @@ class BDashboard {
                     }
                 },
                 error: data =>  {
-                    TVHung.handleError(data);
+                    Botble.handleError(data);
                 }
             });
         });
 
-        $(document).on('change', '.portlet select[name=predefined_range]', (e) => {
+        $(document).on('change', '.portlet select[name=predefined_range]', e => {
             e.preventDefault();
             const $this = $(e.currentTarget);
-            BDashboard.loadWidget($(e.currentTarget).closest('.portlet').find('.portlet-body'), $(e.currentTarget).closest('.widget_item').attr('data-url'));
+            BDashboard.loadWidget($this.closest('.portlet').find('.portlet-body'), $this.closest('.widget_item').attr('data-url'), {changed_predefined_range: 1});
         });
 
         let manage_widget_modal = $('#manage_widget_modal');

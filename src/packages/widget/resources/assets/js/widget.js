@@ -39,10 +39,12 @@ class WidgetManagement {
                             TVHung.showSuccess(data.message);
                         }
 
-                        parentElement.find('.widget_save i').remove();
                     },
                     error: data =>  {
                         TVHung.handleError(data);
+                        parentElement.find('.widget_save i').remove();
+                    },
+                    complete: () => {
                         parentElement.find('.widget_save i').remove();
                     }
                 });
@@ -70,13 +72,19 @@ class WidgetManagement {
                 scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
                 scrollSpeed: 10, // px
 
-                // dragging ended
-                onEnd: evt => {
+                // Changed sorting within list
+                onUpdate: evt => {
                     if (evt.from !== evt.to) {
                         saveWidget($(evt.from).closest('.sidebar-item'));
                     }
                     saveWidget($(evt.item).closest('.sidebar-item'));
-                }
+                },
+                onAdd: evt => {
+                    if (evt.from !== evt.to) {
+                        saveWidget($(evt.from).closest('.sidebar-item'));
+                    }
+                    saveWidget($(evt.item).closest('.sidebar-item'));
+                },
             });
         });
 
@@ -89,10 +97,11 @@ class WidgetManagement {
             _self.addClass('button-loading');
 
             $.ajax({
-                type: 'DELETE',
+                type: 'POST',
                 cache: false,
                 url: BWidget.routes.delete,
                 data: {
+                    _method: 'DELETE',
                     widget_id: widget.data('id'),
                     position: widget.data('position'),
                     sidebar_id: _self.closest('.sidebar-item').data('id')
@@ -107,10 +116,12 @@ class WidgetManagement {
                         TVHung.showSuccess(data.message);
                         widget.fadeOut().remove();
                     }
-                    widget.find('.widget-control-delete').removeClass('button-loading');
                 },
                 error: data =>  {
                     TVHung.handleError(data);
+                    widget.find('.widget-control-delete').removeClass('button-loading');
+                },
+                complete: () => {
                     widget.find('.widget-control-delete').removeClass('button-loading');
                 }
             });
@@ -120,6 +131,13 @@ class WidgetManagement {
         widgetWrap.on('click', '#added-widget .widget-handle', event =>  {
             let _self = $(event.currentTarget);
             _self.closest('li').find('.widget-content').slideToggle(300);
+            _self.find('.fa').toggleClass('fa-caret-up');
+            _self.find('.fa').toggleClass('fa-caret-down');
+        });
+
+        widgetWrap.on('click', '#added-widget .sidebar-header', event =>  {
+            let _self = $(event.currentTarget);
+            _self.closest('.sidebar-area').find('> ul').slideToggle(300);
             _self.find('.fa').toggleClass('fa-caret-up');
             _self.find('.fa').toggleClass('fa-caret-down');
         });

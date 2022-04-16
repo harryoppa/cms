@@ -3,6 +3,7 @@
 namespace TVHung\Dashboard\Supports;
 
 use TVHung\Dashboard\Repositories\Interfaces\DashboardWidgetInterface;
+use TVHung\Dashboard\Repositories\Interfaces\DashboardWidgetSettingInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -308,7 +309,6 @@ class DashboardWidgetInstance
         return $this;
     }
 
-
     /**
      * @param array $settings
      * @return DashboardWidgetInstance
@@ -318,6 +318,73 @@ class DashboardWidgetInstance
         $this->settings = $settings;
 
         return $this;
+    }
+
+    /**
+     * @param array $widgets
+     * @param Collection $widgetSettings
+     * @return array
+     * @throws Throwable
+     */
+    public function init($widgets, $widgetSettings)
+    {
+        if (!Auth::user()->hasPermission($this->permission)) {
+            return $widgets;
+        }
+
+        $widget = $widgetSettings->where('name', $this->key)->first();
+        $widgetSetting = $widget ? $widget->settings->first() : null;
+
+        if (!$widget) {
+            $widget = app(DashboardWidgetInterface::class)
+                ->firstOrCreate(['name' => $this->key]);
+        }
+
+        $widget->title = $this->title;
+        $widget->icon = $this->icon;
+        $widget->color = $this->color;
+        $widget->route = $this->route;
+        if ($this->type === 'widget') {
+            $widget->bodyClass = $this->bodyClass;
+            $widget->column = $this->column;
+
+            $settings = array_merge($widgetSetting && $widgetSetting->settings ? $widgetSetting->settings : [],
+                $this->settings);
+            $predefinedRanges = $this->getPredefinedRanges();
+
+            $data = [
+                'id'   => $widget->id,
+                'type' => $this->type,
+                'view' => view('core/dashboard::widgets.base',
+                    compact('widget', 'widgetSetting', 'settings', 'predefinedRanges'))->render(),
+            ];
+
+            if (empty($widgetSetting) || array_key_exists($widgetSetting->order, $widgets)) {
+                $widgets[] = $data;
+            } else {
+                $widgets[$widgetSetting->order] = $data;
+            }
+
+            return $widgets;
+        }
+
+        $widget->statsTotal = $this->statsTotal;
+
+        $widgets[$this->key] = [
+            'id'   => $widget->id,
+            'type' => $this->type,
+            'view' => view('core/dashboard::widgets.stats', compact('widget', 'widgetSetting'))->render(),
+        ];
+
+        return $widgets;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPredefinedRanges(): array
+    {
+        return $this->predefinedRanges ?: $this->getPredefinedRangesDefault();
     }
 
     /**
@@ -385,71 +452,6 @@ class DashboardWidgetInstance
     }
 
     /**
-     * @return array
-     */
-    public function getPredefinedRanges(): array
-    {
-        return $this->predefinedRanges ?: $this->getPredefinedRangesDefault();
-    }
-
-    /**
-     * @param array $widgets
-     * @param Collection $widgetSettings
-     * @return array
-     * @throws Throwable
-     */
-    public function init($widgets, $widgetSettings)
-    {
-        if (!Auth::user()->hasPermission($this->permission)) {
-            return $widgets;
-        }
-
-        $widget = $widgetSettings->where('name', $this->key)->first();
-        $widgetSetting = $widget ? $widget->settings->first() : null;
-
-        if (!$widget) {
-            $widget = app(DashboardWidgetInterface::class)
-                ->firstOrCreate(['name' => $this->key]);
-        }
-
-        $widget->title = $this->title;
-        $widget->icon = $this->icon;
-        $widget->color = $this->color;
-        $widget->route = $this->route;
-        if ($this->type === 'widget') {
-            $widget->bodyClass = $this->bodyClass;
-            $widget->column = $this->column;
-
-            $settings = array_merge($widgetSetting && $widgetSetting->settings ? $widgetSetting->settings : [], $this->settings);
-            $predefinedRanges = $this->getPredefinedRanges();
-
-            $data = [
-                'id'   => $widget->id,
-                'type' => $this->type,
-                'view' => view('core/dashboard::widgets.base', compact('widget', 'settings', 'predefinedRanges'))->render(),
-            ];
-
-            if (empty($widgetSetting) || array_key_exists($widgetSetting->order, $widgets)) {
-                $widgets[] = $data;
-            } else {
-                $widgets[$widgetSetting->order] = $data;
-            }
-
-            return $widgets;
-        }
-
-        $widget->statsTotal = $this->statsTotal;
-
-        $widgets[$this->key] = [
-            'id'   => $widget->id,
-            'type' => $this->type,
-            'view' => view('core/dashboard::widgets.stats', compact('widget', 'widgetSetting'))->render(),
-        ];
-
-        return $widgets;
-    }
-
-    /**
      * @param string $filterRangeInput
      * @return mixed
      */
@@ -469,5 +471,30 @@ class DashboardWidgetInstance
         }
 
         return $predefinedRanges->first();
+    }
+
+    /**
+     * @param string $widgetName
+     * @param array $settings
+     * @return bool
+     */
+    public function saveSettings($widgetName, array $settings)
+    {
+        $widget = app(DashboardWidgetInterface::class)->getFirstBy(['name' => $widgetName]);
+
+        if (!$widget) {
+            return false;
+        }
+
+        $widgetSetting = app(DashboardWidgetSettingInterface::class)->firstOrCreate([
+            'widget_id' => $widget->id,
+            'user_id'   => Auth::user()->getKey(),
+        ]);
+
+        $widgetSetting->settings = array_merge((array)$widgetSetting->settings, $settings);
+
+        $widgetSetting->save();
+
+        return true;
     }
 }

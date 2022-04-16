@@ -92,6 +92,8 @@ class SystemManagement
     {
         return [
             'version'                  => phpversion(),
+            'memory_limit'             => @ini_get('memory_limit'),
+            'max_execution_time'       => @ini_get('max_execution_time'),
             'server_software'          => Request::server('SERVER_SOFTWARE'),
             'server_os'                => function_exists('php_uname') ? php_uname() : 'N/A',
             'database_connection_name' => config('database.default'),
@@ -107,6 +109,7 @@ class SystemManagement
             'fileinfo'                 => extension_loaded('fileinfo'),
             'tokenizer'                => extension_loaded('tokenizer'),
             'imagick_or_gd'            => extension_loaded('imagick') || extension_loaded('gd'),
+            'zip'                      => extension_loaded('zip'),
         ];
     }
 

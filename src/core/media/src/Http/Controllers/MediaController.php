@@ -657,7 +657,11 @@ class MediaController extends Controller
                 }
             }
 
-            $zip->close();
+            if (version_compare(phpversion(), '8.0') >= 0) {
+                $zip = null;
+            } else {
+                $zip->close();
+            }
 
             if (File::exists($fileName)) {
                 return response()->download($fileName)->deleteFileAfterSend();

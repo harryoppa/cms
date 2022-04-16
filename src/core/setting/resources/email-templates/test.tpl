@@ -10,8 +10,9 @@
                             <table>
                                 <tbody>
                                 <tr>
-                                    <td align="center">
-                                        <h3 class="sub-title">A testing email!</h3>
+                                    <td>
+                                        <p>This is a test email. It's sent from {{ site_title }}.</p>
+                                        <p>It's not important, just ignore it.</p>
                                     </td>
                                 </tr>
                                 </tbody>

@@ -29,6 +29,30 @@ class HookServiceProvider extends ServiceProvider
         if (function_exists('theme_option')) {
             add_action(RENDERING_THEME_OPTIONS_PAGE, [$this, 'addThemeOptions'], 31);
         }
+
+        if (defined('THEME_FRONT_HEADER')) {
+            add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function ($screen, $page) {
+                add_filter(THEME_FRONT_HEADER, function ($html) use ($page) {
+                    if (get_class($page) != Page::class) {
+                        return $html;
+                    }
+
+                    $schema = [
+                        '@context' => 'https://schema.org',
+                        '@type'    => 'Organization',
+                        'name'     => theme_option('site_title'),
+                        'url'      => $page->url,
+                        'logo'     => [
+                            '@type' => 'ImageObject',
+                            'url'   => RvMedia::getImageUrl(theme_option('logo')),
+                        ],
+                    ];
+
+                    return $html . Html::tag('script', json_encode($schema), ['type' => 'application/ld+json'])
+                            ->toHtml();
+                }, 2);
+            }, 2, 2);
+        }
     }
 
     public function addThemeOptions()

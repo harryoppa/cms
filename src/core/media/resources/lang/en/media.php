@@ -15,7 +15,7 @@ return [
     'create_folder'              => 'Create folder',
     'refresh'                    => 'Refresh',
     'empty_trash'                => 'Empty trash',
-    'search_file_and_folder'     => 'Search file and folder',
+    'search_file_and_folder'     => 'Search in current folder',
     'sort'                       => 'Sort',
     'file_name_asc'              => 'File name - ASC',
     'file_name_desc'             => 'File name - DESC',

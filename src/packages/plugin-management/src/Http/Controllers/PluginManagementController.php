@@ -100,6 +100,33 @@ class PluginManagementController extends Controller
                 }
 
                 $result = $pluginService->activate($plugin);
+
+                $migrator = app('migrator');
+                $migrator->run(database_path('migrations'));
+
+                $paths = [
+                    core_path(),
+                    package_path(),
+                ];
+
+                foreach ($paths as $path) {
+                    foreach (scan_folder($path) as $module) {
+
+                        if ($path == plugin_path() && !is_plugin_active($module)) {
+                            continue;
+                        }
+
+                        $modulePath = $path . '/' . $module;
+
+                        if (!File::isDirectory($modulePath)) {
+                            continue;
+                        }
+
+                        if (File::isDirectory($modulePath . '/database/migrations')) {
+                            $migrator->run($modulePath . '/database/migrations');
+                        }
+                    }
+                }
             } else {
                 $result = $pluginService->deactivate($plugin);
             }

@@ -4,6 +4,7 @@ namespace TVHung\SeoHelper\Entities;
 
 use TVHung\SeoHelper\Contracts\Entities\TitleContract;
 use TVHung\SeoHelper\Exceptions\InvalidArgumentException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class Title implements TitleContract
@@ -315,7 +316,13 @@ class Title implements TitleContract
             $output[] = $this->getSiteName();
         }
 
-        return implode('', $output);
+        $output = array_unique($output);
+
+        if (count($output) > 2) {
+            return implode('', array_unique($output));
+        }
+
+        return Arr::first($output);
     }
 
     /**

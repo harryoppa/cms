@@ -424,6 +424,14 @@ div.dataTables_wrapper {
     }
 }
 
+.page-sidebar-closed {
+    .form-actions {
+        &.form-actions-fixed-top {
+            right: 45px;
+        }
+    }
+}
+
 small.charcounter {
     right: auto;
     left: 0;
@@ -487,5 +495,45 @@ small.charcounter {
     > div {
         padding: 15px 50px 15px 15px;
         background-position: right 15px center;
+    }
+}
+
+.app-grid--blank-slate .app-item .app-footer {
+    padding-left: 0;
+    padding-right: 10px;
+}
+
+.dd3-handle {
+    left: auto;
+    right: 0;
+}
+
+.dd3-content {
+    .show-item-details {
+        left: auto;
+        right: 319px;
+        border-left: none;
+        border-right: 1px solid #aaa;
+    }
+
+    > span.text.float-end {
+        margin-left: 25px;
+        margin-right: 0;
+    }
+}
+
+.widget-menu {
+    .widget {
+        &.meta-boxes {
+            .btn-add-to-menu {
+                i {
+                    display: inline;
+                }
+            }
+
+            .narrow-icon {
+                float: left;
+            }
+        }
     }
 }

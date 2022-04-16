@@ -62,34 +62,49 @@ class ThemeServiceProvider extends ServiceProvider
                     'icon'        => 'fa fa-paint-brush',
                     'url'         => '#',
                     'permissions' => [],
-                ])
-                ->registerItem([
-                    'id'          => 'cms-core-theme',
-                    'priority'    => 1,
-                    'parent_id'   => 'cms-core-appearance',
-                    'name'        => 'packages/theme::theme.name',
-                    'icon'        => null,
-                    'url'         => route('theme.index'),
-                    'permissions' => ['theme.index'],
-                ])
-                ->registerItem([
-                    'id'          => 'cms-core-theme-option',
-                    'priority'    => 4,
-                    'parent_id'   => 'cms-core-appearance',
-                    'name'        => 'packages/theme::theme.theme_options',
-                    'icon'        => null,
-                    'url'         => route('theme.options'),
-                    'permissions' => ['theme.options'],
-                ])
-                ->registerItem([
-                    'id'          => 'cms-core-appearance-custom-css',
-                    'priority'    => 5,
-                    'parent_id'   => 'cms-core-appearance',
-                    'name'        => 'packages/theme::theme.custom_css',
-                    'icon'        => null,
-                    'url'         => route('theme.custom-css'),
-                    'permissions' => ['theme.custom-css'],
                 ]);
+
+                if ($this->app['config']->get('packages.theme.general.display_theme_manager_in_admin_panel', true)) {
+                    dashboard_menu()
+                        ->registerItem([
+                            'id'          => 'cms-core-theme',
+                            'priority'    => 1,
+                            'parent_id'   => 'cms-core-appearance',
+                            'name'        => 'packages/theme::theme.name',
+                            'icon'        => null,
+                            'url'         => route('theme.index'),
+                            'permissions' => ['theme.index'],
+                        ]);
+                }
+    
+                dashboard_menu()
+                    ->registerItem([
+                        'id'          => 'cms-core-theme',
+                        'priority'    => 1,
+                        'parent_id'   => 'cms-core-appearance',
+                        'name'        => 'packages/theme::theme.name',
+                        'icon'        => null,
+                        'url'         => route('theme.index'),
+                        'permissions' => ['theme.index'],
+                    ])
+                    ->registerItem([
+                        'id'          => 'cms-core-theme-option',
+                        'priority'    => 4,
+                        'parent_id'   => 'cms-core-appearance',
+                        'name'        => 'packages/theme::theme.theme_options',
+                        'icon'        => null,
+                        'url'         => route('theme.options'),
+                        'permissions' => ['theme.options'],
+                    ])
+                    ->registerItem([
+                        'id'          => 'cms-core-appearance-custom-css',
+                        'priority'    => 5,
+                        'parent_id'   => 'cms-core-appearance',
+                        'name'        => 'packages/theme::theme.custom_css',
+                        'icon'        => null,
+                        'url'         => route('theme.custom-css'),
+                        'permissions' => ['theme.custom-css'],
+                    ]);
 
             if (config('packages.theme.general.enable_custom_js')) {
                 dashboard_menu()

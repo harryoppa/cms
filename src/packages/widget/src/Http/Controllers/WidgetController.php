@@ -13,6 +13,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Language;
 use Theme;
@@ -54,10 +55,13 @@ class WidgetController extends BaseController
 
         $widgets = $this->widgetRepository->getByTheme($this->theme);
 
+        $groups = WidgetGroup::getGroups();
         foreach ($widgets as $widget) {
-            WidgetGroup::group($widget->sidebar_id)
-                ->position($widget->position)
-                ->addWidget($widget->widget_id, $widget->data);
+            if (Arr::has($groups, $widget->sidebar_id)) {
+                WidgetGroup::group($widget->sidebar_id)
+                    ->position($widget->position)
+                    ->addWidget($widget->widget_id, $widget->data);
+            }
         }
 
         return view('packages/widget::list');

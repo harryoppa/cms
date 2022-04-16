@@ -290,7 +290,7 @@ class EmailHandler
                 get_setting_email_template_content('core', 'base', 'header')),
             'footer'           => apply_filters(BASE_FILTER_EMAIL_TEMPLATE_FOOTER,
                 get_setting_email_template_content('core', 'base', 'footer')),
-            'site_title'       => setting('admin_title'),
+            'site_title'       => setting('admin_title') ?: config('app.name'),
             'site_url'         => url(''),
             'site_logo'        => setting('admin_logo') ? RvMedia::getImageUrl(setting('admin_logo')) : url(config('core.base.general.logo')),
             'date_time'        => now()->toDateTimeString(),

@@ -35,6 +35,7 @@
             <input type="hidden" id="current-slug" name="{{ $name }}" value="{{ $value }}">
             <div data-url="{{ route('slug.create') }}" data-view="{{ rtrim(str_replace('--slug--', '', url($prefix) . '/' . config('packages.slug.general.pattern')), '/') . '/' }}" id="slug_id" data-id="{{ $id ?: 0 }}"></div>
             <input type="hidden" name="slug_id" value="{{ $id ?: 0 }}">
+            <input type="hidden" name="is_slug_editable" value="1">
         @endif
     @endif
 </div>

@@ -7,7 +7,8 @@ class PluginManagement {
 
             $.ajax({
                 url: route('plugins.change.status', {name: _self.data('plugin')}),
-                type: 'PUT',
+                type: 'POST',
+                data: {'_method': 'PUT'},
                 success: data =>  {
                     if (data.error) {
                         TVHung.showError(data.message);
@@ -38,7 +39,8 @@ class PluginManagement {
 
             $.ajax({
                 url: route('plugins.remove', {plugin: _self.data('plugin')}),
-                type: 'DELETE',
+                type: 'POST',
+                data: {'_method': 'DELETE'},
                 success: data =>  {
                     if (data.error) {
                         TVHung.showError(data.message);

@@ -5,6 +5,7 @@ namespace TVHung\Theme;
 use Exception;
 use File;
 use Illuminate\Support\Arr;
+use Theme as ThemeFacade;
 
 class AssetContainer
 {
@@ -330,11 +331,17 @@ class AssetContainer
             $theme = app('theme');
         }
 
+        $currentTheme = ThemeFacade::getThemeName();
+
         // Switch path to another theme.
         if (!is_bool($this->usePath) && $theme->exists($this->usePath)) {
-            $currentTheme = $theme->getThemeName();
-
             $source = str_replace($currentTheme, $this->usePath, $source);
+        }
+
+        $publicThemeName = ThemeFacade::getPublicThemeName();
+
+        if ($publicThemeName != $currentTheme) {
+            $source = str_replace($currentTheme, $publicThemeName, $source);
         }
 
         return $source;

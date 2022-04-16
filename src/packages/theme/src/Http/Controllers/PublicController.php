@@ -70,6 +70,8 @@ class PublicController extends Controller
                 if ($slug) {
                     $data = (new PageService)->handleFrontRoutes($slug);
 
+                    event(new RenderingSingleEvent($slug));
+
                     return Theme::scope($data['view'], $data['data'], $data['default_view'])->render();
                 }
             }

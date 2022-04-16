@@ -41,7 +41,7 @@ class Zipper
      */
     public function __construct(Filesystem $fs = null)
     {
-        $this->file = $fs ? $fs : new Filesystem;
+        $this->file = $fs ?: new Filesystem;
     }
 
     /**
@@ -117,11 +117,7 @@ class Zipper
                 }
             }
         } elseif ($this->file->isFile($pathToAdd)) {
-            if ($fileName) {
-                $this->addFile($pathToAdd, $fileName);
-            } else {
-                $this->addFile($pathToAdd);
-            }
+            $this->addFile($pathToAdd, $fileName);
         } else {
             $this->addDir($pathToAdd);
         }

@@ -9,7 +9,7 @@
         <div class="predefined-ranges ui-select-wrapper d-inline-block {{ $hiddenIcons }}">
             <select name="predefined_range" class="ui-select py-0">
                 @foreach ($predefinedRanges as $key => $item)
-                    <option value="{{ $item['key'] }}">{{ $item['label'] }}</option>
+                    <option value="{{ $item['key'] }}" @if ($item['key'] == Arr::get($settings, 'predefined_range')) selected @endif>{{ $item['label'] }}</option>
                 @endforeach
             </select>
             <svg class="svg-next-icon svg-next-icon-size-16">

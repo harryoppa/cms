@@ -4,7 +4,7 @@
         <input type="checkbox" id="media_details_collapse" class="fake-click-event hidden">
         <aside class="rv-media-aside @if (RvMedia::getConfig('sidebar_display') != 'vertical') rv-media-aside-hide-desktop @endif">
             <label for="media_aside_collapse" class="collapse-sidebar">
-                <i class="fa fa-sign-out"></i>
+                <i class="far fa-window-close"></i>
             </label>
             <div class="rv-media-block rv-media-filters">
                 <div class="rv-media-block-title">
@@ -260,7 +260,7 @@
                             </button>
                         </div>
                         <label for="media_details_collapse" class="btn btn-link collapse-panel">
-                            <i class="fa fa-sign-out"></i>
+                            <i class="fas fa-sign-out-alt"></i>
                         </label>
                     </div>
                 </div>

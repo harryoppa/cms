@@ -451,7 +451,7 @@ class TVHung {
                         ajax: {
                             url: $(element).data('url'),
                             dataType: 'json',
-                            type: $(value).data('type') || 'GET',
+                            type: $(element).data('type') || 'GET',
                             quietMillis: 50,
                             data: function (params) {
                                 // Query parameters will be ?search=[term]&page=[page]
@@ -521,15 +521,19 @@ class TVHung {
         }
 
         if (jQuery().inputmask) {
-            $(document).find('.input-mask-number').inputmask({
-                alias: 'numeric',
-                rightAlign: false,
-                digits: 2,
-                groupSeparator: ',',
-                placeholder: '0',
-                autoGroup: true,
-                autoUnmask: true,
-                removeMaskOnSubmit: true,
+            $.each($(document).find('.input-mask-number'), function (index, element) {
+                $(element).inputmask({
+                    alias: 'numeric',
+                    rightAlign: false,
+                    digits: $(element).data('digits') ?? 5,
+                    groupSeparator: $(element).data('thousands-separator') ?? ',',
+                    radixPoint: $(element).data('decimal-separator') ?? '.',
+                    digitsOptional: true,
+                    placeholder: '0',
+                    autoGroup: true,
+                    autoUnmask: true,
+                    removeMaskOnSubmit: true,
+                });
             });
         }
 
