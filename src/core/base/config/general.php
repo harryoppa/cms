@@ -541,7 +541,7 @@ return [
     'purifier'  => [
         'default' => [
             'HTML.Doctype'             => 'HTML 4.01 Transitional',
-            'HTML.Allowed'             => 'div,b,strong,i,em,u,a[href|title|rel|style|target],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|style],button,ins[style|data-ad-client|data-ad-slot|data-ad-format|data-full-width-responsive]',
+            'HTML.Allowed'             => 'div,b,strong,i,em,u,a[href|title|rel|style|target],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|style],button,ins[style|data-ad-client|data-ad-slot|data-ad-format|data-full-width-responsive],svg',
             'HTML.AllowedElements'     => [
                 'a',
                 'b',
@@ -631,6 +631,7 @@ return [
             ['u', 'Inline', 'Inline', 'Common'],
             ['button', 'Inline', 'Inline', 'Common'],
             ['ins', 'Inline', 'Inline', 'Common'],
+            ['svg', 'Inline', 'Inline', 'Common'],
         ],
         'custom_attributes' => [
             ['a', 'rel', 'Text'],
