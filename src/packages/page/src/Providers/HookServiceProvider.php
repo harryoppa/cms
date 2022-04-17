@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Menu;
 use Throwable;
+use RvMedia;
+use Html;
 
 class HookServiceProvider extends ServiceProvider
 {
