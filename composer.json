@@ -18,7 +18,7 @@
         "yajra/laravel-datatables-oracle": "^10.0",
         "guzzlehttp/guzzle": "^6.0|^7.0",
         "laravel/passport": "^9.0|^10.0",
-        "knuckleswtf/scribe": "^6.0",
+        "knuckleswtf/scribe": "^4.0",
         "fruitcake/laravel-cors": "^3.0",
         "mews/purifier": "^3.3"
     },
