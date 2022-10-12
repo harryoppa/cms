@@ -20,7 +20,7 @@
         "laravel/passport": "^9.0|^10.0",
         "knuckleswtf/scribe": "^4.0",
         "fruitcake/laravel-cors": "^3.0",
-        "mews/purifier": "^3.3"
+        "mews/purifier": "dev-master"
     },
     "authors": [
         {
