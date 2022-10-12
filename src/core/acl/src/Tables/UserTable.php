@@ -10,6 +10,7 @@ use TVHung\ACL\Repositories\Interfaces\UserInterface;
 use TVHung\ACL\Services\ActivateUserService;
 use TVHung\Base\Events\UpdatedContentEvent;
 use TVHung\Table\Abstracts\TableAbstract;
+use Illuminate\Http\JsonResponse;
 use Exception;
 use Html;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -61,7 +62,7 @@ class UserTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function ajax()
+    public function ajax(): JsonResponse
     {
         $data = $this->table
             ->eloquent($this->query())

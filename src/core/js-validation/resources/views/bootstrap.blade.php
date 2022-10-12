@@ -21,9 +21,12 @@
                 submitHandler: function(form) {
                     if ($form.valid())
                     {
+                        if ($form.hasClass('no-submit-handler')) {
+                            return true;
+                        }
                         var s = findValueByName('submit', $form.serializeArray(), 'apply');
 
-                        $form.off('submit')
+                        $form.off('submit');
                         setTimeout(() => {
                             $form.find('[type="submit"][value="'+s+'"]').click()
                         }, 5);

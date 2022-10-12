@@ -293,7 +293,7 @@ $(() => {
                     $formLoading.addClass('d-none');
 
                     const activeId = saveAndEdit && data.data.model ? data.data.model.id : null;
-                    reloadTree(activeId, function() {
+                    reloadTree(activeId, function () {
                         if (activeId) {
                             let fetchDataButton = $('.folder-root[data-id="' + activeId + '"] a.fetch-data');
                             if (fetchDataButton.length) {

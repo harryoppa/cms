@@ -7,6 +7,9 @@ use BaseHelper;
 use TVHung\Base\Events\UpdatedContentEvent;
 use TVHung\Support\Repositories\Interfaces\RepositoryInterface;
 use TVHung\Table\Supports\TableExportHandler;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Relations\Relation as EloquentRelation;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Form;
 use Html;
 use Illuminate\Contracts\Foundation\Application;
@@ -116,7 +119,7 @@ abstract class TableAbstract extends DataTable
     /**
      * @var string
      */
-    protected $exportClass = TableExportHandler::class;
+    protected string $exportClass = TableExportHandler::class;
 
     /**
      * TableAbstract constructor.
@@ -682,7 +685,7 @@ abstract class TableAbstract extends DataTable
      * @return mixed
      * @throws Throwable
      */
-    public function render($view, $data = [], $mergeData = [])
+    public function render(string $view = null, array $data = [], array $mergeData = [])
     {
         Assets::addScripts(['datatables', 'moment', 'datepicker'])
             ->addStyles(['datatables', 'datepicker'])
@@ -738,7 +741,7 @@ abstract class TableAbstract extends DataTable
      * @param \Illuminate\Database\Eloquent\Builder|Builder $query
      * @return mixed
      */
-    public function applyScopes($query)
+    public function applyScopes(EloquentBuilder|QueryBuilder|EloquentRelation $query): EloquentBuilder|QueryBuilder|EloquentRelation
     {
         $request = request();
 

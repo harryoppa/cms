@@ -527,7 +527,7 @@ class RvMedia
             $fileName = $this->fileRepository->createSlug(
                 $file->name,
                 $fileExtension,
-                Storage::path($folderPath)
+                Storage::path($folderPath ?? '')
             );
 
             $filePath = $fileName;

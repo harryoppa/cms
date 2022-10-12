@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
+use Illuminate\Http\JsonResponse;
 
 class PageTable extends TableAbstract
 {
@@ -46,7 +47,7 @@ class PageTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function ajax()
+    public function ajax(): JsonResponse
     {
         $pageTemplates = get_page_templates();
 

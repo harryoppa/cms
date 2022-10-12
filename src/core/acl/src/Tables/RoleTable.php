@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use TVHung\ACL\Repositories\Interfaces\RoleInterface;
 use TVHung\ACL\Repositories\Interfaces\UserInterface;
 use TVHung\Table\Abstracts\TableAbstract;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Yajra\DataTables\DataTables;
 
@@ -57,7 +58,7 @@ class RoleTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function ajax()
+    public function ajax(): JsonResponse
     {
         $data = $this->table
             ->eloquent($this->query())

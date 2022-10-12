@@ -6,6 +6,7 @@ use TVHung\Base\Supports\SystemManagement;
 use TVHung\Table\Abstracts\TableAbstract;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
 
 class InfoTable extends TableAbstract
 {
@@ -27,7 +28,7 @@ class InfoTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function ajax()
+    public function ajax(): JsonResponse
     {
         return $this->toJson($this->table
             ->of($this->query())

@@ -11,6 +11,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
+use Illuminate\Http\JsonResponse;
 
 class MenuTable extends TableAbstract
 {
@@ -45,7 +46,7 @@ class MenuTable extends TableAbstract
     /**
      * {@inheritDoc}
      */
-    public function ajax()
+    public function ajax(): JsonResponse
     {
         $data = $this->table
             ->eloquent($this->query())
