@@ -22,6 +22,11 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
     protected $cache;
 
     /**
+     * @var bool
+     */
+    protected bool $useCache = false;
+
+    /**
      * CacheAbstractDecorator constructor.
      * @param RepositoryInterface $repository
      * @param string|null $cacheGroup
@@ -53,7 +58,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function getDataIfExistCache($function, array $args)
     {
-        if (!setting('enable_cache', false)) {
+        if (!$this->useCache && !setting('enable_cache', false)) {
             return call_user_func_array([$this->repository, $function], $args);
         }
 
