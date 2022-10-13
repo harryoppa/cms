@@ -384,9 +384,9 @@ class Language
     public static function getAvailableLocales(): array
     {
         $languages = [];
-        $locales = scan_folder(resource_path('lang'));
+        $locales = scan_folder(lang_path());
         if (in_array('vendor', $locales)) {
-            $locales = array_merge($locales, scan_folder(resource_path('lang/vendor')));
+            $locales = array_merge($locales, scan_folder(lang_path('vendor')));
         }
 
         foreach ($locales as $locale) {
@@ -417,7 +417,7 @@ class Language
                 }
             }
 
-            if (!array_key_exists($locale, $languages) && File::isDirectory(resource_path('lang/' . $locale))) {
+            if (!array_key_exists($locale, $languages) && File::isDirectory(lang_path($locale))) {
                 $languages[$locale] = [
                     'locale' => $locale,
                     'name'   => $locale,

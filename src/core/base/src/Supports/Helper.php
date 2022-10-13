@@ -81,7 +81,7 @@ class Helper
             public_path('vendor/core/' . $type . '/' . $module),
             resource_path('assets/' . $type . '/' . $module),
             resource_path('views/vendor/' . $type . '/' . $module),
-            resource_path('lang/vendor/' . $type . '/' . $module),
+            lang_path('vendor/' . $type . '/' . $module),
             config_path($type . '/' . $module),
         ];
 
