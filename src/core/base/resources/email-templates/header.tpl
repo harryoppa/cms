@@ -1,155 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ site_title }}</title>
-    <link rel="stylesheet" href="{{ site_url }}/vendor/core/core/base/css/email.css">
-</head>
-<body style="margin: 0;">
-<table width="100%" id="mainStructure" border="0" cellspacing="0" cellpadding="0"
-       style="background-color: #e1e1e1;border-spacing: 0;">
-    <!-- START TAB TOP -->
-    <tbody>
-    <tr>
-        <td valign="top" style="border-collapse: collapse;">
-            <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" style="border-spacing: 0;">
-                <tbody>
-                <tr>
-                    <td valign="top" height="6" style="border-collapse: collapse;">
-                        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                               style="border-spacing: 0;max-width :  776px; min-width :  280px; ">
-                            <!-- start space height -->
-                            <tbody>
-                            <tr>
-                                <td height="5" valign="top" style="border-collapse: collapse;"></td>
-                            </tr>
-                            <!-- end space height -->
-                            <tr>
-                                <td height="5" class="remove" style="border-collapse: collapse;"></td>
-                            </tr>
-                            <!-- start space height -->
-                            <tr>
-                                <td height="5" valign="top" style="border-collapse: collapse;"></td>
-                            </tr>
-                            <tr>
-                                <td height="5" class="remove" style="border-collapse: collapse;"></td>
-                            </tr>
-                            <!-- end space height -->
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </td>
-    </tr>
-    <!-- END TAB TOP -->
-    <!--START TOP NAVIGATION ?LAYOUT-->
-    <tr>
-        <td align="center" valign="top" class="fix-box" style="border-collapse: collapse;">
-            <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                   style="border-spacing: 0;">
-                <!-- START CONTAINER NAVIGATION -->
-                <tbody>
-                <tr>
-                    <td valign="middle" style="border-collapse: collapse;">
-                        <!-- start top navigation container -->
-                        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                               style="border-spacing: 0;max-width :  776px; min-width :  280px; ">
-                            <tbody>
-                            <tr>
-                                <td valign="middle" bgcolor="#FFF" style="border-collapse :  collapse;border-top-left-radius: 20px;border-top-right-radius: 20px;">
-                                    <!-- start top navigation -->
-                                    <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0"
-                                           class="full-width" style="border-spacing: 0;max-width :  776px; min-width :  280px; ">
-                                        <tbody>
-                                        <tr>
-                                            <td valign="middle" style="border-collapse: collapse;">
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       class="container2" style="border-spacing: 0;">
-                                                    <tbody>
-                                                    <!--start event date -->
-                                                    <tr>
-                                                        <td valign="middle" align="center"
-                                                            style="border-collapse: collapse;">
-                                                            <table align="right" border="0" cellpadding="0"
-                                                                   cellspacing="0" class="clear-align"
-                                                                   style="border-spacing: 0;">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td style="padding:35px;border-collapse:collapse; height: 70px; line-height: 70px">
-                                                                        <a href="{{ site_url }}" style="color: #fff; text-decoration: none !important;"
-                                                                           target="_blank">
-                                                                            <img title="Logo"
-                                                                                 src="{{ site_logo }}"
-                                                                                 height="70"
-                                                                                 style="max-width: 107px;display: block !important;height: auto !important;"
-                                                                                 alt="Logo" border="0"
-                                                                                 hspace="0"
-                                                                                 vspace="0"></a>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                                <!--end content nav -->
-
-                                                <!--start content nav -->
-                                                <table border="0" align="right" cellpadding="0" cellspacing="0"
-                                                       class="container2" style="border-spacing: 0;">
-                                                    <tbody>
-                                                    <!--start event date -->
-                                                    <tr>
-                                                        <td valign="middle" align="center"
-                                                            style="border-collapse: collapse;">
-                                                            <table align="right" border="0" cellpadding="0"
-                                                                   cellspacing="0" class="clear-align"
-                                                                   style="border-spacing: 0;">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td style="font-size: 13px;line-height: 22px;color: #888;padding: 35px;font-weight: normal;text-align: center;font-family: Tahoma, Helvetica, Arial, sans-serif;border-collapse: collapse;"><span style="display: inline-block; height: 70px; line-height: 70px;border: none">{{ date_time }}</span></td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                                <!--end content nav -->
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- end top navigation -->
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!-- end top navigation container -->
-                    </td>
-                </tr>
-                <!-- END CONTAINER NAVIGATION -->
-                </tbody>
-            </table>
-        </td>
-    </tr>
-    <!--END TOP NAVIGATION LAYOUT-->
-    <!-- START MAIN CONTENT-->
-    <tr>
-        <td align="center" valign="top" class="fix-box" style="border-collapse: collapse;">
-            <!-- start layout-7 container -->
-            <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width"
-                   style="border-spacing: 0;">
-                <tbody>
-                <tr>
-                    <td valign="top" style="border-collapse: collapse;">
-                        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container"
-                               bgcolor="#ffffff" style="background-color: #ffffff;border-spacing: 0;max-width :  776px; min-width :  280px; ">
-                            <!--start space height -->
-                            <tbody>
-                            <!--end space height -->
-                            <tr>
-                                <td style="min-height: 400px; padding: 0 35px; font-size: 13px;">
+<html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+   <head>
+      <title></title>
+      <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+      <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+      <!--[if mso]>
+      <xml>
+         <o:OfficeDocumentSettings>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+            <o:AllowPNG/>
+         </o:OfficeDocumentSettings>
+      </xml>
+      <![endif]-->
+      <style>
+         * {
+         box-sizing: border-box;
+         }
+         body {
+         margin: 0;
+         padding: 0;
+         }
+         a[x-apple-data-detectors] {
+         color: inherit !important;
+         text-decoration: inherit !important;
+         }
+         #MessageViewBody a {
+         color: inherit;
+         text-decoration: none;
+         }
+         p {
+         line-height: inherit
+         }
+         .desktop_hide,
+         .desktop_hide table {
+         mso-hide: all;
+         display: none;
+         max-height: 0px;
+         overflow: hidden;
+         }
+         @media (max-width:595px) {
+         .social_block.desktop_hide .social-table {
+         display: inline-block !important;
+         }
+         .image_block img.big,
+         .row-content {
+         width: 100% !important;
+         }
+         .mobile_hide {
+         display: none;
+         }
+         .stack .column {
+         width: 100%;
+         display: block;
+         }
+         .mobile_hide {
+         min-height: 0;
+         max-height: 0;
+         max-width: 0;
+         overflow: hidden;
+         font-size: 0px;
+         }
+         .desktop_hide,
+         .desktop_hide table {
+         display: table !important;
+         max-height: none !important;
+         }
+         }
+      </style>
+   </head>
+   <body style="background-color: #f3fbff; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+      <table border="0" cellpadding="0" cellspacing="0" class="nl-container" role="presentation" style="table-layout: fixed; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f3fbff;" width="100%">
+         <tbody>
+            <tr>
+               <td>
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                     <tbody>
+                        <tr>
+                           <td>
+                              <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 575px;" width="575">
+                                 <tbody>
+                                    <tr>
+                                       <td class="column column-1" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; padding-top: 5px; padding-bottom: 5px; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;" width="100%">
+                                          <table border="0" cellpadding="0" cellspacing="0" class="image_block block-2" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                                             <tr>
+                                                <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;padding-top:20px;padding-bottom:25px;">
+                                                   <div align="center" class="alignment" style="line-height:10px">
+                                                      <a href="{{ site_url }}" target="_blank">
+                                                      <img src="{{ site_logo }}" style="display: block; height: auto; border: 0; width: 144px; max-width: 100%;" width="144"/>
+                                                      </a>
+                                                   </div>
+                                                </td>
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
