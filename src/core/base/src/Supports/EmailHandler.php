@@ -92,6 +92,8 @@ class EmailHandler
             'date_time'        => trans('core/base::base.email_template.date_time'),
             'date_year'        => trans('core/base::base.email_template.date_year'),
             'site_admin_email' => trans('core/base::base.email_template.site_admin_email'),
+            'container_start'  => 'Container start',
+            'container_end'    => 'Container end',
         ];
 
         return $this;
@@ -296,7 +298,22 @@ class EmailHandler
             'date_time'        => now()->toDateTimeString(),
             'date_year'        => now()->format('Y'),
             'site_admin_email' => get_admin_email()->first(),
+            'container_start'  => get_setting_email_template_content('core', 'base', 'container-start'),
+            'container_end'    => get_setting_email_template_content('core', 'base', 'container-end')
         ];
+    }
+
+    /** 
+     * Remove container start and end from email template
+     * 
+     * @return $this
+     */
+    public function noContainer()
+    {
+        $this->variableValues['core']['container_start'] = '';
+        $this->variableValues['core']['container_end'] = '';
+
+        return $this;
     }
 
     /**
