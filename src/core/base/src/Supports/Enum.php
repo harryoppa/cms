@@ -25,6 +25,11 @@ abstract class Enum implements JsonSerializable
     protected static $langPath = 'core/base::enums';
 
     /**
+     * @var array
+     */
+    protected static array $all = [];
+
+    /**
      * Enum value
      *
      * @var mixed
@@ -167,7 +172,7 @@ abstract class Enum implements JsonSerializable
             $value
         );
 
-        $label = Lang::has($key) ? trans($key) : $value;
+        $label = Lang::has($key) ? trans($key) : static::$all[$value] ?? $value;
 
         return apply_filters(BASE_FILTER_ENUM_LABEL, $label, get_called_class());
     }

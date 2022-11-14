@@ -804,7 +804,7 @@ abstract class TableAbstract extends DataTable
                 $query = $query->whereDate($this->repository->getTable() . '.' . $key, $operator, $value);
                 break;
             default:
-                if (!$value) {
+                if (!$value && $value !== "0") {
                     break;
                 }
 
