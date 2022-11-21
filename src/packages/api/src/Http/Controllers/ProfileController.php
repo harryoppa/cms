@@ -117,7 +117,7 @@ class ProfileController extends Controller
             $user = $request->user()->update($request->input());
 
             return $response
-                ->setData($user->toArray())
+                ->setData($user)
                 ->setMessage(__('Update profile successfully!'));
         } catch (Exception $ex) {
             return $response
@@ -130,6 +130,8 @@ class ProfileController extends Controller
      * Update password
      *
      * @bodyParam password string required The new password of user.
+     * @bodyParam password_confirmation string required The new password confirmation of user.
+     * @bodyParam current_password string required The current password of user.
      *
      * @group Profile
      * @authenticated
@@ -141,7 +143,9 @@ class ProfileController extends Controller
     public function updatePassword(Request $request, BaseHttpResponse $response)
     {
         $validator = Validator::make($request->input(), [
-            'password' => 'required|min:6|max:60',
+            'password'              => 'required|min:6|max:60',
+            'password_confirmation' => 'required|same:password',
+            'current_password'      => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -149,6 +153,13 @@ class ProfileController extends Controller
                 ->setError()
                 ->setCode(422)
                 ->setMessage(__('Data invalid!') . ' ' . implode(' ', $validator->errors()->all()) . '.');
+        }
+
+        if (!Hash::check($request->input('current_password'), $request->user()->getAuthPassword())) {
+            return $response
+                ->setError()
+                ->setCode(422)
+                ->setMessage(__('Current password is incorrect!'));
         }
 
         $request->user()->update([
