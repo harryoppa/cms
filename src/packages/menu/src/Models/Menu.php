@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Menu extends BaseModel
 {
-
     use EnumCastable;
 
     /**
@@ -44,18 +43,12 @@ class Menu extends BaseModel
         });
     }
 
-    /**
-     * @return HasMany
-     */
-    public function menuNodes()
+    public function menuNodes(): HasMany
     {
         return $this->hasMany(MenuNode::class, 'menu_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function locations()
+    public function locations(): HasMany
     {
         return $this->hasMany(MenuLocation::class, 'menu_id');
     }

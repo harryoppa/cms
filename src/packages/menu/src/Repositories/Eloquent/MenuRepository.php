@@ -43,7 +43,7 @@ class MenuRepository extends RepositoriesAbstract implements MenuInterface
         $slug = Str::slug($name);
         $index = 1;
         $baseSlug = $slug;
-        while ($this->model->where('slug', $slug)->count() > 0) {
+        while ($this->model->where('slug', $slug)->exists()) {
             $slug = $baseSlug . '-' . $index++;
         }
 

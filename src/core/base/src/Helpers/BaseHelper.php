@@ -4,18 +4,15 @@ namespace TVHung\Base\Helpers;
 
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\HtmlString;
 
 class BaseHelper
 {
-    /**
-     * @param Carbon $timestamp
-     * @param string $format
-     * @return string
-     */
-    public function formatTime(Carbon $timestamp, ?string $format = 'j M Y H:i')
+    public function formatTime(Carbon $timestamp, ?string $format = 'j M Y H:i'): string
     {
         $first = Carbon::create(0000, 0, 0, 00, 00, 00);
 
@@ -26,12 +23,7 @@ class BaseHelper
         return $timestamp->format($format);
     }
 
-    /**
-     * @param string $date
-     * @param string $format
-     * @return string
-     */
-    public function formatDate(?string $date, ?string $format = null)
+    public function formatDate(?string $date, ?string $format = null): ?string
     {
         if (empty($format)) {
             $format = config('core.base.general.date_format.date');
@@ -40,16 +32,11 @@ class BaseHelper
         if (empty($date)) {
             return $date;
         }
-        
-        return format_time(Carbon::parse($date), $format);
+
+        return $this->formatTime(Carbon::parse($date), $format);
     }
 
-    /**
-     * @param string $date
-     * @param string $format
-     * @return string
-     */
-    public function formatDateTime(?string $date, string $format = null)
+    public function formatDateTime(?string $date, string $format = null): ?string
     {
         if (empty($format)) {
             $format = config('core.base.general.date_format.date_time');
@@ -59,15 +46,10 @@ class BaseHelper
             return $date;
         }
 
-        return format_time(Carbon::parse($date), $format);
+        return $this->formatTime(Carbon::parse($date), $format);
     }
 
-    /**
-     * @param int $bytes
-     * @param int $precision
-     * @return string
-     */
-    public function humanFilesize(int $bytes, int $precision = 2)
+    public function humanFilesize(int $bytes, int $precision = 2): string
     {
         $units = ['B', 'kB', 'MB', 'GB', 'TB'];
 
@@ -81,11 +63,9 @@ class BaseHelper
     }
 
     /**
-     * @param string $file
-     * @param bool $convertToArray
-     * @return array|bool|mixed|null
+     * @throws FileNotFoundException
      */
-    public function getFileData($file, $convertToArray = true)
+    public function getFileData(string $file, bool $convertToArray = true)
     {
         $file = File::get($file);
         if (!empty($file)) {
@@ -103,13 +83,7 @@ class BaseHelper
         return [];
     }
 
-    /**
-     * @param string $path
-     * @param string|array $data
-     * @param bool $json
-     * @return bool|mixed
-     */
-    public function saveFileData($path, $data, $json = true)
+    public function saveFileData(string $path, array|string $data, bool $json = true): bool
     {
         try {
             if ($json) {
@@ -125,98 +99,66 @@ class BaseHelper
             return true;
         } catch (Exception $exception) {
             info($exception->getMessage());
+
             return false;
         }
     }
 
-    /**
-     * @param array $data
-     * @return string
-     */
-    public function jsonEncodePrettify($data)
+    public function jsonEncodePrettify(array|string $data): string
     {
-        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
-    /**
-     * @param string $path
-     * @param array $ignoreFiles
-     * @return array
-     */
-    public function scanFolder($path, array $ignoreFiles = [])
+    public function scanFolder(string $path, array $ignoreFiles = []): array
     {
-        try {
-            if (File::isDirectory($path)) {
-                $data = array_diff(scandir($path), array_merge(['.', '..', '.DS_Store'], $ignoreFiles));
-                natsort($data);
-                return $data;
-            }
+        if (File::isDirectory($path)) {
+            $data = array_diff(scandir($path), array_merge(['.', '..', '.DS_Store'], $ignoreFiles));
+            natsort($data);
 
-            return [];
-        } catch (Exception $exception) {
-            return [];
+            return $data;
         }
+
+        return [];
     }
 
-    /**
-     * @return string
-     */
     public function getAdminPrefix(): string
     {
         return config('core.base.general.admin_dir');
     }
 
-    /**
-     * @return string
-     */
     public function getAdminMasterLayoutTemplate(): string
     {
         return apply_filters('base_filter_admin_master_layout_template', 'core/base::layouts.master');
     }
 
-    /**
-     * @return string
-     */
-    public function siteLanguageDirection()
+    public function siteLanguageDirection(): string
     {
         return apply_filters(BASE_FILTER_SITE_LANGUAGE_DIRECTION, setting('locale_direction', 'ltr'));
     }
 
-    /**
-     * @return string
-     */
-    public function adminLanguageDirection()
+    public function adminLanguageDirection(): string
     {
         $direction = session('admin_locale_direction', setting('admin_locale_direction', 'ltr'));
 
         return apply_filters(BASE_FILTER_ADMIN_LANGUAGE_DIRECTION, $direction);
     }
 
-    /**
-     * @param int $pageId
-     * @return bool
-     */
-    public function isHomepage($pageId = null)
+    public function isHomepage(?int $pageId = null): bool
     {
         $homepageId = $this->getHomepageId();
 
         return $pageId && $homepageId && $pageId == $homepageId;
     }
 
-    /**
-     * @return int
-     */
-    public function getHomepageId()
+    public function getHomepageId(): ?string
     {
         return theme_option('homepage_id', setting('show_on_front'));
     }
 
     /**
-     * @param Builder $query
-     * @param string $table
-     * @return bool
+     * @param Builder|\Illuminate\Database\Eloquent\Builder $query
      */
-    public function isJoined($query, $table): bool
+    public function isJoined($query, string $table): bool
     {
         $joins = $query->getQuery()->joins;
 
@@ -233,32 +175,12 @@ class BaseHelper
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function getRichEditor(): string
     {
         return setting('rich_editor', config('core.base.general.editor.primary'));
     }
 
-    /**
-     * @param array $array
-     * @param $pairs
-     * @param $key
-     * @param string $position
-     * @return array
-     */
-    public function arrayInsertTo(array $array, $pairs, $key, $position = 'after'): array
-    {
-        return array_insert($array, $pairs, $key, $position);
-    }
-
-    /**
-     * @param string $url
-     * @param string|array $key
-     * @return false|mixed|string
-     */
-    public function removeQueryStringVars($url, $key)
+    public function removeQueryStringVars(?string $url, array|string $key): ?string
     {
         if (!is_array($key)) {
             $key = [$key];
@@ -272,37 +194,25 @@ class BaseHelper
         return $url;
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
-    public function cleanEditorContent($value): string
+    public function cleanEditorContent(?string $value): string
     {
-        return htmlentities(clean($value));
+        $value = str_replace('<span class="style-scope yt-formatted-string" dir="auto">', '', $value);
+
+        return htmlentities($this->clean($value));
     }
 
-    /**
-     * @return string
-     */
     public function getPhoneValidationRule(): string
     {
         return config('core.base.general.phone_validation_rule');
     }
 
-    /**
-     * @param Collection $collection
-     * @param string $searchTerms
-     * @param string $column
-     * @return Collection
-     */
-    public function sortSearchResults($collection, $searchTerms, string $column)
+    public function sortSearchResults(array|Collection $collection, string $searchTerms, string $column): Collection
     {
         if (!$collection instanceof Collection) {
             $collection = collect($collection);
         }
 
         return $collection->sortByDesc(function ($item) use ($searchTerms, $column) {
-
             $searchTerms = explode(' ', $searchTerms);
 
             // The bigger the weight, the higher the record
@@ -310,7 +220,7 @@ class BaseHelper
 
             // Iterate through search terms
             foreach ($searchTerms as $term) {
-                if (strpos($item->{$column}, $term) !== false) {
+                if (str_contains($item->{$column}, $term)) {
                     // Increase weight if the search term is found
                     $weight += 1;
                 }
@@ -320,9 +230,6 @@ class BaseHelper
         });
     }
 
-    /**
-     * @return string[]
-     */
     public function getDateFormats(): array
     {
         $formats = [
@@ -340,5 +247,106 @@ class BaseHelper
         $formats[] = 'M d, Y';
 
         return $formats;
+    }
+
+    public function clean(array|string|null $dirty, array|string $config = null): ?string
+    {
+        if (config('core.base.general.enable_less_secure_web', false)) {
+            return $dirty;
+        }
+
+        return clean($dirty ?: '', $config);
+    }
+
+    public function html(array|string|null $dirty, array|string $config = null): HtmlString
+    {
+        return new HtmlString($this->clean($dirty, $config));
+    }
+
+    public function hexToRgba(string $color, float $opacity = 1): string
+    {
+        $rgb = implode(',', $this->hexToRgb($color));
+
+        if ($opacity == 1) {
+            return 'rgb(' . $rgb . ')';
+        }
+
+        return 'rgba(' . $rgb . ', ' . $opacity . ')';
+    }
+
+    public function hexToRgb(string $color): array
+    {
+        [$red, $green, $blue] = sscanf($color, '#%02x%02x%02x');
+
+        $blue = $blue === null ? 0 : $blue;
+
+        return compact('red', 'green', 'blue');
+    }
+
+    public function iniSet(string $key, int|string|null $value): self
+    {
+        if (config('core.base.general.enable_ini_set', true)) {
+            @ini_set($key, $value);
+        }
+
+        return $this;
+    }
+
+    public function maximumExecutionTimeAndMemoryLimit(): self
+    {
+        $this->iniSet('max_execution_time', -1);
+        $this->iniSet('memory_limit', -1);
+
+        return $this;
+    }
+
+    public function removeSpecialCharacters(?string $string): array|string|null
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+
+        return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
+    }
+
+    public function getInputValueFromQueryString(string $name): string
+    {
+        $value = request()->input($name);
+
+        if (!is_string($value)) {
+            return '';
+        }
+
+        return $value;
+    }
+
+    public function cleanShortcodes(?string $content): ?string
+    {
+        if (!$content) {
+            return $content;
+        }
+
+        $content = $this->clean($content);
+
+        $shortcodeCompiler = shortcode()->getCompiler();
+
+        return $shortcodeCompiler->strip($content, []);
+    }
+
+    public function stringify($content): ?string
+    {
+        if (is_string($content)) {
+            return $content;
+        }
+
+        if (is_array($content)) {
+            return json_encode($content);
+        }
+
+        return null;
+    }
+
+    public function getGoogleFontsURL(): string
+    {
+        return config('core.base.general.google_fonts_url', 'https://fonts.bunny.net');
     }
 }

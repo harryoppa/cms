@@ -103,20 +103,19 @@
     }
 
     > .item-details {
-        span.text {
-            display: inline-block;
-            width: 90px;
-            font-weight: 700;
-            font-size: 13px;
-            float: left
-        }
-
-        input[type="text"] {
-            display: inline-block;
-            width: 228px;
-            border: 1px solid #aaaaaa;
-            height: 30px;
-            padding: 0 5px;
+        .form-group {
+            align-items: center;
+            display: flex;
+            > .control-label {
+                width: 90px;
+            }
+    
+            > .form-control:not(select), > .ui-select-wrapper {
+                width: 228px;
+            }
+            > .ui-select-wrapper {
+                margin-bottom: 0;
+            }
         }
     }
 }

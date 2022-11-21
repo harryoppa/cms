@@ -6,5 +6,4 @@ use TVHung\Support\Repositories\Interfaces\RepositoryInterface;
 
 interface MenuLocationInterface extends RepositoryInterface
 {
-
 }

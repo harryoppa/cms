@@ -5,14 +5,12 @@ namespace TVHung\Menu\Models;
 use TVHung\Base\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Request;
 
 class MenuNode extends BaseModel
 {
-
     /**
-     * The database table used by the model.
-     *
      * @var string
      */
     protected $table = 'menu_nodes';
@@ -31,28 +29,20 @@ class MenuNode extends BaseModel
         'css_class',
         'target',
         'has_child',
+        'position',
     ];
 
-    /**
-     * @return BelongsTo
-     */
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(MenuNode::class, 'parent_id');
     }
 
-    /**
-     * @return HasMany
-     */
-    public function child()
+    public function child(): HasMany
     {
         return $this->hasMany(MenuNode::class, 'parent_id')->orderBy('position');
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function reference()
+    public function reference(): MorphTo
     {
         return $this->morphTo()->with(['slugable']);
     }
@@ -61,14 +51,14 @@ class MenuNode extends BaseModel
      * @param string $value
      * @return string
      */
-    public function getUrlAttribute($value)
+    public function getUrlAttribute($value): ?string
     {
         if ($value) {
             return apply_filters(MENU_FILTER_NODE_URL, $value);
         }
 
         if (!$this->reference_type) {
-            return $value ? (string)$value : '/';
+            return '/';
         }
 
         if (!$this->reference) {
@@ -84,6 +74,14 @@ class MenuNode extends BaseModel
     public function setUrlAttribute($value)
     {
         $this->attributes['url'] = $value;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = str_replace('&amp;', '&', $value);
     }
 
     /**
@@ -112,7 +110,7 @@ class MenuNode extends BaseModel
     }
 
     /**
-     * @return mixed
+     * @return bool
      * @deprecated
      */
     public function hasChild()
@@ -130,7 +128,7 @@ class MenuNode extends BaseModel
     }
 
     /**
-     * @return mixed
+     * @return string
      * @deprecated
      */
     public function getNameAttribute()

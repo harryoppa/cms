@@ -6,7 +6,6 @@ use TVHung\Support\Repositories\Interfaces\RepositoryInterface;
 
 interface MenuInterface extends RepositoryInterface
 {
-
     /**
      * @param string $slug
      * @param bool $active

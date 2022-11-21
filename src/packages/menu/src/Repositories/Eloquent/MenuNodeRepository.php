@@ -15,7 +15,7 @@ class MenuNodeRepository extends RepositoriesAbstract implements MenuNodeInterfa
         $data = $this->model
             ->with($with)
             ->where([
-                'menu_id'   => $menuId,
+                'menu_id' => $menuId,
                 'parent_id' => $parentId,
             ]);
 

@@ -7,7 +7,6 @@ use Menu;
 
 class ClearMenuCacheCommand extends Command
 {
-
     /**
      * The console command signature.
      *

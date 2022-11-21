@@ -7,10 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MenuLocation extends BaseModel
 {
-
     /**
-     * The database table used by the model.
-     *
      * @var string
      */
     protected $table = 'menu_locations';
@@ -23,9 +20,6 @@ class MenuLocation extends BaseModel
         'location',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function menu(): BelongsTo
     {
         return $this->belongsTo(Menu::class, 'menu_id')->withDefault();
