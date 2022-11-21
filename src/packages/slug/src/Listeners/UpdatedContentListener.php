@@ -12,13 +12,13 @@ use SlugHelper;
 
 class UpdatedContentListener
 {
-
     /**
      * @var SlugInterface
      */
     protected $slugRepository;
 
     /**
+     * UpdatedContentListener constructor.
      * @param SlugInterface $slugRepository
      */
     public function __construct(SlugInterface $slugRepository)
@@ -38,15 +38,17 @@ class UpdatedContentListener
             try {
                 $slug = $event->request->input('slug');
 
+                $fieldNameToGenerateSlug = SlugHelper::getColumnNameToGenerateSlug($event->data);
+
                 if (!$slug) {
-                    $slug = $event->request->input('name');
+                    $slug = $event->request->input($fieldNameToGenerateSlug);
                 }
 
-                if (!$slug && $event->data->name) {
+                if (!$slug && $event->data->{$fieldNameToGenerateSlug}) {
                     if (!SlugHelper::turnOffAutomaticUrlTranslationIntoLatin()) {
-                        $slug = Str::slug($event->data->name);
+                        $slug = Str::slug($event->data->{$fieldNameToGenerateSlug});
                     } else {
-                        $slug = $event->data->name;
+                        $slug = $event->data->{$fieldNameToGenerateSlug};
                     }
                 }
 
@@ -56,7 +58,7 @@ class UpdatedContentListener
 
                 $item = $this->slugRepository->getFirstBy([
                     'reference_type' => get_class($event->data),
-                    'reference_id'   => $event->data->id,
+                    'reference_id' => $event->data->id,
                 ]);
 
                 if ($item) {
@@ -68,10 +70,10 @@ class UpdatedContentListener
                     }
                 } else {
                     $item = $this->slugRepository->createOrUpdate([
-                        'key'            => $slug,
+                        'key' => $slug,
                         'reference_type' => get_class($event->data),
-                        'reference_id'   => $event->data->id,
-                        'prefix'         => SlugHelper::getPrefix(get_class($event->data)),
+                        'reference_id' => $event->data->id,
+                        'prefix' => SlugHelper::getPrefix(get_class($event->data)),
                     ]);
                 }
 

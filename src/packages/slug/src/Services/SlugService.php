@@ -61,18 +61,10 @@ class SlugService
         return $this->slugRepository
                 ->getModel()
                 ->where([
-                    'key'    => $slug,
+                    'key' => $slug,
                     'prefix' => $prefix,
                 ])
                 ->where('id', '!=', (int)$slugId)
-                ->count() > 0;
-    }
-
-    /**
-     * @return SlugInterface
-     */
-    public function getRepository(): SlugInterface
-    {
-        return $this->slugRepository;
+                ->exists();
     }
 }

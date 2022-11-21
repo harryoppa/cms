@@ -10,9 +10,8 @@ use TVHung\Slug\Http\Requests\SlugSettingsRequest;
 use TVHung\Slug\Repositories\Interfaces\SlugInterface;
 use TVHung\Slug\Services\SlugService;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Menu;
 
 class SlugController extends BaseController
@@ -45,7 +44,7 @@ class SlugController extends BaseController
     public function store(SlugRequest $request)
     {
         return $this->slugService->create(
-            $request->input('name'),
+            $request->input('value'),
             $request->input('slug_id'),
             $request->input('model')
         );
@@ -62,7 +61,7 @@ class SlugController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param SlugSettingsRequest $request
      * @param BaseHttpResponse $response
      * @param SettingStore $settingStore
      * @return BaseHttpResponse

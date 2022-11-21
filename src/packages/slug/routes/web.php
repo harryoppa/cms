@@ -4,7 +4,7 @@ Route::group(['namespace' => 'TVHung\Slug\Http\Controllers', 'middleware' => ['w
     Route::group(['prefix' => 'ajax'], function () {
         Route::group(['prefix' => 'slug'], function () {
             Route::post('create', [
-                'as'   => 'slug.create',
+                'as' => 'slug.create',
                 'uses' => 'SlugController@store',
             ]);
         });
@@ -14,14 +14,14 @@ Route::group(['namespace' => 'TVHung\Slug\Http\Controllers', 'middleware' => ['w
         Route::group(['prefix' => 'settings'], function () {
             Route::group(['prefix' => 'permalink'], function () {
                 Route::get('', [
-                    'as'         => 'slug.settings',
-                    'uses'       => 'SlugController@getSettings',
+                    'as' => 'slug.settings',
+                    'uses' => 'SlugController@getSettings',
                     'permission' => 'settings.options',
                 ]);
 
                 Route::post('', [
-                    'as'         => 'slug.settings.post',
-                    'uses'       => 'SlugController@postSettings',
+                    'as' => 'slug.settings.post',
+                    'uses' => 'SlugController@postSettings',
                     'permission' => 'settings.options',
                     'middleware' => 'preventDemo',
                 ]);

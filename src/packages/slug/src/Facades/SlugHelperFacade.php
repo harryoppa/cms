@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Facade;
 
 class SlugHelperFacade extends Facade
 {
-
     /**
      * @return string
      */
