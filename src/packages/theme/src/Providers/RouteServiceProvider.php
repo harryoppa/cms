@@ -2,7 +2,6 @@
 
 namespace TVHung\Theme\Providers;
 
-use File;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Theme;
 
@@ -14,13 +13,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->booted(function () {
-
-            $themeRoute = theme_path(Theme::getThemeName() . '/routes/web.php');
-            if (File::exists($themeRoute)) {
-                $this->loadRoutesFrom($themeRoute);
-            }
-
-            $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
+            $this->loadRoutesFrom(theme_path(Theme::getThemeName() . '/routes/web.php'));
         });
     }
 }

@@ -2,10 +2,10 @@
 
 namespace TVHung\Theme\Supports;
 
-use AdminBar;
 use BaseHelper;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use TVHung\Sitemap\Sitemap;
+use Illuminate\Http\Response;
 
 class SiteMapManager
 {
@@ -25,23 +25,21 @@ class SiteMapManager
 
         // set cache (key (string), duration in minutes (Carbon|Datetime|int), turn on/off (boolean))
         // by default cache is disabled
-        $this->siteMap->setCache('public.sitemap', config('core.base.general.cache_site_map'));
+        $this->siteMap->setCache('cache_site_map_key', setting('cache_time_site_map', 60), setting('enable_cache_site_map', true));
 
         if (!BaseHelper::getHomepageId()) {
-            $this->siteMap->add(route('public.index'), '2021-10-20 10:00', '1.0', 'daily');
+            $this->siteMap->add(route('public.index'), '2022-07-25 10:00', '1.0', 'daily');
         }
-
-        AdminBar::setIsDisplay(false);
     }
 
     /**
      * @param string $url
-     * @param string $date
+     * @param string|null $date
      * @param string $priority
      * @param string $sequence
      * @return $this
      */
-    public function add($url, $date, $priority = '1.0', $sequence = 'daily')
+    public function add(string $url, ?string $date, string $priority = '1.0', string $sequence = 'daily'): self
     {
         if (!$this->siteMap->isCached()) {
             $this->siteMap->add($url, $date, $priority, $sequence);
@@ -52,9 +50,9 @@ class SiteMapManager
 
     /**
      * @param string $type
-     * @return string
+     * @return Response
      */
-    public function render($type = 'xml')
+    public function render(string $type = 'xml'): Response
     {
         // show your site map (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
         return $this->siteMap->render($type);

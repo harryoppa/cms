@@ -9,19 +9,21 @@
                 <div class="widget-body">
                     <div class="row pad">
                         @foreach(ThemeManager::getThemes() as $key => $theme)
-                            <div class="col-sm-6 col-md-4 col-lg-4">
-                                <div class="thumbnail h-100 d-flex justify-content-between flex-column" style="background: #eee; padding: 15px;">
-                                    <div class="img-thumbnail-wrap" style="background-image: url('{{ url(config('packages.theme.general.themeDir')) }}/{{ Theme::getThemeName() == $key && Theme::getPublicThemeName() ? Theme::getPublicThemeName() : $key }}/screenshot.png')"></div>
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="thumbnail">
+                                    <div class="img-thumbnail-wrap">
+                                        <img src="{{ Theme::getThemeScreenshot($key) }}" alt="screenshot" class="img-fluid">
+                                    </div>
                                     <div class="caption">
-                                        <div class="col-12">
-                                            <div style="word-break: break-all" class="pt-3">
+                                        <div class="col-12" style="background: #eee; padding: 15px;">
+                                            <div style="word-break: break-all">
                                                 <h4>{{ $theme['name'] }}</h4>
-                                                <p class="mb-1">{{ trans('packages/theme::theme.author') }}: {{ Arr::get($theme, 'author') }}</p>
-                                                <p class="mb-1">{{ trans('packages/theme::theme.version') }}: {{ Arr::get($theme, 'version') }}</p>
-                                                <p class="mb-1">{{ trans('packages/theme::theme.description') }}: {{ Arr::get($theme, 'description') }}</p>
+                                                <p>{{ trans('packages/theme::theme.author') }}: {{ Arr::get($theme, 'author') }}</p>
+                                                <p>{{ trans('packages/theme::theme.version') }}: {{ Arr::get($theme, 'version', get_cms_version()) }}</p>
+                                                <p>{{ trans('packages/theme::theme.description') }}: {{ Arr::get($theme, 'description') }}</p>
                                             </div>
                                             <div class="clearfix"></div>
-                                            <div class="mt-4">
+                                            <div>
                                                 @if (setting('theme') && Theme::getThemeName() == $key)
                                                     <a href="#" class="btn btn-info" disabled="disabled"><i class="fa fa-check"></i> {{ trans('packages/theme::theme.activated') }}</a>
                                                 @else

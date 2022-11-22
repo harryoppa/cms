@@ -2,6 +2,7 @@
 
 namespace TVHung\Theme;
 
+use BaseHelper;
 use Exception;
 use Form;
 use Illuminate\Support\Arr;
@@ -52,23 +53,7 @@ class ThemeOption
      */
     public function constructArgs(): array
     {
-        $args = isset($this->args[$this->optName]) ? $this->args[$this->optName] : [];
-
-        $args['opt_name'] = $this->optName;
-
-        if (!isset($args['menu_title'])) {
-            $args['menu_title'] = ucfirst($this->optName) . ' Options';
-        }
-
-        if (!isset($args['page_title'])) {
-            $args['page_title'] = ucfirst($this->optName) . ' Options';
-        }
-
-        if (!isset($args['page_slug'])) {
-            $args['page_slug'] = $this->optName . '_options';
-        }
-
-        return $args;
+        return $this->args[$this->optName] ?? [];
     }
 
     /**
@@ -131,12 +116,13 @@ class ThemeOption
     public function getSection(string $id = ''): bool
     {
         $this->checkOptName();
+
         if (!empty($this->optName) && !empty($id)) {
             if (!isset($this->sections[$this->optName][$id])) {
                 $id = strtolower(sanitize_html_class($id));
             }
 
-            return isset($this->sections[$this->optName][$id]) ? $this->sections[$this->optName][$id] : false;
+            return $this->sections[$this->optName][$id] ?? false;
         }
 
         return false;
@@ -179,6 +165,7 @@ class ThemeOption
     public function getSections(): array
     {
         $this->checkOptName();
+
         if (!empty($this->sections[$this->optName])) {
             return $this->sections[$this->optName];
         }
@@ -217,12 +204,10 @@ class ThemeOption
         if (!isset($section['id'])) {
             if (isset($section['type']) && $section['type'] == 'divide') {
                 $section['id'] = time();
+            } elseif (isset($section['title'])) {
+                $section['id'] = strtolower($section['title']);
             } else {
-                if (isset($section['title'])) {
-                    $section['id'] = strtolower($section['title']);
-                } else {
-                    $section['id'] = time();
-                }
+                $section['id'] = time();
             }
 
             if (isset($this->sections[$this->optName][$section['id']])) {
@@ -285,6 +270,7 @@ class ThemeOption
                 if (!is_array($field)) {
                     continue;
                 }
+
                 $field['section_id'] = $sectionId;
                 $this->setField($field);
             }
@@ -328,6 +314,7 @@ class ThemeOption
                         $priority = $section['priority'];
                         $this->priority[$this->optName]['sections']--;
                         unset($this->sections[$this->optName][$id]);
+
                         continue;
                     }
 
@@ -339,7 +326,7 @@ class ThemeOption
                     }
                 }
 
-                if (isset($this->fields[$this->optName]) && !empty($this->fields[$this->optName]) && $fields == true) {
+                if (isset($this->fields[$this->optName]) && !empty($this->fields[$this->optName]) && $fields) {
                     foreach ($this->fields[$this->optName] as $key => $field) {
                         if (Arr::get($field, 'section_id') == $id) {
                             unset($this->fields[$this->optName][$key]);
@@ -374,7 +361,7 @@ class ThemeOption
         $this->checkOptName();
 
         if (!empty($this->optName) && !empty($id)) {
-            return isset($this->fields[$this->optName][$id]) ? $this->fields[$this->optName][$id] : false;
+            return $this->fields[$this->optName][$id] ?? false;
         }
 
         return false;
@@ -388,14 +375,15 @@ class ThemeOption
     {
         $this->checkOptName();
 
-        if (!empty($this->optName) && !empty($id)) {
-            if (isset($this->fields[$this->optName][$id])) {
-                if (!$hide) {
-                    $this->fields[$this->optName][$id]['class'] = str_replace('hidden', '',
-                        $this->fields[$this->optName][$id]['class']);
-                } else {
-                    $this->fields[$this->optName][$id]['class'] .= 'hidden';
-                }
+        if (!empty($this->optName) && !empty($id) && isset($this->fields[$this->optName][$id])) {
+            if (!$hide) {
+                $this->fields[$this->optName][$id]['class'] = str_replace(
+                    'hidden',
+                    '',
+                    $this->fields[$this->optName][$id]['class']
+                );
+            } else {
+                $this->fields[$this->optName][$id]['class'] .= 'hidden';
             }
         }
     }
@@ -415,6 +403,7 @@ class ThemeOption
                         $priority = $field['priority'];
                         $this->priority[$this->optName]['fields']--;
                         unset($this->fields[$this->optName][$id]);
+
                         continue;
                     }
 
@@ -481,7 +470,7 @@ class ThemeOption
 
     /**
      * @param string $key
-     * @param string $value
+     * @param string|null $value
      * @return ThemeOption
      */
     public function setOption(string $key, ?string $value = ''): self
@@ -489,7 +478,7 @@ class ThemeOption
         $option = Arr::get($this->fields[$this->optName], $key);
 
         if ($option && Arr::get($option, 'clean_tags', true)) {
-            $value = clean($value);
+            $value = BaseHelper::clean($value);
         }
 
         if (is_array($value)) {
@@ -503,14 +492,14 @@ class ThemeOption
 
     /**
      * @param string $key
-     * @param string $locale
+     * @param string|null $locale
      * @return string
      */
     protected function getOptionKey(string $key, ?string $locale = ''): string
     {
         $theme = setting('theme');
         if (!$theme) {
-            $theme = Arr::first(scan_folder(theme_path()));
+            $theme = Arr::first(BaseHelper::scanFolder(theme_path()));
         }
 
         return $this->optName . '-' . $theme . $locale . '-' . $key;
@@ -544,6 +533,7 @@ class ThemeOption
             return call_user_func_array([Form::class, $field['type']], array_values($field['attributes']));
         } catch (Exception $exception) {
             info($exception->getMessage());
+
             return null;
         }
     }
@@ -559,7 +549,7 @@ class ThemeOption
 
     /**
      * @param string $key
-     * @param string $default
+     * @param mixed $default
      * @return string
      */
     public function getOption(string $key = '', $default = ''): ?string
@@ -582,10 +572,18 @@ class ThemeOption
     }
 
     /**
-     * @return bool|void
+     * @return bool
      */
-    public function saveOptions()
+    public function saveOptions(): bool
     {
         return setting()->save();
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
     }
 }

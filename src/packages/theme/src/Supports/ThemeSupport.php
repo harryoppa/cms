@@ -11,14 +11,18 @@ class ThemeSupport
      * @param null|string $viewPath
      * @return void
      */
-    public static function registerYoutubeShortcode($viewPath = null)
+    public static function registerYoutubeShortcode(string $viewPath = null)
     {
-        add_shortcode('youtube-video', __('Youtube video'), __('Add youtube video'),
+        add_shortcode(
+            'youtube-video',
+            __('Youtube video'),
+            __('Add youtube video'),
             function ($shortcode) use ($viewPath) {
                 $url = Youtube::getYoutubeVideoEmbedURL($shortcode->content);
 
                 return view(($viewPath ?: 'packages/theme::shortcodes') . '.youtube', compact('url'))->render();
-            });
+            }
+        );
 
         shortcode()->setAdminConfig('youtube-video', function ($attributes, $content) use ($viewPath) {
             return view(($viewPath ?: 'packages/theme::shortcodes') . '.youtube-admin-config', compact('attributes', 'content'))->render();
@@ -29,7 +33,7 @@ class ThemeSupport
      * @param null|string $viewPath
      * @return void
      */
-    public static function registerGoogleMapsShortcode($viewPath = null)
+    public static function registerGoogleMapsShortcode(string $viewPath = null)
     {
         add_shortcode('google-map', __('Google map'), __('Add Google map iframe'), function ($shortcode) use ($viewPath) {
             return view(($viewPath ?: 'packages/theme::shortcodes') . '.google-map', ['address' => $shortcode->content])
@@ -45,7 +49,7 @@ class ThemeSupport
      * @param string $location
      * @return string
      */
-    public static function getCustomJS(string $location)
+    public static function getCustomJS(string $location): string
     {
         $js = setting('custom_' . $location . '_js');
 
@@ -58,5 +62,20 @@ class ThemeSupport
         }
 
         return $js;
+    }
+
+    /**
+     * @param string $location
+     * @return string
+     */
+    public static function getCustomHtml(string $location): string
+    {
+        $html = setting('custom_' . $location . '_html');
+
+        if (empty($html)) {
+            return '';
+        }
+
+        return $html;
     }
 }

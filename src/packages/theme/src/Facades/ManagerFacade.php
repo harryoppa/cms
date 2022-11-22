@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Facade;
 
 class ManagerFacade extends Facade
 {
-
     /**
      * @return string
      *

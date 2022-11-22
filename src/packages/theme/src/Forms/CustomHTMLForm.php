@@ -6,7 +6,7 @@ use TVHung\Base\Forms\FormAbstract;
 use TVHung\Base\Models\BaseModel;
 use TVHung\Theme\Http\Requests\CustomJsRequest;
 
-class CustomJSForm extends FormAbstract
+class CustomHTMLForm extends FormAbstract
 {
     /**
      * {@inheritDoc}
@@ -15,36 +15,36 @@ class CustomJSForm extends FormAbstract
     {
         $this
             ->setupModel(new BaseModel())
-            ->setUrl(route('theme.custom-js.post'))
+            ->setUrl(route('theme.custom-html.post'))
             ->setValidatorClass(CustomJsRequest::class)
-            ->add('header_js', 'textarea', [
-                'label' => trans('packages/theme::theme.custom_header_js'),
+            ->add('header_html', 'textarea', [
+                'label' => trans('packages/theme::theme.custom_header_html'),
                 'label_attr' => ['class' => 'control-label'],
-                'value' => setting('custom_header_js'),
+                'value' => setting('custom_header_html'),
                 'help_block' => [
-                    'text' => trans('packages/theme::theme.custom_header_js_placeholder'),
+                    'text' => trans('packages/theme::theme.custom_header_html_placeholder'),
                 ],
                 'attr' => [
                     'data-counter' => 2500,
                 ],
             ])
-            ->add('body_js', 'textarea', [
-                'label' => trans('packages/theme::theme.custom_body_js'),
+            ->add('body_html', 'textarea', [
+                'label' => trans('packages/theme::theme.custom_body_html'),
                 'label_attr' => ['class' => 'control-label'],
-                'value' => setting('custom_body_js'),
+                'value' => setting('custom_body_html'),
                 'help_block' => [
-                    'text' => trans('packages/theme::theme.custom_body_js_placeholder'),
+                    'text' => trans('packages/theme::theme.custom_body_html_placeholder'),
                 ],
                 'attr' => [
                     'data-counter' => 2500,
                 ],
             ])
-            ->add('footer_js', 'textarea', [
-                'label' => trans('packages/theme::theme.custom_footer_js'),
+            ->add('footer_html', 'textarea', [
+                'label' => trans('packages/theme::theme.custom_footer_html'),
                 'label_attr' => ['class' => 'control-label'],
-                'value' => setting('custom_footer_js'),
+                'value' => setting('custom_footer_html'),
                 'help_block' => [
-                    'text' => trans('packages/theme::theme.custom_footer_js_placeholder'),
+                    'text' => trans('packages/theme::theme.custom_footer_html_placeholder'),
                 ],
                 'attr' => [
                     'data-counter' => 2500,

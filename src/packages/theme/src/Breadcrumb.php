@@ -3,7 +3,7 @@
 namespace TVHung\Theme;
 
 use Throwable;
-use URL;
+use Illuminate\Support\Facades\URL;
 
 class Breadcrumb
 {
@@ -18,27 +18,28 @@ class Breadcrumb
      * Add breadcrumb to array.
      *
      * @param mixed $label
-     * @param string $url
+     * @param string|null $url
      * @return Breadcrumb
      */
-    public function add(string $label, ?string $url = ''): self
+    public function add($label, ?string $url = ''): self
     {
         if (is_array($label)) {
             if (count($label) > 0) {
                 foreach ($label as $crumb) {
                     $defaults = [
                         'label' => '',
-                        'url'   => '',
+                        'url' => '',
                     ];
                     $crumb = array_merge($defaults, $crumb);
                     $this->add($crumb['label'], $crumb['url']);
                 }
             }
         } else {
-            $label = trim(strip_tags($label, '<i><b><strong>'));
+            $label = trim(strip_tags((string)$label, '<i><b><strong>'));
             if (!preg_match('|^http(s)?|', $url)) {
                 $url = URL::to($url);
             }
+
             $this->crumbs[] = ['label' => $label, 'url' => $url];
         }
 

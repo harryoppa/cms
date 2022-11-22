@@ -7,16 +7,18 @@
         </div>
         <ul class="admin-navbar-nav">
             @foreach (admin_bar()->getGroups() as $slug => $group)
-                @if (Arr::get($group, 'items'))
+                @if ($items = Arr::get($group, 'items', []))
+                    @php ksort($items); @endphp
                     <li class="admin-bar-dropdown">
                         <a href="{{ Arr::get($group, 'link') }}" class="dropdown-toggle">
                             {{ Arr::get($group, 'title') }}
                         </a>
                         <ul class="admin-bar-dropdown-menu">
-                            @foreach (Arr::get($group, 'items', []) as $title => $link)
+                            @foreach ($items as $item)
+                                @continue(Arr::get($item, 'permission') && !Auth::user()->hasPermission($item['permission']))
                                 <li>
-                                    <a href="{{ $link ?? '' }}">
-                                        {{ $title ?? '' }}
+                                    <a href="{{ Arr::get($item, 'link') }}">
+                                        {{ Arr::get($item, 'title') }}
                                     </a>
                                 </li>
                             @endforeach
@@ -24,11 +26,15 @@
                     </li>
                 @endif
             @endforeach
-            @foreach (admin_bar()->getLinksNoGroup() as $item)
-                <li>
-                    <a href="{{ Arr::get($item, 'link') }}">{{ Arr::get($item, 'title') }}</a>
-                </li>
-            @endforeach
+            @if ($noGroups = admin_bar()->getLinksNoGroup())
+                @php ksort($noGroups) @endphp
+                @foreach ($noGroups as $item)
+                    @continue(Arr::get($item, 'permission') && !Auth::user()->hasPermission($item['permission']))
+                    <li>
+                        <a href="{{ Arr::get($item, 'link') }}">{{ Arr::get($item, 'title') }}</a>
+                    </li>
+                @endforeach
+            @endif
         </ul>
         <ul class="admin-navbar-nav admin-navbar-nav-right">
             <li class="admin-bar-dropdown">
