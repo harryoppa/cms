@@ -81,7 +81,11 @@ class AuthenticationController extends Controller
 
         $user->save();
 
+        // get token of user
+        $token = $user->createToken('Laravel Password Grant Client')->plainTextToken;
+
         return $response
+            ->setData(compact('token'))
             ->setMessage(__('Registered successfully! We emailed you to verify your account!'));
     }
 

@@ -18,7 +18,7 @@ if (!function_exists('get_login_background')) {
 
         $images = array_filter($images);
 
-        if (empty($images) || !is_array($images)) {
+        if (empty($images)) {
             return $default;
         }
 
