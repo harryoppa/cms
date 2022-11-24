@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use RvMedia;
+use Illuminate\Support\Facades\Schema;
 
 class ProfileController extends Controller
 {
@@ -59,12 +60,21 @@ class ProfileController extends Controller
         try {
             $file = RvMedia::handleUpload($request->file('avatar'), 0, 'users');
             if (Arr::get($file, 'error') !== true) {
-                $user = $request->user()->update(['avatar' => $file['data']->url]);
+                $user = $request->user();
+
+                // check user has column avatar_id
+                if (Schema::hasColumn($user->getTable(), 'avatar_id')) {
+                    $user->avatar_id = $file['data']->id;
+                    $user->save();
+                } else {
+                    $user->avatar = $file['data']->url;
+                    $user->save();
+                }
             }
 
             return $response
                 ->setData([
-                    'avatar' => $user->avatar_url,
+                    'avatar' => $file['data']->url,
                 ])
                 ->setMessage(__('Update avatar successfully!'));
         } catch (Exception $ex) {
