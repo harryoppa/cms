@@ -100,7 +100,7 @@ class ProfileController extends Controller
             'first_name' => 'required|max:120|min:2',
             'last_name' => 'required|max:120|min:2',
             'phone' => 'required|max:15|min:8',
-            'dob' => 'required|max:15|min:8',
+            // 'dob' => 'required|max:15|min:8',
             'gender' => 'nullable',
             'description' => 'nullable',
             'email' => 'nullable|max:60|min:6|email|unique:' . ApiHelper::getTable() . ',email,' . $userId,
