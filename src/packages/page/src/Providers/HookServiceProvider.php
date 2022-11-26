@@ -8,14 +8,15 @@ use TVHung\Page\Models\Page;
 use TVHung\Page\Repositories\Interfaces\PageInterface;
 use TVHung\Page\Services\PageService;
 use Eloquent;
+use Html;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Menu;
-use Throwable;
 use RvMedia;
-use Html;
+use Throwable;
 
 class HookServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,7 @@ class HookServiceProvider extends ServiceProvider
             Menu::addMenuOptionModel(Page::class);
             add_action(MENU_ACTION_SIDEBAR_OPTIONS, [$this, 'registerMenuOptions'], 10);
         }
+
         add_filter(DASHBOARD_FILTER_ADMIN_LIST, [$this, 'addPageStatsWidget'], 15, 2);
         add_filter(BASE_FILTER_PUBLIC_SINGLE_DATA, [$this, 'handleSingleView'], 1);
 
@@ -41,12 +43,12 @@ class HookServiceProvider extends ServiceProvider
 
                     $schema = [
                         '@context' => 'https://schema.org',
-                        '@type'    => 'Organization',
-                        'name'     => theme_option('site_title'),
-                        'url'      => $page->url,
-                        'logo'     => [
+                        '@type' => 'Organization',
+                        'name' => theme_option('site_title'),
+                        'url' => $page->url,
+                        'logo' => [
                             '@type' => 'ImageObject',
-                            'url'   => RvMedia::getImageUrl(theme_option('logo')),
+                            'url' => RvMedia::getImageUrl(theme_option('logo')),
                         ],
                     ];
 
@@ -64,20 +66,20 @@ class HookServiceProvider extends ServiceProvider
 
         theme_option()
             ->setSection([
-                'title'      => 'Page',
-                'desc'       => 'Theme options for Page',
-                'id'         => 'opt-text-subsection-page',
+                'title' => 'Page',
+                'desc' => 'Theme options for Page',
+                'id' => 'opt-text-subsection-page',
                 'subsection' => true,
-                'icon'       => 'fa fa-book',
-                'fields'     => [
+                'icon' => 'fa fa-book',
+                'fields' => [
                     [
-                        'id'         => 'homepage_id',
-                        'type'       => 'customSelect',
-                        'label'      => trans('packages/page::pages.settings.show_on_front'),
+                        'id' => 'homepage_id',
+                        'type' => 'customSelect',
+                        'label' => trans('packages/page::pages.settings.show_on_front'),
                         'attributes' => [
-                            'name'    => 'homepage_id',
-                            'list'    => ['' => trans('packages/page::pages.settings.select')] + $pages,
-                            'value'   => '',
+                            'name' => 'homepage_id',
+                            'list' => ['' => trans('packages/page::pages.settings.select')] + $pages,
+                            'value' => '',
                             'options' => [
                                 'class' => 'form-control',
                             ],
@@ -102,15 +104,14 @@ class HookServiceProvider extends ServiceProvider
      * @param array $widgets
      * @param Collection $widgetSettings
      * @return array
-     *
      * @throws BindingResolutionException
      * @throws Throwable
      */
-    public function addPageStatsWidget($widgets, $widgetSettings)
+    public function addPageStatsWidget(array $widgets, Collection $widgetSettings): array
     {
         $pages = $this->app->make(PageInterface::class)->count(['status' => BaseStatusEnum::PUBLISHED]);
 
-        return (new DashboardWidgetInstance)
+        return (new DashboardWidgetInstance())
             ->setType('stats')
             ->setPermission('pages.index')
             ->setTitle(trans('packages/page::pages.pages'))
@@ -123,13 +124,11 @@ class HookServiceProvider extends ServiceProvider
     }
 
     /**
-     * @param Eloquent $slug
+     * @param Eloquent|Builder $slug
      * @return array|Eloquent
-     *
-     * @throws BindingResolutionException
      */
     public function handleSingleView($slug)
     {
-        return (new PageService)->handleFrontRoutes($slug);
+        return (new PageService())->handleFrontRoutes($slug);
     }
 }

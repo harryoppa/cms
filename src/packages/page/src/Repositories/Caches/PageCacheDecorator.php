@@ -18,7 +18,7 @@ class PageCacheDecorator extends CacheAbstractDecorator implements PageInterface
     /**
      * {@inheritDoc}
      */
-    public function getFeaturedPages($limit)
+    public function whereIn(array $array, array $select = [])
     {
         return $this->getDataIfExistCache(__FUNCTION__, func_get_args());
     }
@@ -26,7 +26,7 @@ class PageCacheDecorator extends CacheAbstractDecorator implements PageInterface
     /**
      * {@inheritDoc}
      */
-    public function whereIn($array, $select = [])
+    public function getSearch($query, int $limit = 10)
     {
         return $this->getDataIfExistCache(__FUNCTION__, func_get_args());
     }
@@ -34,15 +34,7 @@ class PageCacheDecorator extends CacheAbstractDecorator implements PageInterface
     /**
      * {@inheritDoc}
      */
-    public function getSearch($query, $limit = 10)
-    {
-        return $this->getDataIfExistCache(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAllPages($active = true)
+    public function getAllPages(bool $active = true)
     {
         return $this->getDataIfExistCache(__FUNCTION__, func_get_args());
     }
