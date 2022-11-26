@@ -5,11 +5,11 @@ namespace TVHung\Shortcode\View;
 use ArrayAccess;
 use TVHung\Shortcode\Compilers\ShortcodeCompiler;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Engine;
 use Illuminate\View\View as IlluminateView;
 
 class View extends IlluminateView implements ArrayAccess, Renderable
 {
-
     /**
      * Short code engine resolver
      *
@@ -20,15 +20,15 @@ class View extends IlluminateView implements ArrayAccess, Renderable
     /**
      * Create a new view instance.
      *
-     * @param \Illuminate\View\Factory|Factory $factory
-     * @param \Illuminate\Contracts\View\Engine $engine
+     * @param Factory $factory
+     * @param Engine $engine
      * @param string $view
      * @param string $path
      * @param array $data
      * @param ShortcodeCompiler $shortcode
      * @since 2.1
      */
-    public function __construct(Factory $factory, $engine, $view, $path, $data, ShortcodeCompiler $shortcode)
+    public function __construct(Factory $factory, Engine $engine, $view, $path, $data, ShortcodeCompiler $shortcode)
     {
         parent::__construct($factory, $engine, $view, $path, $data);
         $this->shortcode = $shortcode;
@@ -38,7 +38,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      * Enable the shortcodes
      * @since 2.1
      */
-    public function withShortcodes()
+    public function withShortcodes(): View
     {
         $this->shortcode->enable();
 
@@ -49,7 +49,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      * Disable the shortcodes
      * @since 2.1
      */
-    public function withoutShortcodes()
+    public function withoutShortcodes(): View
     {
         $this->shortcode->disable();
 
@@ -60,7 +60,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      * @return $this
      * @since 2.1
      */
-    public function withStripShortcodes()
+    public function withStripShortcodes(): View
     {
         $this->shortcode->setStrip(true);
 
@@ -73,14 +73,15 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      * @return string
      * @since 2.1
      */
-    protected function renderContents()
+    protected function renderContents(): string
     {
-        // We will keep track of the amount of views being rendered so we can flush
+        // We will keep track of the amount of views being rendered, so we can flush
         // the section after the complete rendering operation is done. This will
         // clear out the sections for any separate views that may be rendered.
         $this->factory->incrementRender();
         $this->factory->callComposer($this);
         $contents = $this->getContents();
+
         if ($this->shortcode->getStrip()) {
             // strip content without shortcodes
             $contents = $this->shortcode->strip($contents);

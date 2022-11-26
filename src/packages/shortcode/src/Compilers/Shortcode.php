@@ -4,7 +4,6 @@ namespace TVHung\Shortcode\Compilers;
 
 class Shortcode
 {
-
     /**
      * Shortcode name
      *
@@ -31,10 +30,10 @@ class Shortcode
      *
      * @param string $name
      * @param array $attributes
-     * @param string $content
+     * @param string|null $content
      * @since 2.1
      */
-    public function __construct($name, $attributes = [], $content = null)
+    public function __construct(string $name, array $attributes = [], ?string $content = null)
     {
         $this->name = $name;
         $this->attributes = $attributes;
@@ -46,12 +45,13 @@ class Shortcode
      *
      * @param string $attribute
      * @param $fallback
-     * @return string|null
+     * @return string
      * @since 2.1
      */
-    public function get($attribute, $fallback = null)
+    public function get(string $attribute, $fallback = null): string
     {
         $value = $this->{$attribute};
+
         if (!empty($value)) {
             return $attribute . '="' . $value . '"';
         } elseif (!empty($fallback)) {
@@ -67,7 +67,7 @@ class Shortcode
      * @return string
      * @since 2.1
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -78,7 +78,7 @@ class Shortcode
      * @return string
      * @since 2.1
      */
-    public function getContent()
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -89,7 +89,7 @@ class Shortcode
      * @return array
      * @since 2.1
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }
@@ -101,8 +101,8 @@ class Shortcode
      * @return string|null
      * @since 2.1
      */
-    public function __get($param)
+    public function __get(string $param)
     {
-        return isset($this->attributes[$param]) ? $this->attributes[$param] : null;
+        return $this->attributes[$param] ?? null;
     }
 }
