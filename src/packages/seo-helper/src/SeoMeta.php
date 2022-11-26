@@ -11,7 +11,6 @@ use TVHung\SeoHelper\Contracts\SeoMetaContract;
 
 class SeoMeta implements SeoMetaContract
 {
-
     /**
      * The Title instance.
      *
@@ -54,15 +53,14 @@ class SeoMeta implements SeoMetaContract
 
     /**
      * Make SeoMeta instance.
-     * @throws Exceptions\InvalidArgumentException
      */
     public function __construct()
     {
-        $this->title(new Entities\Title);
-        $this->description(new Entities\Description);
-        $this->misc(new Entities\MiscTags);
-        $this->webmasters(new Entities\Webmasters);
-        $this->analytics(new Entities\Analytics);
+        $this->title(new Entities\Title());
+        $this->description(new Entities\Description());
+        $this->misc(new Entities\MiscTags());
+        $this->webmasters(new Entities\Webmasters());
+        $this->analytics(new Entities\Analytics());
     }
 
     /**
@@ -142,6 +140,7 @@ class SeoMeta implements SeoMetaContract
     public function setGoogle($code)
     {
         $this->analytics->setGoogle($code);
+
         return $this;
     }
 
@@ -199,6 +198,14 @@ class SeoMeta implements SeoMetaContract
         $this->description->set($content);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description->getContent();
     }
 
     /**

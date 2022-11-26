@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class Meta implements MetaContract
 {
-
     /**
      * Meta prefix name.
      *
@@ -227,7 +226,7 @@ class Meta implements MetaContract
      */
     protected function setName($name)
     {
-        $name = trim(strip_tags($name));
+        $name = trim(strip_tags((string)$name));
         $this->name = str_replace([' '], '-', $name);
 
         return $this;
@@ -242,7 +241,7 @@ class Meta implements MetaContract
      */
     public function clean($value)
     {
-        return e(strip_tags($value));
+        return e(strip_tags((string)$value));
     }
 
     /**

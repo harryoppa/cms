@@ -2,6 +2,7 @@
 
 namespace TVHung\SeoHelper\Entities;
 
+use BaseHelper;
 use TVHung\SeoHelper\Contracts\Entities\DescriptionContract;
 use TVHung\SeoHelper\Exceptions\InvalidArgumentException;
 use TVHung\SeoHelper\Helpers\Meta;
@@ -9,7 +10,6 @@ use Illuminate\Support\Str;
 
 class Description implements DescriptionContract
 {
-
     /**
      * The meta name.
      *
@@ -70,7 +70,9 @@ class Description implements DescriptionContract
      */
     public function set($content)
     {
-        $this->content = trim(strip_tags($content));
+        if ($content) {
+            $this->content = trim(strip_tags(BaseHelper::cleanShortcodes((string)$content)));
+        }
 
         return $this;
     }
@@ -109,7 +111,6 @@ class Description implements DescriptionContract
      * @param int $max
      *
      * @return $this
-     * @throws InvalidArgumentException
      */
     public static function make($content, $max = 386)
     {
@@ -120,6 +121,7 @@ class Description implements DescriptionContract
      * Render the tag.
      *
      * @return string
+     * @throws InvalidArgumentException
      */
     public function render()
     {

@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 class Title implements TitleContract
 {
-
     /**
      * The title content.
      *
@@ -48,7 +47,6 @@ class Title implements TitleContract
     /**
      * Make the Title instance.
      *
-     * @param array $configs
      * @throws InvalidArgumentException
      */
     public function __construct()
@@ -226,7 +224,6 @@ class Title implements TitleContract
      * @param string $separator
      *
      * @return Title
-     * @throws InvalidArgumentException
      */
     public static function make($title, $siteName = '', $separator = '-')
     {
@@ -246,7 +243,7 @@ class Title implements TitleContract
             ? $this->renderTitleFirst($separator)
             : $this->renderTitleLast($separator);
 
-        $output = Str::limit(strip_tags($output), $this->getMax());
+        $output = Str::limit(strip_tags((string)$output), $this->getMax());
 
         return e($output);
     }

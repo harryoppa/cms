@@ -54,7 +54,7 @@ class Analytics implements AnalyticsContract
      *
      * @return string
      */
-    protected function renderGoogleScript()
+    protected function renderGoogleScript(): string
     {
         if (empty($this->google)) {
             return '';

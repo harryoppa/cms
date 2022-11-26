@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 
 abstract class MetaCollection extends Collection implements MetaCollectionContract
 {
-
     /**
      * Meta tag prefix.
      *

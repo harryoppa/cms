@@ -6,13 +6,13 @@ use TVHung\SeoHelper\Contracts\RenderableContract;
 
 interface TwitterCardContract extends RenderableContract
 {
-    const TYPE_APP = 'app';
-    const TYPE_GALLERY = 'gallery';
-    const TYPE_PHOTO = 'photo';
-    const TYPE_PLAYER = 'player';
-    const TYPE_PRODUCT = 'product';
-    const TYPE_SUMMARY = 'summary';
-    const TYPE_SUMMARY_LARGE_IMAGE = 'summary_large_image';
+    public const TYPE_APP = 'app';
+    public const TYPE_GALLERY = 'gallery';
+    public const TYPE_PHOTO = 'photo';
+    public const TYPE_PLAYER = 'player';
+    public const TYPE_PRODUCT = 'product';
+    public const TYPE_SUMMARY = 'summary';
+    public const TYPE_SUMMARY_LARGE_IMAGE = 'summary_large_image';
 
     /**
      * Set the card type.

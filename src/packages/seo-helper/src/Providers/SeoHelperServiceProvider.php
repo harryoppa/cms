@@ -26,12 +26,14 @@ class SeoHelperServiceProvider extends ServiceProvider
         $this->app->bind(SeoHelperContract::class, SeoHelper::class);
         $this->app->bind(SeoOpenGraphContract::class, SeoOpenGraph::class);
         $this->app->bind(SeoTwitterContract::class, SeoTwitter::class);
+
+        $this->setNamespace('packages/seo-helper')
+            ->loadHelpers();
     }
 
     public function boot()
     {
-        $this->setNamespace('packages/seo-helper')
-            ->loadHelpers()
+        $this
             ->loadAndPublishConfigurations(['general'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
