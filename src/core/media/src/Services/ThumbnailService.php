@@ -8,7 +8,6 @@ use Log;
 
 class ThumbnailService
 {
-
     /**
      * @var ImageManager
      */
@@ -89,7 +88,7 @@ class ThumbnailService
      * @param string $imagePath
      * @return ThumbnailService
      */
-    public function setImage($imagePath)
+    public function setImage(string $imagePath): ThumbnailService
     {
         $this->imagePath = $imagePath;
 
@@ -99,7 +98,7 @@ class ThumbnailService
     /**
      * @return string
      */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->imagePath;
     }
@@ -109,7 +108,7 @@ class ThumbnailService
      * @param int|string $height
      * @return ThumbnailService
      */
-    public function setSize($width, $height = 'auto')
+    public function setSize($width, $height = 'auto'): ThumbnailService
     {
         $this->thumbWidth = $width;
         $this->thumbHeight = $height;
@@ -132,7 +131,7 @@ class ThumbnailService
     /**
      * @return array
      */
-    public function getSize()
+    public function getSize(): array
     {
         return [$this->thumbWidth, $this->thumbHeight];
     }
@@ -141,7 +140,7 @@ class ThumbnailService
      * @param string $destinationPath
      * @return ThumbnailService
      */
-    public function setDestinationPath($destinationPath)
+    public function setDestinationPath(string $destinationPath): ThumbnailService
     {
         $this->destinationPath = $destinationPath;
 
@@ -153,7 +152,7 @@ class ThumbnailService
      * @param int $yCoordination
      * @return ThumbnailService
      */
-    public function setCoordinates($xCoordination, $yCoordination)
+    public function setCoordinates(int $xCoordination, int $yCoordination): ThumbnailService
     {
         $this->xCoordinate = $xCoordination;
         $this->yCoordinate = $yCoordination;
@@ -164,7 +163,7 @@ class ThumbnailService
     /**
      * @return array
      */
-    public function getCoordinates()
+    public function getCoordinates(): array
     {
         return [$this->xCoordinate, $this->yCoordinate];
     }
@@ -173,7 +172,7 @@ class ThumbnailService
      * @param string $fileName
      * @return ThumbnailService
      */
-    public function setFileName($fileName)
+    public function setFileName(string $fileName): ThumbnailService
     {
         $this->fileName = $fileName;
 
@@ -183,7 +182,7 @@ class ThumbnailService
     /**
      * @return string
      */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }
@@ -192,7 +191,7 @@ class ThumbnailService
      * @param string $type
      * @return bool|string
      */
-    public function save($type = 'fit')
+    public function save(string $type = 'fit')
     {
         $fileName = pathinfo($this->imagePath, PATHINFO_BASENAME);
 
@@ -216,6 +215,7 @@ class ThumbnailService
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
+
                 break;
 
             case 'height':
@@ -223,19 +223,27 @@ class ThumbnailService
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
+
                 break;
 
             case 'resize':
                 $thumbImage->resize($this->thumbWidth, $this->thumbHeight);
+
                 break;
 
             case 'crop':
                 $thumbImage->crop($this->thumbWidth, $this->thumbHeight, $this->xCoordinate, $this->yCoordinate);
+
                 break;
 
             case 'fit':
             default:
+                if (extension_loaded('exif')) {
+                    $thumbImage->orientate();
+                }
+
                 $thumbImage->fit($this->thumbWidth, $this->thumbHeight, null, $this->fitPosition);
+
                 break;
         }
 
@@ -243,6 +251,7 @@ class ThumbnailService
             $this->uploadManager->saveFile($destinationPath, $thumbImage->stream()->__toString());
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
+
             return false;
         }
 

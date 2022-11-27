@@ -7,8 +7,6 @@ use TVHung\Base\Models\BaseModel;
 class Setting extends BaseModel
 {
     /**
-     * The database table used by the model.
-     *
      * @var string
      */
     protected $table = 'settings';
@@ -20,9 +18,4 @@ class Setting extends BaseModel
         'key',
         'value',
     ];
-
-    /**
-     * @var bool
-     */
-    public $timestamps = false;
 }

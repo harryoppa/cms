@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'sizes'              => [
+    'sizes' => [
         'thumb' => '150x150',
     ],
-    'permissions'        => [
+    'permissions' => [
         'folders.create',
         'folders.edit',
         'folders.trash',
@@ -16,12 +16,12 @@ return [
         'files.favorite',
         'folders.favorite',
     ],
-    'libraries'          => [
+    'libraries' => [
         'stylesheets' => [
             'vendor/core/core/media/libraries/jquery-context-menu/jquery.contextMenu.min.css',
             'vendor/core/core/media/css/media.css?v=' . time(),
         ],
-        'javascript'  => [
+        'javascript' => [
             'vendor/core/core/media/libraries/lodash/lodash.min.js',
             'vendor/core/core/media/libraries/clipboard/clipboard.min.js',
             'vendor/core/core/media/libraries/dropzone/dropzone.js',
@@ -30,10 +30,12 @@ return [
             'vendor/core/core/media/js/media.js?v=' . time(),
         ],
     ],
-    'allowed_mime_types' => env('RV_MEDIA_ALLOWED_MIME_TYPES',
-        'jpg,jpeg,png,gif,txt,docx,zip,mp3,bmp,csv,xls,xlsx,ppt,pptx,pdf,mp4,doc,mpga,wav,webp,svg'),
-    'mime_types'         => [
-        'image'    => [
+    'allowed_mime_types' => env(
+        'RV_MEDIA_ALLOWED_MIME_TYPES',
+        'jpg,jpeg,png,gif,txt,docx,zip,mp3,bmp,csv,xls,xlsx,ppt,pptx,pdf,mp4,doc,mpga,wav,webp'
+    ),
+    'mime_types' => [
+        'image' => [
             'image/png',
             'image/jpeg',
             'image/gif',
@@ -41,7 +43,7 @@ return [
             'image/svg+xml',
             'image/webp',
         ],
-        'video'    => [
+        'video' => [
             'video/mp4',
         ],
         'document' => [
@@ -58,44 +60,44 @@ return [
             'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         ],
     ],
-    'default_image'      => env('RV_MEDIA_DEFAULT_IMAGE', '/vendor/core/core/base/images/placeholder.png'),
-    'sidebar_display'    => env('RV_MEDIA_SIDEBAR_DISPLAY', 'horizontal'), // Use "vertical" or "horizontal"
-    'watermark'          => [
-        'enabled'  => env('RV_MEDIA_WATERMARK_ENABLED', 0),
-        'source'   => env('RV_MEDIA_WATERMARK_SOURCE'),
-        'size'     => env('RV_MEDIA_WATERMARK_SIZE', 10),
-        'opacity'  => env('RV_MEDIA_WATERMARK_OPACITY', 70),
+    'default_image' => env('RV_MEDIA_DEFAULT_IMAGE', '/vendor/core/core/base/images/placeholder.png'),
+    'sidebar_display' => env('RV_MEDIA_SIDEBAR_DISPLAY', 'horizontal'), // Use "vertical" or "horizontal"
+    'watermark' => [
+        'enabled' => env('RV_MEDIA_WATERMARK_ENABLED', 0),
+        'source' => env('RV_MEDIA_WATERMARK_SOURCE'),
+        'size' => env('RV_MEDIA_WATERMARK_SIZE', 10),
+        'opacity' => env('RV_MEDIA_WATERMARK_OPACITY', 70),
         'position' => env('RV_MEDIA_WATERMARK_POSITION', 'bottom-right'),
-        'x'        => env('RV_MEDIA_WATERMARK_X', 10),
-        'y'        => env('RV_MEDIA_WATERMARK_Y', 10),
+        'x' => env('RV_MEDIA_WATERMARK_X', 10),
+        'y' => env('RV_MEDIA_WATERMARK_Y', 10),
     ],
 
     'chunk' => [
-        'enabled'       => env('RV_MEDIA_UPLOAD_CHUNK', false),
-        'chunk_size'    => 1 * 1024 * 1024, // Bytes
+        'enabled' => env('RV_MEDIA_UPLOAD_CHUNK', false),
+        'chunk_size' => 1024 * 1024, // Bytes
         'max_file_size' => 1024 * 1024, // MB
 
         /*
          * The storage config
          */
-        'storage'       => [
+        'storage' => [
             /*
              * Returns the folder name of the chunks. The location is in storage/app/{folder_name}
              */
             'chunks' => 'chunks',
-            'disk'   => 'local',
+            'disk' => 'local',
         ],
-        'clear'         => [
+        'clear' => [
             /*
              * How old chunks we should delete
              */
             'timestamp' => '-3 HOURS',
-            'schedule'  => [
+            'schedule' => [
                 'enabled' => true,
-                'cron'    => '25 * * * *', // run every hour on the 25th minute
+                'cron' => '25 * * * *', // run every hour on the 25th minute
             ],
         ],
-        'chunk'         => [
+        'chunk' => [
             // setup for the chunk naming setup to ensure same name upload at same time
             'name' => [
                 'use' => [
@@ -105,4 +107,30 @@ return [
             ],
         ],
     ],
+
+    'preview' => [
+        'document' => [
+            'enabled' => env('RV_MEDIA_DOCUMENT_PREVIEW_ENABLED', true),
+            'providers' => [
+                'google' => 'https://docs.google.com/gview?embedded=true&url={url}',
+                'microsoft' => 'https://view.officeapps.live.com/op/view.aspx?src={url}',
+            ],
+            'default' => env('RV_MEDIA_DOCUMENT_PREVIEW_PROVIDER', 'microsoft'),
+            'type' => env('RV_MEDIA_DOCUMENT_PREVIEW_TYPE', 'iframe'),          // use iframe or popup
+            'mime_types' => [
+                'application/pdf',
+                'application/vnd.ms-excel',
+                'application/excel',
+                'application/x-excel',
+                'application/x-msexcel',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-powerpoint',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ],
+        ],
+    ],
+    'default_upload_url' => env('RV_MEDIA_DEFAULT_UPLOAD_URL', url('storage')),
+    'generate_thumbnails_enabled' => env('RV_MEDIA_GENERATE_THUMBNAILS_ENABLED', true),
 ];

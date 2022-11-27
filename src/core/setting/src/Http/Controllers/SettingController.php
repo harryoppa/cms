@@ -3,37 +3,34 @@
 namespace TVHung\Setting\Http\Controllers;
 
 use Assets;
+use BaseHelper;
 use TVHung\Base\Http\Controllers\BaseController;
 use TVHung\Base\Http\Responses\BaseHttpResponse;
 use TVHung\Base\Supports\Core;
 use TVHung\Base\Supports\Language;
+use TVHung\Media\Repositories\Interfaces\MediaFileInterface;
 use TVHung\Setting\Http\Requests\EmailTemplateRequest;
 use TVHung\Setting\Http\Requests\LicenseSettingRequest;
 use TVHung\Setting\Http\Requests\MediaSettingRequest;
+use TVHung\Setting\Http\Requests\ResetEmailTemplateRequest;
 use TVHung\Setting\Http\Requests\SendTestEmailRequest;
 use TVHung\Setting\Http\Requests\SettingRequest;
 use TVHung\Setting\Repositories\Interfaces\SettingInterface;
 use Carbon\Carbon;
 use EmailHandler;
 use Exception;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\View\View;
+use RvMedia;
 use Throwable;
 
 class SettingController extends BaseController
 {
-    /**
-     * @var SettingInterface
-     */
-    protected $settingRepository;
+    protected SettingInterface $settingRepository;
 
-    /**
-     * SettingController constructor.
-     * @param SettingInterface $settingRepository
-     */
     public function __construct(SettingInterface $settingRepository)
     {
         $this->settingRepository = $settingRepository;
@@ -46,8 +43,8 @@ class SettingController extends BaseController
     {
         page_title()->setTitle(trans('core/setting::setting.title'));
 
-        Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js');
-        Assets::addStylesDirectly('vendor/core/core/setting/css/setting.css');
+        Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js')
+            ->addStylesDirectly('vendor/core/core/setting/css/setting.css');
 
         return view('core/setting::index');
     }
@@ -67,7 +64,7 @@ class SettingController extends BaseController
         ]));
 
         $locale = $request->input('locale');
-        if ($locale != false && array_key_exists($locale, Language::getAvailableLocales())) {
+        if ($locale && array_key_exists($locale, Language::getAvailableLocales())) {
             session()->put('site-locale', $locale);
         }
 
@@ -120,7 +117,9 @@ class SettingController extends BaseController
     public function getEmailConfig()
     {
         page_title()->setTitle(trans('core/base::layouts.setting_email'));
-        Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js');
+
+        Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js')
+            ->addStylesDirectly('vendor/core/core/setting/css/setting.css');
 
         return view('core/setting::email');
     }
@@ -143,15 +142,11 @@ class SettingController extends BaseController
      * @param string $type
      * @param string $module
      * @param string $template
-     * @param Request $request
-     * @param BaseHttpResponse $response
-     * @return Factory|View
-     * @throws FileNotFoundException
+     * @return Application|Factory|View
      */
     public function getEditEmailTemplate($type, $module, $template)
     {
-        $title = trans(config($type . '.' . $module . '.email.templates.' . $template . '.title', ''));
-        page_title()->setTitle($title);
+        page_title()->setTitle(trans(config($type . '.' . $module . '.email.templates.' . $template . '.title', '')));
 
         Assets::addStylesDirectly([
             'vendor/core/core/base/libraries/codemirror/lib/codemirror.css',
@@ -167,12 +162,11 @@ class SettingController extends BaseController
                 'vendor/core/core/setting/js/setting.js',
             ]);
 
-
         $emailContent = get_setting_email_template_content($type, $module, $template);
         $emailSubject = get_setting_email_subject($type, $module, $template);
         $pluginData = [
-            'type'          => $type,
-            'name'          => $module,
+            'type' => $type,
+            'name' => $module,
             'template_file' => $template,
         ];
 
@@ -192,21 +186,26 @@ class SettingController extends BaseController
                 ->save();
         }
 
-        save_file_data($request->input('template_path'), $request->input('email_content'), false);
+        $templatePath = get_setting_email_template_path($request->input('module'), $request->input('template_file'));
+
+        BaseHelper::saveFileData($templatePath, $request->input('email_content'), false);
 
         return $response->setMessage(trans('core/base::notices.update_success_message'));
     }
 
     /**
-     * @param Request $request
+     * @param ResetEmailTemplateRequest $request
      * @param BaseHttpResponse $response
      * @return BaseHttpResponse
      * @throws Exception
      */
-    public function postResetToDefault(Request $request, BaseHttpResponse $response)
+    public function postResetToDefault(ResetEmailTemplateRequest $request, BaseHttpResponse $response)
     {
         $this->settingRepository->deleteBy(['key' => $request->input('email_subject_key')]);
-        File::delete($request->input('template_path'));
+
+        $templatePath = get_setting_email_template_path($request->input('module'), $request->input('template_file'));
+
+        File::delete($templatePath);
 
         return $response->setMessage(trans('core/setting::setting.email.reset_success'));
     }
@@ -256,13 +255,14 @@ class SettingController extends BaseController
     {
         page_title()->setTitle(trans('core/setting::setting.media.title'));
 
-        Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js');
+        Assets::addScriptsDirectly('vendor/core/core/setting/js/setting.js')
+            ->addStylesDirectly('vendor/core/core/setting/css/setting.css');
 
         return view('core/setting::media');
     }
 
     /**
-     * @param Request $request
+     * @param MediaSettingRequest $request
      * @param BaseHttpResponse $response
      * @return BaseHttpResponse
      */
@@ -295,13 +295,13 @@ class SettingController extends BaseController
 
             $activatedAt = Carbon::createFromTimestamp(filectime($coreApi->getLicenseFilePath()));
         } catch (Throwable $exception) {
-            $activatedAt = now();
+            $activatedAt = Carbon::now();
             $result = ['message' => $exception->getMessage()];
         }
 
         $data = [
             'activated_at' => $activatedAt->format('M d Y'),
-            'licensed_to'  => setting('licensed_to'),
+            'licensed_to' => setting('licensed_to'),
         ];
 
         return $response->setMessage($result['message'])->setData($data);
@@ -312,24 +312,39 @@ class SettingController extends BaseController
      * @param BaseHttpResponse $response
      * @param Core $coreApi
      * @return BaseHttpResponse
-     * @throws FileNotFoundException
      */
     public function activateLicense(LicenseSettingRequest $request, BaseHttpResponse $response, Core $coreApi)
     {
-        if (filter_var($request->input('buyer'), FILTER_VALIDATE_URL)) {
-            $buyer = explode('/', $request->input('buyer'));
+        $buyer = $request->input('buyer');
+        if (filter_var($buyer, FILTER_VALIDATE_URL)) {
+            $buyer = explode('/', $buyer);
             $username = end($buyer);
 
             return $response
-                ->setError(true)
+                ->setError()
                 ->setMessage('Envato username must not a URL. Please try with username "' . $username . '"!');
         }
 
         try {
-            $result = $coreApi->activateLicense($request->input('purchase_code'), $request->input('buyer'));
+            $purchaseCode = $request->input('purchase_code');
 
+            $result = $coreApi->activateLicense($purchaseCode, $buyer);
+
+            $resetLicense = false;
             if (!$result['status']) {
-                return $response->setError()->setMessage($result['message']);
+                if (str_contains($result['message'], 'License is already active')) {
+                    $coreApi->deactivateLicense($purchaseCode, $buyer);
+
+                    $result = $coreApi->activateLicense($purchaseCode, $buyer);
+
+                    if (!$result['status']) {
+                        return $response->setError()->setMessage($result['message']);
+                    }
+
+                    $resetLicense = true;
+                } else {
+                    return $response->setError()->setMessage($result['message']);
+                }
             }
 
             setting()
@@ -340,12 +355,18 @@ class SettingController extends BaseController
 
             $data = [
                 'activated_at' => $activatedAt->format('M d Y'),
-                'licensed_to'  => $request->input('buyer'),
+                'licensed_to' => $request->input('buyer'),
             ];
+
+            if ($resetLicense) {
+                return $response->setMessage($result['message'] . ' Your license on the previous domain has been revoked!')->setData($data);
+            }
 
             return $response->setMessage($result['message'])->setData($data);
         } catch (Throwable $exception) {
-            return $response->setError(true)->setMessage($exception->getMessage());
+            return $response
+                ->setError()
+                ->setMessage($exception->getMessage());
         }
     }
 
@@ -353,7 +374,6 @@ class SettingController extends BaseController
      * @param BaseHttpResponse $response
      * @param Core $coreApi
      * @return BaseHttpResponse
-     * @throws FileNotFoundException
      * @throws Exception
      */
     public function deactivateLicense(BaseHttpResponse $response, Core $coreApi)
@@ -369,7 +389,7 @@ class SettingController extends BaseController
 
             return $response->setMessage($result['message']);
         } catch (Throwable $exception) {
-            return $response->setError(true)->setMessage($exception->getMessage());
+            return $response->setError()->setMessage($exception->getMessage());
         }
     }
 
@@ -392,7 +412,43 @@ class SettingController extends BaseController
 
             return $response->setMessage($result['message']);
         } catch (Throwable $exception) {
-            return $response->setError(true)->setMessage($exception->getMessage());
+            return $response->setError()->setMessage($exception->getMessage());
         }
+    }
+
+    /**
+     * @param MediaFileInterface $fileRepository
+     * @param BaseHttpResponse $response
+     * @return BaseHttpResponse
+     */
+    public function generateThumbnails(MediaFileInterface $fileRepository, BaseHttpResponse $response)
+    {
+        BaseHelper::maximumExecutionTimeAndMemoryLimit();
+
+        $files = $fileRepository->allBy([], [], ['url', 'mime_type', 'folder_id']);
+
+        $errors = [];
+
+        foreach ($files as $file) {
+            try {
+                RvMedia::generateThumbnails($file);
+            } catch (Exception $exception) {
+                $errors[] = $file->url;
+            }
+        }
+
+        $errors = array_unique($errors);
+
+        $errors = array_map(function ($item) {
+            return [$item];
+        }, $errors);
+
+        if ($errors) {
+            return $response
+                ->setError()
+                ->setMessage(trans('core/setting::setting.generate_thumbnails_error', ['count' => count($errors)]));
+        }
+
+        return $response->setMessage(trans('core/setting::setting.generate_thumbnails_success', ['count' => count($files)]));
     }
 }

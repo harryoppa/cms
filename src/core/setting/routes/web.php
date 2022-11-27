@@ -4,82 +4,96 @@ Route::group(['namespace' => 'TVHung\Setting\Http\Controllers', 'middleware' => 
     Route::group(['prefix' => BaseHelper::getAdminPrefix(), 'middleware' => 'auth'], function () {
         Route::group(['prefix' => 'settings'], function () {
             Route::get('general', [
-                'as'         => 'settings.options',
-                'uses'       => 'SettingController@getOptions',
+                'as' => 'settings.options',
+                'uses' => 'SettingController@getOptions',
                 'permission' => 'settings.options',
             ]);
 
             Route::post('general/edit', [
-                'as'         => 'settings.edit',
-                'uses'       => 'SettingController@postEdit',
+                'as' => 'settings.edit',
+                'uses' => 'SettingController@postEdit',
                 'permission' => 'settings.options',
             ]);
 
             Route::get('media', [
-                'as'   => 'settings.media',
+                'as' => 'settings.media',
                 'uses' => 'SettingController@getMediaSetting',
             ]);
 
             Route::post('media', [
-                'as'         => 'settings.media.post',
-                'uses'       => 'SettingController@postEditMediaSetting',
+                'as' => 'settings.media.post',
+                'uses' => 'SettingController@postEditMediaSetting',
+                'permission' => 'settings.media',
+                'middleware' => 'preventDemo',
+            ]);
+
+            Route::post('media/generate-thumbnails', [
+                'as' => 'settings.media.generate-thumbnails',
+                'uses' => 'SettingController@generateThumbnails',
                 'permission' => 'settings.media',
                 'middleware' => 'preventDemo',
             ]);
 
             Route::get('license/verify', [
-                'as'         => 'settings.license.verify',
-                'uses'       => 'SettingController@getVerifyLicense',
-                'permission' => 'settings.options',
+                'as' => 'settings.license.verify',
+                'uses' => 'SettingController@getVerifyLicense',
+                'permission' => false,
             ]);
 
             Route::post('license/activate', [
-                'as'         => 'settings.license.activate',
-                'uses'       => 'SettingController@activateLicense',
+                'as' => 'settings.license.activate',
+                'uses' => 'SettingController@activateLicense',
                 'middleware' => 'preventDemo',
-                'permission' => 'settings.options',
+                'permission' => 'core.manage.license',
             ]);
 
             Route::post('license/deactivate', [
-                'as'         => 'settings.license.deactivate',
-                'uses'       => 'SettingController@deactivateLicense',
+                'as' => 'settings.license.deactivate',
+                'uses' => 'SettingController@deactivateLicense',
                 'middleware' => 'preventDemo',
-                'permission' => 'settings.options',
+                'permission' => 'core.manage.license',
+            ]);
+
+            Route::post('license/reset', [
+                'as' => 'settings.license.reset',
+                'uses' => 'SettingController@resetLicense',
+                'middleware' => 'preventDemo',
+                'permission' => 'core.manage.license',
             ]);
 
             Route::group(['prefix' => 'email', 'permission' => 'settings.email'], function () {
                 Route::get('', [
-                    'as'   => 'settings.email',
+                    'as' => 'settings.email',
                     'uses' => 'SettingController@getEmailConfig',
                 ]);
 
                 Route::post('edit', [
-                    'as'   => 'settings.email.edit',
+                    'as' => 'settings.email.edit',
                     'uses' => 'SettingController@postEditEmailConfig',
                 ]);
 
                 Route::get('templates/edit/{type}/{name}/{template_file}', [
-                    'as'   => 'setting.email.template.edit',
+                    'as' => 'setting.email.template.edit',
                     'uses' => 'SettingController@getEditEmailTemplate',
                 ]);
 
                 Route::post('template/edit', [
-                    'as'   => 'setting.email.template.store',
+                    'as' => 'setting.email.template.store',
                     'uses' => 'SettingController@postStoreEmailTemplate',
                 ]);
 
                 Route::post('template/reset-to-default', [
-                    'as'   => 'setting.email.template.reset-to-default',
+                    'as' => 'setting.email.template.reset-to-default',
                     'uses' => 'SettingController@postResetToDefault',
                 ]);
 
                 Route::post('status', [
-                    'as'   => 'setting.email.status.change',
+                    'as' => 'setting.email.status.change',
                     'uses' => 'SettingController@postChangeEmailStatus',
                 ]);
 
                 Route::post('test/send', [
-                    'as'   => 'setting.email.send.test',
+                    'as' => 'setting.email.send.test',
                     'uses' => 'SettingController@postSendTestEmail',
                 ]);
             });

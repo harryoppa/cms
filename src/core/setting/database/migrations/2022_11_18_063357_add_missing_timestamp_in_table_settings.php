@@ -12,12 +12,11 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique()->index();
-            $table->text('value')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasColumn('settings', 'created_at')) {
+            Schema::table('settings', function (Blueprint $table) {
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -27,6 +26,6 @@ return new class () extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        //
     }
 };
