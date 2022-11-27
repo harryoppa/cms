@@ -4,118 +4,82 @@ namespace TVHung\Base\Supports;
 
 use TVHung\Base\Events\SendMailEvent;
 use TVHung\Base\Jobs\SendMailJob;
-use TVHung\Setting\Supports\SettingStore;
+use Carbon\Carbon;
 use Exception;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\URL;
 use RvMedia;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Throwable;
-use URL;
 
 class EmailHandler
 {
-    /**
-     * @var array
-     */
-    protected $variables = [];
+    protected string $type = 'plugins';
 
-    /**
-     * @var array
-     */
-    protected $variableValues = [];
+    protected ?string $module = null;
 
-    /**
-     * @var string
-     */
-    protected $module = 'core';
+    protected ?string $template = null;
 
-    /**
-     * @var array
-     */
-    protected $templates = [];
+    protected array $templates = [];
 
-    /**
-     * @param string $module
-     * @return $this
-     */
+    protected array $variableValues = [];
+
     public function setModule(string $module): self
     {
         $this->module = $module;
-        return $this;
-    }
-
-    /**
-     * @param string $module
-     * @param string $name
-     * @param string|null $description
-     * @return $this
-     */
-    public function addVariable(string $name, ?string $description = null, ?string $module = null): self
-    {
-        if (!$module) {
-            $module = $this->module;
-        }
-
-        $this->variables[$module][$name] = $description;
 
         return $this;
     }
 
-    /**
-     * @param string|null $module
-     * @return array
-     */
-    public function getVariables(?string $module = null): array
+    public function getType(): string
     {
-        $this->initVariable();
-
-        if (!$module) {
-            return $this->variables;
-        }
-
-        return Arr::get($this->variables, $module, []);
+        return $this->type;
     }
 
-    /**
-     * @return $this
-     */
-    public function initVariable(): self
+    public function setType(string $type): self
     {
-        $this->variables['core'] = [
-            'header'           => trans('core/base::base.email_template.header'),
-            'footer'           => trans('core/base::base.email_template.footer'),
-            'site_title'       => trans('core/base::base.email_template.site_title'),
-            'site_url'         => trans('core/base::base.email_template.site_url'),
-            'site_logo'        => trans('core/base::base.email_template.site_logo'),
-            'date_time'        => trans('core/base::base.email_template.date_time'),
-            'date_year'        => trans('core/base::base.email_template.date_year'),
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?string $template): self
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    public function getCoreVariables(): array
+    {
+        return [
+            'header' => trans('core/base::base.email_template.header'),
+            'footer' => trans('core/base::base.email_template.footer'),
+            'site_title' => trans('core/base::base.email_template.site_title'),
+            'site_url' => trans('core/base::base.email_template.site_url'),
+            'site_logo' => trans('core/base::base.email_template.site_logo'),
+            'date_time' => trans('core/base::base.email_template.date_time'),
+            'date_year' => trans('core/base::base.email_template.date_year'),
             'site_admin_email' => trans('core/base::base.email_template.site_admin_email'),
             'container_start'  => 'Container start',
             'container_end'    => 'Container end',
         ];
-
-        return $this;
     }
 
-    /**
-     * @param string $variable
-     * @param string $value
-     * @return $this
-     */
     public function setVariableValue(string $variable, string $value, string $module = null): self
     {
-        $this->variableValues[$module ?: $this->module][$variable] = $value;
+        Arr::set($this->variableValues, ($module ?: $this->module) . '.' . $variable, $value);
 
         return $this;
     }
 
-    /**
-     * @param string|null $module
-     * @return array
-     */
-    public function getVariableValues(?string $module = null)
+    public function getVariableValues(?string $module = null): array
     {
         if ($module) {
             return Arr::get($this->variableValues, $module, []);
@@ -124,12 +88,7 @@ class EmailHandler
         return $this->variableValues;
     }
 
-    /**
-     * @param array $data
-     * @param string $module
-     * @return $this
-     */
-    public function setVariableValues(array $data, string $module = null): self
+    public function setVariableValues(array $data, ?string $module = null): self
     {
         foreach ($data as $name => $value) {
             $this->variableValues[$module ?: $this->module][$name] = $value;
@@ -138,96 +97,83 @@ class EmailHandler
         return $this;
     }
 
-    /**
-     * @param string $module
-     * @param array $data
-     * @param string $type
-     * @return $this
-     */
     public function addTemplateSettings(string $module, array $data, string $type = 'plugins'): self
     {
         if (empty($data)) {
             return $this;
         }
 
-        $this->templates = $data['templates'];
+        $this->module = $module;
 
-        if (Arr::get($data, 'variables')) {
-            $this->addVariables($data['variables'], $module);
-        }
+        Arr::set($this->templates, $type . '.' . $module, $data);
 
-        add_filter(BASE_FILTER_AFTER_SETTING_EMAIL_CONTENT, function ($html) use ($module, $data, $type) {
-            return $html . view('core/setting::template-line', compact('module', 'data', 'type'))->render();
-        }, 99);
+        foreach ($data['templates'] as $key => &$template) {
+            if (!isset($template['variables'])) {
+                $this->templates[$type][$module]['templates'][$key]['variables'] = Arr::get($data, 'variables', []);
+            }
 
-        return $this;
-    }
-
-    /**
-     * @param string $module
-     * @param array $variables
-     * @return $this
-     */
-    public function addVariables(array $variables, ?string $module = null): self
-    {
-        if (!$module) {
-            $module = $this->module;
-        }
-
-        foreach ($variables as $name => $description) {
-            $this->variables[$module][$name] = $description;
+            $this->templates[$type][$module]['templates'][$key]['path'] = platform_path(
+                $type . '/' . $module . '/resources/email-templates/' . $key . '.tpl'
+            );
         }
 
         return $this;
     }
 
-    /**
-     * @param string $template
-     * @param string|array $email
-     * @param array $args
-     * @param bool $debug
-     * @param string $type
-     * @return bool
-     * @throws FileNotFoundException
-     * @throws Throwable
-     */
-    public function sendUsingTemplate(string $template, $email = null, $args = [], $debug = false, $type = 'plugins', $subject = null)
+    public function getTemplates(): array
     {
+        return $this->templates;
+    }
+
+    public function getTemplateData(string $type, string $module, string $name): string|array|null
+    {
+        return Arr::get($this->templates, $type . '.' . $module . '.templates.' . $name);
+    }
+
+    public function getVariables(string $type, string $module, string $name): array
+    {
+        $this->template = $name;
+
+        return $this->getCoreVariables() + Arr::get($this->getTemplateData($type, $module, $name), 'variables', []);
+    }
+
+    public function sendUsingTemplate(
+        string $template,
+        string|array|null $email = null,
+        array $args = [],
+        bool $debug = false,
+        string $type = 'plugins',
+        $subject = null
+    ): bool {
         if (!$this->templateEnabled($template)) {
             return false;
         }
 
+        $this->type = $type;
+        $this->template = $template;
+
         if (!$subject) {
-            $subject = $this->getTemplateSubject($template, $type);
+            $subject = $this->getSubject();
         }
 
-        $this->send($this->getTemplateContent($template, $type), $subject, $email, $args, $debug);
+        $this->send($this->getContent(), $subject, $email, $args, $debug);
 
         return true;
     }
 
-    /**
-     * @param string $template
-     * @param string $type
-     * @return array|SettingStore|string|null
-     */
-    public function templateEnabled(string $template, string $type = 'plugins')
+    public function templateEnabled(string $template, string $type = 'plugins'): bool
     {
-        return get_setting_email_status($type, $this->module, $template);
+        return (bool)get_setting_email_status($type, $this->module, $template);
     }
 
-    /**
-     * @param string $content
-     * @param string $title
-     * @param string $to
-     * @param array $args
-     * @param bool $debug
-     * @throws Throwable
-     */
-    public function send(string $content, string $title, $to = null, $args = [], $debug = false)
-    {
+    public function send(
+        string $content,
+        string $title,
+        string|array|null $to = null,
+        array $args = [],
+        bool $debug = false
+    ): void {
         try {
-
             if (empty($to)) {
                 $to = get_admin_email()->toArray();
                 if (empty($to)) {
@@ -247,29 +193,22 @@ class EmailHandler
             if ($debug) {
                 throw $exception;
             }
+
             info($exception->getMessage());
+
             $this->sendErrorException($exception);
         }
     }
 
-    /**
-     * @param string $content
-     * @param array $variables
-     * @return string
-     * @throws FileNotFoundException
-     */
-    public function prepareData(string $content, $variables = []): string
+    public function prepareData(string $content): string
     {
-        $this->initVariable();
         $this->initVariableValues();
 
         if (!empty($content)) {
-            $content = $this->replaceVariableValue(array_keys($this->variables['core']), 'core', $content);
+            $content = $this->replaceVariableValue(array_keys($this->getCoreVariables()), 'core', $content);
 
-            if ($this->module !== 'core') {
-                if (empty($variables)) {
-                    $variables = Arr::get($this->variables, $this->module, []);
-                }
+            if ($this->module && $this->template) {
+                $variables = $this->getVariables($this->type ?: 'plugins', $this->module, $this->template);
 
                 $content = $this->replaceVariableValue(
                     array_keys($variables),
@@ -282,21 +221,24 @@ class EmailHandler
         return apply_filters(BASE_FILTER_EMAIL_TEMPLATE, $content);
     }
 
-    /**
-     * @throws FileNotFoundException
-     */
-    public function initVariableValues()
+    public function initVariableValues(): void
     {
         $this->variableValues['core'] = [
-            'header'           => apply_filters(BASE_FILTER_EMAIL_TEMPLATE_HEADER,
-                get_setting_email_template_content('core', 'base', 'header')),
-            'footer'           => apply_filters(BASE_FILTER_EMAIL_TEMPLATE_FOOTER,
-                get_setting_email_template_content('core', 'base', 'footer')),
-            'site_title'       => setting('admin_title') ?: config('app.name'),
-            'site_url'         => url(''),
-            'site_logo'        => setting('admin_logo') ? RvMedia::getImageUrl(setting('admin_logo')) : url(config('core.base.general.logo')),
-            'date_time'        => now()->toDateTimeString(),
-            'date_year'        => now()->format('Y'),
+            'header' => apply_filters(
+                BASE_FILTER_EMAIL_TEMPLATE_HEADER,
+                get_setting_email_template_content('core', 'base', 'header')
+            ),
+            'footer' => apply_filters(
+                BASE_FILTER_EMAIL_TEMPLATE_FOOTER,
+                get_setting_email_template_content('core', 'base', 'footer')
+            ),
+            'site_title' => setting('admin_title') ?: config('app.name'),
+            'site_url' => url(''),
+            'site_logo' => setting('admin_logo') ? RvMedia::getImageUrl(setting('admin_logo')) : url(
+                config('core.base.general.logo')
+            ),
+            'date_time' => Carbon::now()->toDateTimeString(),
+            'date_year' => Carbon::now()->format('Y'),
             'site_admin_email' => get_admin_email()->first(),
             'container_start'  => get_setting_email_template_content('core', 'base', 'container-start'),
             'container_end'    => get_setting_email_template_content('core', 'base', 'container-end')
@@ -316,12 +258,6 @@ class EmailHandler
         return $this;
     }
 
-    /**
-     * @param array $variables
-     * @param string $module
-     * @param string $content
-     * @return string
-     */
     protected function replaceVariableValue(array $variables, string $module, string $content): string
     {
         do_action('email_variable_value');
@@ -343,26 +279,12 @@ class EmailHandler
         return $content;
     }
 
-    /**
-     * @param string $variable
-     * @param string $module
-     * @param string $default
-     * @return string
-     */
     public function getVariableValue(string $variable, string $module, string $default = ''): string
     {
         return (string)Arr::get($this->variableValues, $module . '.' . $variable, $default);
     }
 
-    /**
-     * Sends an email to the developer about the exception.
-     *
-     * @param Exception|Throwable $exception
-     * @return void
-     *
-     * @throws Throwable
-     */
-    public function sendErrorException(Exception $exception)
+    public function sendErrorException(Exception $exception): void
     {
         try {
             $ex = FlattenException::create($exception);
@@ -382,11 +304,7 @@ class EmailHandler
         }
     }
 
-    /**
-     * @param Throwable $exception
-     * @return string
-     */
-    protected function renderException($exception)
+    protected function renderException(Throwable|Exception $exception): string
     {
         $renderer = new HtmlErrorRenderer(true);
 
@@ -403,24 +321,34 @@ class EmailHandler
         return $exception->getAsString();
     }
 
-    /**
-     * @param string $template
-     * @param string $type
-     * @return string|null
-     * @throws FileNotFoundException
-     */
     public function getTemplateContent(string $template, string $type = 'plugins'): ?string
     {
+        $this->template = $template;
+        $this->type = $type;
+
         return get_setting_email_template_content($type, $this->module, $template);
     }
 
-    /**
-     * @param string $template
-     * @param string $type
-     * @return array|SettingStore|string|null
-     */
-    public function getTemplateSubject(string $template, string $type = 'plugins')
+    public function getTemplateSubject(string $template, string $type = 'plugins'): string
     {
-        return get_setting_email_subject($type, $this->module, $template);
+        return (string)setting(
+            get_setting_email_subject_key($type, $this->module, $template),
+            trans(
+                config(
+                    $type . '.' . $this->module . '.email.templates.' . $template . '.subject',
+                    ''
+                )
+            )
+        );
+    }
+
+    public function getContent(): string
+    {
+        return $this->prepareData(get_setting_email_template_content($this->type, $this->module, $this->template));
+    }
+
+    public function getSubject(): string
+    {
+        return $this->prepareData($this->getTemplateSubject($this->template, $this->type));
     }
 }

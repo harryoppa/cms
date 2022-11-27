@@ -1,6 +1,8 @@
 @extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
     {!! Form::open(['route' => ['setting.email.template.store']]) !!}
+    <input type="hidden" name="module" value="{{ $pluginData['name'] }}">
+    <input type="hidden" name="template_file" value="{{ $pluginData['template_file'] }}">
     <div class="max-width-1200">
         <div class="flexbox-annotated-section">
             <div class="flexbox-annotated-section-annotation">
@@ -9,20 +11,12 @@
                 </div>
                 <div class="annotated-section-description pd-all-20 p-none-t">
                     <p class="color-note">
-                        {!! clean(trans('core/setting::setting.email.description')) !!}
+                        {!! BaseHelper::clean(trans('core/setting::setting.email.description')) !!}
                     </p>
-                    <div class="available-variable">
-                        @foreach(EmailHandler::getVariables('core') as $coreKey => $coreVariable)
-                            <p><span class="text-danger">{{ $coreKey }}</span>: {{ $coreVariable }}</p>
-                        @endforeach
-                        @foreach(EmailHandler::getVariables($pluginData['name']) as $moduleKey => $moduleVariable)
-                            <p><span class="text-danger">{{ $moduleKey }}</span>: {{ trans($moduleVariable) }}</p>
-                        @endforeach
-                    </div>
                 </div>
             </div>
 
-            <div class="flexbox-annotated-section-content">
+            <div class="flexbox-annotated-section-content" v-pre>
                 <div class="wrapper-content pd-all-20 email-template-edit-wrap">
                     @if ($emailSubject)
                         <div class="form-group mb-3">
@@ -39,9 +33,19 @@
                         </div>
                     @endif
                     <div class="form-group mb-3">
-                        <input type="hidden" name="template_path" value="{{ get_setting_email_template_path($pluginData['name'], $pluginData['template_file']) }}">
                         <label class="text-title-field"
                                for="email_content">{{ trans('core/setting::setting.email.content') }}</label>
+                        <div class="d-inline-block mb-3">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fa fa-code"></i> {{ __('Variables') }}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    @foreach(EmailHandler::getVariables($pluginData['type'], $pluginData['name'], $pluginData['template_file']) as $key => $label)
+                                        <li><a href="#" class="js-select-mail-variable" data-key="{{ $key }}"><span class="text-danger">{{ $key }}</span>: {{ trans($label) }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
                         <textarea id="mail-template-editor" name="email_content" class="form-control" style="overflow-y:scroll; height: 500px;">{{ $emailContent }}</textarea>
                     </div>
                 </div>

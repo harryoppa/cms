@@ -123,8 +123,7 @@
                     <div data-type="log" class="setting-wrapper @if (setting('email_driver', config('mail.default')) !== 'log') hidden @endif">
                         <div class="form-group mb-3" style="margin-bottom: 1em;">
                             <label class="text-title-field" for="email_log_channel">{{ trans('core/setting::setting.email.log_channel') }}</label>
-                            <input type="text" class="next-input" name="email_log_channel" id="email_log_channel"
-                                   value="{{ setting('email_log_channel', config('mail.mailers.log.channel')) }}" placeholder="{{ trans('core/setting::setting.email.log_channel') }}">
+                            {!! Form::customSelect('email_log_channel', array_combine(array_keys(config('logging.channels', [])), array_keys(config('logging.channels', []))), setting('email_log_channel', config('mail.mailers.log.channel'))) !!}
                         </div>
                     </div>
 
@@ -143,7 +142,7 @@
                     <div class="form-group mb-3">
                         <input type="hidden" name="using_queue_to_send_mail" value="0">
                         <label>
-                            <input type="checkbox" value="1" @if (setting('using_queue_to_send_mail')) checked @endif name="using_queue_to_send_mail">
+                            <input type="checkbox"  value="1" @if (setting('using_queue_to_send_mail')) checked @endif name="using_queue_to_send_mail">
                             {{ trans('core/setting::setting.email.using_queue_to_send_mail') }}
                         </label>
                     </div>
@@ -170,5 +169,5 @@
     </div>
     {!! Form::close() !!}
 
-    {!! Form::modalAction('send-test-email-modal', trans('core/setting::setting.test_email_modal_title'), 'info', view('core/setting::test-email')->render(), 'send-test-email-btn', trans('core/setting::setting.send')) !!}
+    {!! Form::modalAction('send-test-email-modal', trans('core/setting::setting.test_email_modal_title'), 'info', view('core/setting::partials.test-email')->render(), 'send-test-email-btn', trans('core/setting::setting.send')) !!}
 @stop

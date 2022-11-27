@@ -108,7 +108,8 @@
                 "SiteMapManager": "TVHung\\Theme\\Facades\\SiteMapManagerFacade",
                 "Widget": "TVHung\\Widget\\Facades\\WidgetFacade",
                 "WidgetGroup": "TVHung\\Widget\\Facades\\WidgetGroupFacade",
-                "PaginateRoute": "TVHung\\PaginateRoute\\Facades\\PaginateRouteFacade"
+                "PaginateRoute": "TVHung\\PaginateRoute\\Facades\\PaginateRouteFacade",
+                "MacroableModels": "TVHung\\Base\\Facades\\MacroableModelsFacade"
             }
         }
     },
