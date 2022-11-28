@@ -74,7 +74,7 @@ export class MediaList {
                     .replace(/__thumb__/gi, '<i class="' + value.icon + '"></i>');
             } else {
                 item = item
-                    .replace(/__thumb__/gi, value.thumb ? '<img src="' + value.thumb + '" alt="' + value.name + '">' : '<i class="' + value.icon + '"></i>');
+                    .replace(/__thumb__/gi, value.type === 'image' ? '<img src="' + (value.thumb ? value.thumb : value.full_url) + '" alt="' + value.name + '">' : '<i class="' + value.icon + '"></i>');
             }
             let $item = $(item);
             $item.data('is_folder', false);

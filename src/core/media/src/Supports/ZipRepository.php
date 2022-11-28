@@ -21,7 +21,7 @@ class ZipRepository implements ZipperInterface
             throw new Exception('Error: Your PHP version is not compiled with zip support');
         }
 
-        $this->archive = $archive ?: new ZipArchive;
+        $this->archive = $archive ?: new ZipArchive();
 
         $res = $this->archive->open($filePath, ($create ? ZipArchive::CREATE : null));
 

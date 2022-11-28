@@ -37,11 +37,11 @@ class Zipper
     /**
      * Constructor
      *
-     * @param Filesystem $fs
+     * @param Filesystem|null $fs
      */
     public function __construct(Filesystem $fs = null)
     {
-        $this->file = $fs ?: new Filesystem;
+        $this->file = $fs ?: new Filesystem();
     }
 
     /**
@@ -55,7 +55,7 @@ class Zipper
     }
 
     /**
-     * Create a new zip Archive if the file does not exists
+     * Create a new zip Archive if the file does not exist
      * opens a zip archive if the file exists
      *
      * @param string $pathToFile The file to open
@@ -195,6 +195,7 @@ class Zipper
         if (null !== $this->repository) {
             $this->repository->close();
         }
+
         $this->filePath = '';
     }
 }

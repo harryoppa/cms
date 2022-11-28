@@ -52,7 +52,7 @@ class MediaFileController extends Controller
             $receiver = new FileReceiver('file', $request, DropZoneUploadHandler::class);
             // Check if the upload is success, throw exception or return response you need
             if ($receiver->isUploaded() === false) {
-                throw new UploadMissingFileException;
+                throw new UploadMissingFileException();
             }
             // Receive the file
             $save = $receiver->receive();
@@ -66,7 +66,7 @@ class MediaFileController extends Controller
             $handler = $save->handler();
 
             return response()->json([
-                'done'   => $handler->getPercentageDone(),
+                'done' => $handler->getPercentageDone(),
                 'status' => true,
             ]);
         } catch (Exception $exception) {
@@ -78,11 +78,11 @@ class MediaFileController extends Controller
      * @param array $result
      * @return JsonResponse
      */
-    protected function handleUploadResponse(array $result)
+    protected function handleUploadResponse(array $result): JsonResponse
     {
-        if ($result['error'] == false) {
+        if (!$result['error']) {
             return RvMedia::responseSuccess([
-                'id'  => $result['data']->id,
+                'id' => $result['data']->id,
                 'src' => RvMedia::url($result['data']->url),
             ]);
         }
@@ -101,7 +101,7 @@ class MediaFileController extends Controller
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return JsonResponse
      */
     public function postDownloadUrl(Request $request)
     {
@@ -115,12 +115,12 @@ class MediaFileController extends Controller
 
         $result = RvMedia::uploadFromUrl($request->input('url'), $request->input('folderId'));
 
-        if ($result['error'] == false) {
+        if (!$result['error']) {
             return RvMedia::responseSuccess([
-                'id'        => $result['data']->id,
-                'src'       => Storage::url($result['data']->url),
-                'url'       => $result['data']->url,
-                'message'   => trans('core/media::media.javascript.message.success_header')
+                'id' => $result['data']->id,
+                'src' => Storage::url($result['data']->url),
+                'url' => $result['data']->url,
+                'message' => trans('core/media::media.javascript.message.success_header'),
             ]);
         }
 

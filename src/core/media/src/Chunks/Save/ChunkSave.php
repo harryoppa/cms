@@ -67,7 +67,7 @@ class ChunkSave extends AbstractSave
      *
      * @return string
      */
-    public function getChunkFilePath($absolutePath = false)
+    public function getChunkFilePath(bool $absolutePath = false): string
     {
         return $this->getChunkDirectory($absolutePath) . $this->chunkFileName;
     }
@@ -79,7 +79,7 @@ class ChunkSave extends AbstractSave
      *
      * @return string
      */
-    public function getChunkDirectory($absolutePath = false)
+    public function getChunkDirectory(bool $absolutePath = false): string
     {
         $paths = [];
 
@@ -97,7 +97,7 @@ class ChunkSave extends AbstractSave
      *
      * @return ChunkStorage
      */
-    public function chunkStorage()
+    public function chunkStorage(): ChunkStorage
     {
         return $this->chunkStorage;
     }
@@ -117,7 +117,7 @@ class ChunkSave extends AbstractSave
     }
 
     /**
-     * Creates the chunks folder if doesn't exists. Uses recursive create.
+     * Creates the chunks folder if it doesn't exist. Uses recursive create.
      */
     protected function createChunksFolderIfNeeded()
     {
@@ -134,7 +134,7 @@ class ChunkSave extends AbstractSave
      *
      * @return $this
      */
-    protected function tryToBuildFullFileFromChunks()
+    protected function tryToBuildFullFileFromChunks(): self
     {
         // Build the last file because of the last chunk
         if ($this->isLastChunk) {
@@ -159,17 +159,18 @@ class ChunkSave extends AbstractSave
     /**
      * Returns the full file path.
      *
-     * @return string
+     * @return string|null
      */
-    public function getChunkFullFilePath()
+    public function getChunkFullFilePath(): ?string
     {
         return $this->chunkFullFilePath;
     }
 
     /**
-     * {@inheritDoc}
+     * @param string|null $finalPath
+     * @return UploadedFile
      */
-    protected function createFullChunkFile($finalPath)
+    protected function createFullChunkFile(?string $finalPath): UploadedFile
     {
         return new UploadedFile(
             $finalPath,
@@ -183,10 +184,11 @@ class ChunkSave extends AbstractSave
     }
 
     /**
-     * {@inheritDoc}
+     * @param $file
+     * @return $this
      * @throws ChunkSaveException
      */
-    protected function handleChunkFile($file)
+    protected function handleChunkFile($file): self
     {
         // delete the old chunk
         if ($this->handler()->isFirstChunk() && $this->chunkDisk()->exists($file)) {
@@ -206,7 +208,7 @@ class ChunkSave extends AbstractSave
      *
      * @return FilesystemAdapter
      */
-    public function chunkDisk()
+    public function chunkDisk(): FilesystemAdapter
     {
         return $this->chunkStorage()->disk();
     }
@@ -214,7 +216,7 @@ class ChunkSave extends AbstractSave
     /**
      * {@inheritDoc}
      */
-    public function isFinished()
+    public function isFinished(): bool
     {
         return parent::isFinished() && $this->isLastChunk;
     }
@@ -222,7 +224,7 @@ class ChunkSave extends AbstractSave
     /**
      * {@inheritDoc}
      */
-    public function getFile()
+    public function getFile(): UploadedFile
     {
         if ($this->isLastChunk) {
             return $this->fullChunkFile;

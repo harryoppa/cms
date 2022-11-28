@@ -6,7 +6,6 @@ use TVHung\Support\Repositories\Interfaces\RepositoryInterface;
 
 interface MediaFolderInterface extends RepositoryInterface
 {
-
     /**
      * @param int $folderId
      * @param array $params

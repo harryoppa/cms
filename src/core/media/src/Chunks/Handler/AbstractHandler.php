@@ -44,9 +44,9 @@ abstract class AbstractHandler
      *
      * @return bool
      */
-    public static function canUseSession()
+    public static function canUseSession(): bool
     {
-        // Get the session driver and check if it was started - fully inited by laravel
+        // Get the session driver and check if it was started - fully init by laravel
         $session = session();
         $driver = $session->getDefaultDriver();
         $drivers = $session->getDrivers();
@@ -136,7 +136,7 @@ abstract class AbstractHandler
     abstract public function getChunkFileName();
 
     /**
-     * Checks if the request has first chunk.
+     * Checks if the request has first chunked.
      *
      * @return bool
      */

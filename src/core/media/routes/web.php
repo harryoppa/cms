@@ -4,55 +4,55 @@ Route::group(['namespace' => 'TVHung\Media\Http\Controllers', 'middleware' => ['
     Route::group(['prefix' => BaseHelper::getAdminPrefix(), 'middleware' => 'auth'], function () {
         Route::group(['prefix' => 'media', 'as' => 'media.', 'permission' => 'media.index'], function () {
             Route::get('', [
-                'as'   => 'index',
+                'as' => 'index',
                 'uses' => 'MediaController@getMedia',
             ]);
 
             Route::get('popup', [
-                'as'   => 'popup',
+                'as' => 'popup',
                 'uses' => 'MediaController@getPopup',
             ]);
 
             Route::get('list', [
-                'as'   => 'list',
+                'as' => 'list',
                 'uses' => 'MediaController@getList',
             ]);
 
             Route::get('breadcrumbs', [
-                'as'   => 'breadcrumbs',
+                'as' => 'breadcrumbs',
                 'uses' => 'MediaController@getBreadcrumbs',
             ]);
 
             Route::post('global-actions', [
-                'as'   => 'global_actions',
+                'as' => 'global_actions',
                 'uses' => 'MediaController@postGlobalActions',
             ]);
 
             Route::get('download', [
-                'as'   => 'download',
+                'as' => 'download',
                 'uses' => 'MediaController@download',
             ]);
 
             Route::group(['prefix' => 'files'], function () {
                 Route::post('upload', [
-                    'as'   => 'files.upload',
+                    'as' => 'files.upload',
                     'uses' => 'MediaFileController@postUpload',
                 ]);
 
                 Route::post('upload-from-editor', [
-                    'as'   => 'files.upload.from.editor',
+                    'as' => 'files.upload.from.editor',
                     'uses' => 'MediaFileController@postUploadFromEditor',
                 ]);
 
                 Route::post('download-url', [
-                    'as'   => 'download_url',
+                    'as' => 'download_url',
                     'uses' => 'MediaFileController@postDownloadUrl',
                 ]);
             });
 
             Route::group(['prefix' => 'folders'], function () {
                 Route::post('create', [
-                    'as'   => 'folders.create',
+                    'as' => 'folders.create',
                     'uses' => 'MediaFolderController@store',
                 ]);
             });

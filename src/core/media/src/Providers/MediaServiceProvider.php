@@ -23,7 +23,7 @@ use TVHung\Media\Repositories\Interfaces\MediaFileInterface;
 use TVHung\Media\Repositories\Interfaces\MediaFolderInterface;
 use TVHung\Media\Repositories\Interfaces\MediaSettingInterface;
 use TVHung\Media\Storage\BunnyCDN\BunnyCDNAdapter;
-use TVHung\Media\Storage\BunnyCDN\BunnyCDNStorage;
+use TVHung\Media\Storage\BunnyCDN\BunnyCDNClient;
 use TVHung\Setting\Supports\SettingStore;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
@@ -31,7 +31,7 @@ use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\Filesystem;
 use RvMedia;
 
@@ -46,21 +46,21 @@ class MediaServiceProvider extends ServiceProvider
     {
         $this->app->bind(MediaFileInterface::class, function () {
             return new MediaFileCacheDecorator(
-                new MediaFileRepository(new MediaFile),
+                new MediaFileRepository(new MediaFile()),
                 MEDIA_GROUP_CACHE_KEY
             );
         });
 
         $this->app->bind(MediaFolderInterface::class, function () {
             return new MediaFolderCacheDecorator(
-                new MediaFolderRepository(new MediaFolder),
+                new MediaFolderRepository(new MediaFolder()),
                 MEDIA_GROUP_CACHE_KEY
             );
         });
 
         $this->app->bind(MediaSettingInterface::class, function () {
             return new MediaSettingCacheDecorator(
-                new MediaSettingRepository(new MediaSetting),
+                new MediaSettingRepository(new MediaSetting()),
                 MEDIA_GROUP_CACHE_KEY
             );
         });
@@ -81,23 +81,23 @@ class MediaServiceProvider extends ServiceProvider
 
         Storage::extend('wasabi', function ($app, $config) {
             $client = new S3Client([
-                'endpoint'        => 'https://' . $config['bucket'] . '.s3.' . $config['region'] . '.wasabisys.com/',
+                'endpoint' => 'https://' . $config['bucket'] . '.s3.' . $config['region'] . '.wasabisys.com/',
                 'bucket_endpoint' => true,
-                'credentials'     => [
-                    'key'    => $config['key'],
+                'credentials' => [
+                    'key' => $config['key'],
                     'secret' => $config['secret'],
                 ],
-                'region'          => $config['region'],
-                'version'         => 'latest',
+                'region' => $config['region'],
+                'version' => 'latest',
             ]);
 
-            $adapter = new AwsS3Adapter($client, $config['bucket'], $config['root']);
+            $adapter = new AwsS3V3Adapter($client, $config['bucket'], $config['root']);
 
             return new Filesystem($adapter);
         });
 
         Storage::extend('bunnycdn', function ($app, $config) {
-            $adapter = new BunnyCDNAdapter(new BunnyCDNStorage($config['zone'], $config['key'], $config['region']));
+            $adapter = new BunnyCDNAdapter(new BunnyCDNClient($config['zone'], $config['key'], $config['region']));
 
             return new Filesystem($adapter);
         });
@@ -106,59 +106,65 @@ class MediaServiceProvider extends ServiceProvider
         $setting = $this->app->make(SettingStore::class);
 
         $config->set([
-            'filesystems.default'                  => $setting->get('media_driver', 'public'),
-            'filesystems.disks.s3'                 => [
-                'driver'     => 's3',
+            'filesystems.default' => $setting->get('media_driver', 'public'),
+            'filesystems.disks.s3' => [
+                'driver' => 's3',
                 'visibility' => 'public',
-                'key'        => $setting->get('media_aws_access_key_id', $config->get('filesystems.disks.s3.key')),
-                'secret'     => $setting->get('media_aws_secret_key', $config->get('filesystems.disks.s3.secret')),
-                'region'     => $setting->get('media_aws_default_region', $config->get('filesystems.disks.s3.region')),
-                'bucket'     => $setting->get('media_aws_bucket', $config->get('filesystems.disks.s3.bucket')),
-                'url'        => $setting->get('media_aws_url', $config->get('filesystems.disks.s3.url')),
-                'endpoint'   => $setting->get('media_aws_endpoint', $config->get('filesystems.disks.s3.endpoint')) ?: null,
+                'key' => $setting->get('media_aws_access_key_id', $config->get('filesystems.disks.s3.key')),
+                'secret' => $setting->get('media_aws_secret_key', $config->get('filesystems.disks.s3.secret')),
+                'region' => $setting->get('media_aws_default_region', $config->get('filesystems.disks.s3.region')),
+                'bucket' => $setting->get('media_aws_bucket', $config->get('filesystems.disks.s3.bucket')),
+                'url' => $setting->get('media_aws_url', $config->get('filesystems.disks.s3.url')),
+                'endpoint' => $setting->get('media_aws_endpoint', $config->get('filesystems.disks.s3.endpoint')) ?: null,
                 'use_path_style_endpoint' => $config->get('filesystems.disks.s3.use_path_style_endpoint'),
             ],
-            'filesystems.disks.do_spaces'          => [
-                'driver'     => 's3',
+            'filesystems.disks.do_spaces' => [
+                'driver' => 's3',
                 'visibility' => 'public',
-                'key'        => $setting->get('media_do_spaces_access_key_id'),
-                'secret'     => $setting->get('media_do_spaces_secret_key'),
-                'region'     => $setting->get('media_do_spaces_default_region'),
-                'bucket'     => $setting->get('media_do_spaces_bucket'),
-                'endpoint'   => $setting->get('media_do_spaces_endpoint'),
+                'key' => $setting->get('media_do_spaces_access_key_id'),
+                'secret' => $setting->get('media_do_spaces_secret_key'),
+                'region' => $setting->get('media_do_spaces_default_region'),
+                'bucket' => $setting->get('media_do_spaces_bucket'),
+                'endpoint' => $setting->get('media_do_spaces_endpoint'),
             ],
-            'filesystems.disks.wasabi'             => [
-                'driver'     => 'wasabi',
+            'filesystems.disks.wasabi' => [
+                'driver' => 'wasabi',
                 'visibility' => 'public',
-                'key'        => $setting->get('media_wasabi_access_key_id'),
-                'secret'     => $setting->get('media_wasabi_secret_key'),
-                'region'     => $setting->get('media_wasabi_default_region'),
-                'bucket'     => $setting->get('media_wasabi_bucket'),
-                'root'       => $setting->get('media_wasabi_root', '/'),
+                'key' => $setting->get('media_wasabi_access_key_id'),
+                'secret' => $setting->get('media_wasabi_secret_key'),
+                'region' => $setting->get('media_wasabi_default_region'),
+                'bucket' => $setting->get('media_wasabi_bucket'),
+                'root' => $setting->get('media_wasabi_root', '/'),
             ],
-            'filesystems.disks.bunnycdn'           => [
-                'driver'   => 'bunnycdn',
+            'filesystems.disks.bunnycdn' => [
+                'driver' => 'bunnycdn',
                 'hostname' => $setting->get('media_bunnycdn_hostname'),
-                'zone'     => $setting->get('media_bunnycdn_zone'),
-                'key'      => $setting->get('media_bunnycdn_key'),
-                'region'   => $setting->get('media_bunnycdn_region'),
+                'zone' => $setting->get('media_bunnycdn_zone'),
+                'key' => $setting->get('media_bunnycdn_key'),
+                'region' => $setting->get('media_bunnycdn_region'),
             ],
-            'core.media.media.chunk.enabled'       => (bool)$setting->get('media_chunk_enabled',
-                $config->get('core.media.media.chunk.enabled')),
-            'core.media.media.chunk.chunk_size'    => (int)$setting->get('media_chunk_size',
-                $config->get('core.media.media.chunk.chunk_size')),
-            'core.media.media.chunk.max_file_size' => (int)$setting->get('media_max_file_size',
-                $config->get('core.media.media.chunk.max_file_size')),
+            'core.media.media.chunk.enabled' => (bool)$setting->get(
+                'media_chunk_enabled',
+                $config->get('core.media.media.chunk.enabled')
+            ),
+            'core.media.media.chunk.chunk_size' => (int)$setting->get(
+                'media_chunk_size',
+                $config->get('core.media.media.chunk.chunk_size')
+            ),
+            'core.media.media.chunk.max_file_size' => (int)$setting->get(
+                'media_max_file_size',
+                $config->get('core.media.media.chunk.max_file_size')
+            ),
         ]);
 
         Event::listen(RouteMatched::class, function () {
             dashboard_menu()->registerItem([
-                'id'          => 'cms-core-media',
-                'priority'    => 995,
-                'parent_id'   => null,
-                'name'        => 'core/media::media.menu_name',
-                'icon'        => 'far fa-images',
-                'url'         => route('media.index'),
+                'id' => 'cms-core-media',
+                'priority' => 995,
+                'parent_id' => null,
+                'name' => 'core/media::media.menu_name',
+                'icon' => 'far fa-images',
+                'url' => route('media.index'),
                 'permissions' => ['media.index'],
             ]);
         });
@@ -166,7 +172,6 @@ class MediaServiceProvider extends ServiceProvider
         $this->commands([
             GenerateThumbnailCommand::class,
             DeleteThumbnailCommand::class,
-            ClearChunksCommand::class,
             InsertWatermarkCommand::class,
         ]);
 
@@ -178,8 +183,14 @@ class MediaServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app->singleton(ChunkStorage::class, function () {
-            return new ChunkStorage;
-        });
+        if (RvMedia::getConfig('chunk.clear.schedule.enabled')) {
+            $this->commands([
+                ClearChunksCommand::class,
+            ]);
+
+            $this->app->singleton(ChunkStorage::class, function () {
+                return new ChunkStorage();
+            });
+        }
     }
 }

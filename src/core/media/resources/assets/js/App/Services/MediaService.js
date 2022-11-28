@@ -98,7 +98,7 @@ export class MediaService {
         let $breadcrumbContainer = $('.rv-media-breadcrumb .breadcrumb');
         $breadcrumbContainer.find('li').remove();
 
-        _.each(breadcrumbItems, (value) => {
+        _.each(breadcrumbItems, value => {
             let template = _self.breadcrumbTemplate;
             template = template
                 .replace(/__name__/gi, value.name || '')

@@ -34,7 +34,7 @@ abstract class AbstractSave
      *
      * @return bool
      */
-    public function isFinished()
+    public function isFinished(): bool
     {
         return $this->isValid();
     }
@@ -44,7 +44,7 @@ abstract class AbstractSave
      *
      * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->file->isValid();
     }
@@ -52,9 +52,9 @@ abstract class AbstractSave
     /**
      * Returns the error message.
      *
-     * @return string
+     * @return string|null
      */
-    public function getErrorMessage()
+    public function getErrorMessage(): ?string
     {
         return $this->file->getErrorMessage();
     }
@@ -74,7 +74,7 @@ abstract class AbstractSave
     /**
      * @return UploadedFile
      */
-    public function getFile()
+    public function getFile(): UploadedFile
     {
         return $this->file;
     }
@@ -82,7 +82,7 @@ abstract class AbstractSave
     /**
      * @return AbstractHandler
      */
-    public function handler()
+    public function handler(): AbstractHandler
     {
         return $this->handler;
     }
