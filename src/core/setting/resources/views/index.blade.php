@@ -1,14 +1,5 @@
 @extends(BaseHelper::getAdminMasterLayoutTemplate())
 @section('content')
-    <div id="main-settings">
-        <license-component
-            verify-url="{{ route('settings.license.verify') }}"
-            activate-license-url="{{ route('settings.license.activate') }}"
-            deactivate-license-url="{{ route('settings.license.deactivate') }}"
-            reset-license-url="{{ route('settings.license.reset') }}"
-            manage-license="{{ auth()->user()->hasPermission('core.manage.license') ? 'yes' : 'no' }}"
-        ></license-component>
-    </div>
     {!! Form::open(['route' => ['settings.edit']]) !!}
         <div class="max-width-1200">
             <div class="flexbox-annotated-section">
