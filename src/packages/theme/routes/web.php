@@ -76,29 +76,5 @@ Route::group(['namespace' => 'TVHung\Theme\Http\Controllers', 'middleware' => ['
                 'middleware' => 'preventDemo',
             ]);
         });
-
-        Route::group(['prefix' => 'theme/marketplace'], function () {
-            Route::get('', [
-                'as' => 'theme.marketplace',
-                'uses' => 'MarketplaceController@index',
-            ]);
-
-            Route::group(['prefix' => 'ajax'], function () {
-                Route::group(['prefix' => 'ajax'], function () {
-                    Route::get('', [
-                        'as' => 'theme.marketplace.ajax.list',
-                        'uses' => 'MarketplaceController@listThemes',
-                    ]);
-                    Route::get('{id}', [
-                        'as' => 'theme.marketplace.ajax.detail',
-                        'uses' => 'MarketplaceController@theme',
-                    ]);
-                    Route::post('{id}/install', [
-                        'as' => 'theme.marketplace.ajax.install',
-                        'uses' => 'MarketplaceController@installNewTheme',
-                    ]);
-                });
-            });
-        });
     });
 });

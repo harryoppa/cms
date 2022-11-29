@@ -262,6 +262,32 @@ class Menu
 
     /**
      * @param string $location
+     * @param array $attributes
+     * @return Collection
+     * @throws Throwable
+     * @author TVHung
+     */
+    public function getMenuLocation(string $location, array $attributes): Collection
+    {
+        $this->load();
+
+        $data = [];
+
+        foreach ($this->data as $menu) {
+            if (!in_array($location, $menu->locations->pluck('location')->all())) {
+                continue;
+            }
+
+            $attributes['slug'] = $menu->slug;
+            $attributes['api'] = true;
+            $data[] = $this->generateMenu($attributes);
+        }
+
+        return collect($data);
+    }
+
+    /**
+     * @param string $location
      * @return bool
      * @throws Throwable
      */
@@ -307,11 +333,12 @@ class Menu
     }
 
     /**
+     * @author TVHung | Add api get menu
      * @param array $args
-     * @return string|null
+     * @return string|null|array
      * @throws Throwable
      */
-    public function generateMenu(array $args = []): ?string
+    public function generateMenu(array $args = []): string | array | null
     {
         $this->load();
 
@@ -321,6 +348,9 @@ class Menu
         $menu = Arr::get($args, 'menu');
 
         $slug = Arr::get($args, 'slug');
+
+        $api = Arr::get($args, 'api', false);
+
         if (!$menu && !$slug) {
             return null;
         }
@@ -351,6 +381,13 @@ class Menu
         ];
 
         $data['options'] = $this->html->attributes(Arr::get($args, 'options', []));
+
+        if ($api) {
+
+            $data['menu']->menuNodes = $data['menu_nodes'];
+
+            return $data;
+        }
 
         if ($theme && $view) {
             return Theme::partial($view, $data);

@@ -58,7 +58,7 @@ abstract class CacheAbstractDecorator implements RepositoryInterface
      */
     public function getDataIfExistCache($function, array $args)
     {
-        if (!$this->useCache && !setting('enable_cache', false)) {
+        if (!$this->useCache && !setting('enable_cache', false) || (is_in_admin(true) && setting('disable_cache_in_the_admin_panel', false))) {
             return call_user_func_array([$this->repository, $function], $args);
         }
 

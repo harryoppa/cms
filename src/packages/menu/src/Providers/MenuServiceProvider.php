@@ -2,6 +2,7 @@
 
 namespace TVHung\Menu\Providers;
 
+use ApiHelper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Menu\Models\Menu as MenuModel;
 use TVHung\Menu\Models\MenuLocation;
@@ -56,6 +57,10 @@ class MenuServiceProvider extends ServiceProvider
             ->loadAndPublishTranslations()
             ->loadMigrations()
             ->publishAssets();
+
+        if (ApiHelper::enabled()) {
+            $this->loadRoutes(['api']);
+        }
 
         Event::listen(RouteMatched::class, function () {
             dashboard_menu()
