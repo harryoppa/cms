@@ -10,85 +10,85 @@ class Model
     /**
      * @var array
      */
-    private $items = [];
+    protected $items = [];
 
     /**
      * @var array
      */
-    private $sitemaps = [];
+    protected $sitemaps = [];
 
     /**
      * @var string
      */
-    private $title = null;
+    protected $title = null;
 
     /**
      * @var string
      */
-    private $link = null;
+    protected $link = null;
 
     /**
      * Enable or disable xsl styles.
      *
      * @var bool
      */
-    private $useStyles = true;
+    protected $useStyles = true;
 
     /**
      * Set custom location for xsl styles (must end with slash).
      *
      * @var string
      */
-    private $sloc = '/vendor/core/packages/sitemap/styles/';
+    protected $sloc = '/vendor/core/packages/sitemap/styles/';
 
     /**
      * Enable or disable cache.
      *
      * @var bool
      */
-    private $useCache = false;
+    protected $useCache = false;
 
     /**
      * Unique cache key.
      *
      * @var string
      */
-    private $cacheKey = 'cms-sitemap.';
+    protected $cacheKey = 'cms-sitemap.';
 
     /**
      * Cache duration, can be int or timestamp.
      *
      * @var Carbon|Datetime|int
      */
-    private $cacheDuration = 3600;
+    protected $cacheDuration = 60;
 
     /**
      * Escaping html entities.
      *
      * @var bool
      */
-    private $escaping = true;
+    protected $escaping = true;
 
     /**
      * Use limitSize() for big sitemaps.
      *
      * @var bool
      */
-    private $useLimitSize = false;
+    protected $useLimitSize = false;
 
     /**
      * Custom max size for limitSize().
      *
      * @var bool
      */
-    private $maxSize = null;
+    protected $maxSize = null;
 
     /**
      * Use gzip compression.
      *
      * @var bool
      */
-    private $useGzip = false;
+    protected $useGzip = false;
 
     /**
      * Populating model variables from configuration file.
@@ -97,15 +97,15 @@ class Model
      */
     public function __construct(array $config)
     {
-        $this->useCache = isset($config['use_cache']) ? $config['use_cache'] : $this->useCache;
-        $this->cacheKey = isset($config['cache_key']) ? $config['cache_key'] : $this->cacheKey;
-        $this->cacheDuration = isset($config['cache_duration']) ? $config['cache_duration'] : $this->cacheDuration;
-        $this->escaping = isset($config['escaping']) ? $config['escaping'] : $this->escaping;
-        $this->useLimitSize = isset($config['use_limit_size']) ? $config['use_limit_size'] : $this->useLimitSize;
-        $this->useStyles = isset($config['use_styles']) ? $config['use_styles'] : $this->useStyles;
-        $this->sloc = isset($config['styles_location']) ? $config['styles_location'] : $this->sloc;
-        $this->maxSize = isset($config['max_size']) ? $config['max_size'] : $this->maxSize;
-        $this->useGzip = isset($config['use_gzip']) ? $config['use_gzip'] : $this->useGzip;
+        $this->useCache = $config['use_cache'] ?? $this->useCache;
+        $this->cacheKey = $config['cache_key'] ?? $this->cacheKey;
+        $this->cacheDuration = $config['cache_duration'] ?? $this->cacheDuration;
+        $this->escaping = $config['escaping'] ?? $this->escaping;
+        $this->useLimitSize = $config['use_limit_size'] ?? $this->useLimitSize;
+        $this->useStyles = $config['use_styles'] ?? $this->useStyles;
+        $this->sloc = $config['styles_location'] ?? $this->sloc;
+        $this->maxSize = $config['max_size'] ?? $this->maxSize;
+        $this->useGzip = $config['use_gzip'] ?? $this->useGzip;
     }
 
     /**
@@ -221,7 +221,7 @@ class Model
     /**
      * Returns $maxSize value.
      *
-     * @param int $maxSize
+     * @return bool|mixed|null
      */
     public function getMaxSize()
     {
@@ -231,7 +231,7 @@ class Model
     /**
      * Returns $useGzip value.
      *
-     * @param bool $useGzip
+     * @return bool|mixed
      */
     public function getUseGzip()
     {
@@ -251,7 +251,7 @@ class Model
     /**
      * Adds item to $items array.
      *
-     * @param array $item
+     * @param array $items
      */
     public function setItems($items)
     {

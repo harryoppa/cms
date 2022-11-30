@@ -11,26 +11,20 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Session\TokenMismatchException;
-use League\OAuth2\Server\Exception\OAuthServerException;
-use Log;
 use RvMedia;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Theme;
 use Throwable;
-use URL;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * {@inheritDoc}
-     */
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof PostTooLargeException) {
             return RvMedia::responseError(trans('core/media::media.upload_failed', [
-                'size' => human_file_size(RvMedia::getServerConfigMaxUploadFileSize()),
+                'size' => BaseHelper::humanFilesize(RvMedia::getServerConfigMaxUploadFileSize()),
             ]));
         }
 
@@ -39,7 +33,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof TokenMismatchException) {
-            return (new BaseHttpResponse)
+            return (new BaseHttpResponse())
                 ->setError()
                 ->setCode($exception->getCode())
                 ->setMessage('CSRF token mismatch. Please try again!');
@@ -49,39 +43,39 @@ class Handler extends ExceptionHandler
             $code = $exception->getStatusCode();
 
             if ($request->expectsJson()) {
-                if (function_exists('admin_bar')) {
-                    admin_bar()->setIsDisplay(false);
-                }
+                $response = new BaseHttpResponse();
 
-                $response = new BaseHttpResponse;
-
-                switch ($code) {
-                    case 401:
-                        return $response
-                            ->setError()
-                            ->setMessage(trans('core/acl::permissions.access_denied_message'))
-                            ->setCode($code)
-                            ->toResponse($request);
-
-                    case 403:
-                        return $response
-                            ->setError()
-                            ->setMessage(trans('core/acl::permissions.action_unauthorized'))
-                            ->setCode($code)
-                            ->toResponse($request);
-
-                    case 404:
-                        return $response
-                            ->setError()
-                            ->setMessage(trans('core/base::errors.not_found'))
-                            ->setCode(404)
-                            ->toResponse($request);
-                }
+                return match ($code) {
+                    401 => $response
+                        ->setError()
+                        ->setMessage(trans('core/acl::permissions.access_denied_message'))
+                        ->setCode($code)
+                        ->toResponse($request),
+                    403 => $response
+                        ->setError()
+                        ->setMessage(trans('core/acl::permissions.action_unauthorized'))
+                        ->setCode($code)
+                        ->toResponse($request),
+                    404 => $response
+                        ->setError()
+                        ->setMessage(trans('core/base::errors.not_found'))
+                        ->setCode(404)
+                        ->toResponse($request),
+                    default => $response
+                        ->setError()
+                        ->setMessage($exception->getMessage())
+                        ->setCode($code)
+                        ->toResponse($request),
+                };
             }
 
             if (!app()->isDownForMaintenance()) {
                 do_action(BASE_ACTION_SITE_ERROR, $code);
             }
+        }
+
+        if ($exception instanceof NotFoundHttpException && setting('redirect_404_to_homepage', 0) == 1) {
+            return redirect(route('public.index'));
         }
 
         return parent::render($request, $exception);
@@ -93,7 +87,7 @@ class Handler extends ExceptionHandler
     public function report(Throwable $exception)
     {
         if ($this->shouldReport($exception) && !$this->isExceptionFromBot()) {
-            if (!app()->isLocal() && !app()->runningInConsole()) {
+            if (!app()->isLocal() && !app()->runningInConsole() && !app()->isDownForMaintenance()) {
                 if (setting('enable_send_error_reporting_via_email', false) &&
                     setting('email_driver', config('mail.default')) &&
                     $exception instanceof Exception
@@ -101,11 +95,17 @@ class Handler extends ExceptionHandler
                     EmailHandler::sendErrorException($exception);
                 }
 
-                if (config('core.base.general.error_reporting.via_slack', false) == true &&
-                    !$exception instanceof OAuthServerException
-                ) {
-                    Log::channel('slack')
-                        ->critical(URL::full() . "\n" . $exception->getFile() . ':' . $exception->getLine() . "\n" . $exception->getMessage());
+                if (config('core.base.general.error_reporting.via_slack', false)) {
+                    logger()->channel('slack')->critical(
+                        $exception->getMessage() . ($exception->getPrevious() ? '(' . $exception->getPrevious() . ')' : null),
+                        [
+                            'Request URL' => request()->fullUrl(),
+                            'Request IP' => request()->ip(),
+                            'Request Method' => request()->method(),
+                            'Exception Type' => get_class($exception),
+                            'File Path' => ltrim(str_replace(base_path(), '', $exception->getFile()), '/') . ':' . $exception->getLine(),
+                        ]
+                    );
                 }
             }
         }
@@ -121,14 +121,14 @@ class Handler extends ExceptionHandler
     protected function isExceptionFromBot(): bool
     {
         $ignoredBots = config('core.base.general.error_reporting.ignored_bots', []);
-        $agent = strtolower(request()->server('HTTP_USER_AGENT'));
+        $agent = strtolower(request()->userAgent());
 
         if (empty($agent)) {
             return false;
         }
 
         foreach ($ignoredBots as $bot) {
-            if ((str_contains($agent, $bot))) {
+            if (str_contains($agent, $bot)) {
                 return true;
             }
         }
@@ -138,12 +138,15 @@ class Handler extends ExceptionHandler
 
     /**
      * Get the view used to render HTTP exceptions.
-     *
-     * @param \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $exception
+     * @param HttpExceptionInterface $exception
      * @return string
      */
     protected function getHttpExceptionView(HttpExceptionInterface $exception)
     {
+        if (app()->runningInConsole() || request()->wantsJson() || request()->expectsJson()) {
+            return parent::getHttpExceptionView($exception);
+        }
+
         $code = $exception->getStatusCode();
 
         if (request()->is(BaseHelper::getAdminPrefix() . '/*') || request()->is(BaseHelper::getAdminPrefix())) {
@@ -151,19 +154,20 @@ class Handler extends ExceptionHandler
         }
 
         if (class_exists('Theme')) {
-            return 'theme.' . Theme::getThemeName() . '::views.' . $code;
+            $view = 'theme.' . Theme::getThemeName() . '::views.' . $code;
+
+            if (view()->exists($view)) {
+                return $view;
+            }
         }
 
         return parent::getHttpExceptionView($exception);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return (new BaseHttpResponse)
+            return (new BaseHttpResponse())
                 ->setError()
                 ->setMessage($exception->getMessage())
                 ->setCode(401)

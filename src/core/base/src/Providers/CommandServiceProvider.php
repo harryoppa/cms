@@ -2,6 +2,7 @@
 
 namespace TVHung\Base\Providers;
 
+use TVHung\Base\Commands\CleanupSystemCommand;
 use TVHung\Base\Commands\ClearLogCommand;
 use TVHung\Base\Commands\InstallCommand;
 use TVHung\Base\Commands\PublishAssetsCommand;
@@ -15,6 +16,7 @@ class CommandServiceProvider extends ServiceProvider
             ClearLogCommand::class,
             InstallCommand::class,
             PublishAssetsCommand::class,
+            CleanupSystemCommand::class,
         ]);
     }
 }
