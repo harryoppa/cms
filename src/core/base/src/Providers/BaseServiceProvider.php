@@ -4,7 +4,6 @@ namespace TVHung\Base\Providers;
 
 use App\Http\Middleware\VerifyCsrfToken;
 use BaseHelper;
-use TVHung\Base\Facades\MacroableModelsFacade;
 use TVHung\Base\Exceptions\Handler;
 use TVHung\Base\Hooks\EmailSettingHooks;
 use TVHung\Base\Http\Middleware\CoreMiddleware;
@@ -24,7 +23,6 @@ use TVHung\Setting\Supports\SettingStore;
 use TVHung\Support\Http\Middleware\BaseMiddleware;
 use DateTimeZone;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\ResourceRegistrar;
@@ -151,8 +149,6 @@ class BaseServiceProvider extends ServiceProvider
             $router->aliasMiddleware('preventDemo', DisableInDemoModeMiddleware::class);
             $router->middlewareGroup('core', [CoreMiddleware::class]);
         });
-        
-        AliasLoader::getInstance()->alias('MacroableModels', MacroableModelsFacade::class);
 
         Paginator::useBootstrap();
 
