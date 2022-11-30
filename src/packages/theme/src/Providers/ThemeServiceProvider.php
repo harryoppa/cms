@@ -2,6 +2,7 @@
 
 namespace TVHung\Theme\Providers;
 
+use ApiHelper;
 use TVHung\Base\Traits\LoadAndPublishDataTrait;
 use TVHung\Theme\Commands\ThemeActivateCommand;
 use TVHung\Theme\Commands\ThemeAssetsPublishCommand;
@@ -44,6 +45,10 @@ class ThemeServiceProvider extends ServiceProvider
             ->loadAndPublishTranslations()
             ->loadRoutes(['web'])
             ->publishAssets();
+
+        if (ApiHelper::enabled()) {
+            $this->loadRoutes(['api']);
+        }
 
         Event::listen(RouteMatched::class, function () {
             dashboard_menu()

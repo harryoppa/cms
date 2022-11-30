@@ -91,7 +91,7 @@ if (!function_exists('get_cms_version')) {
      */
     function get_cms_version(): string
     {
-        $version = '5.26.2';
+        $version = '6.1.1';
 
         try {
             $core = get_file_data(core_path('core.json'));
@@ -115,7 +115,7 @@ if (!function_exists('platform_path')) {
 }
 
 if (!function_exists('source_path')) {
-    
+
     /**
      * @param string|null $path
      * @return string
