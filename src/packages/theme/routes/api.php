@@ -10,4 +10,10 @@ Route::group([
         'as' => 'api.theme.slug',
         'uses' => 'ThemeController@getSlugView',
     ]);
+
+    // theme options
+    Route::get('theme/options', [
+        'as' => 'api.theme.options',
+        'uses' => 'ThemeController@getThemeOption',
+    ]);
 });
