@@ -1,27 +1,27 @@
 <?php
 
 return [
-    'admin_dir'                 => env('ADMIN_DIR', 'admin'),
-    'default-theme'             => env('DEFAULT_THEME', 'default'),
+    'admin_dir' => env('ADMIN_DIR', 'admin'),
+    'default-theme' => env('DEFAULT_THEME', 'default'),
     'base_name'                 => env('APP_NAME', 'TVHung CMS'),
     'logo'                      => '/vendor/core/core/base/images/tvh.png',
-    'favicon'                   => '/vendor/core/core/base/images/favicon.png',
-    'editor'                    => [
+    'favicon' => '/vendor/core/core/base/images/favicon.png',
+    'editor' => [
         'ckeditor' => [
             'js' => [
                 '/vendor/core/core/base/libraries/ckeditor/ckeditor.js',
             ],
         ],
-        'tinymce'  => [
+        'tinymce' => [
             'js' => [
                 '/vendor/core/core/base/libraries/tinymce/tinymce.min.js',
             ],
         ],
-        'primary'  => env('PRIMARY_EDITOR', 'ckeditor'),
+        'primary' => env('PRIMARY_EDITOR', 'ckeditor'),
     ],
-    'error_reporting'           => [
-        'to'           => null,
-        'via_slack'    => env('SLACK_REPORT_ENABLED', false),
+    'error_reporting' => [
+        'to' => null,
+        'via_slack' => env('SLACK_REPORT_ENABLED', false),
         'ignored_bots' => [
             'googlebot',        // Googlebot
             'bingbot',          // Microsoft Bingbot
@@ -29,24 +29,28 @@ return [
             'ia_archiver',      // Alexa
         ],
     ],
-    'enable_https_support'      => env('ENABLE_HTTPS_SUPPORT', false),
-    'force_root_url'            => env('FORCE_ROOT_URL'),
-    'force_schema'              => env('FORCE_SCHEMA'),
-    'memory_limit'              => env('CMS_MEMORY_LIMIT'),
-    'date_format'               => [
-        'date'      => env('CMS_DATE_FORMAT', 'd/m/Y'),
+    'enable_https_support' => env('ENABLE_HTTPS_SUPPORT', false),
+    'force_root_url' => env('FORCE_ROOT_URL'),
+    'force_schema' => env('FORCE_SCHEMA'),
+    'memory_limit' => env('CMS_MEMORY_LIMIT'),
+    'date_format' => [
+        'date' => env('CMS_DATE_FORMAT', 'Y-m-d'),
         'date_time' => env('CMS_DATE_TIME_FORMAT', 'Y-m-d H:i:s'),
-        'js'        => [
-            'date'      => env('CMS_JS_DATE_FORMAT', 'yyyy-mm-dd'),
+        'js' => [
+            'date' => env('CMS_JS_DATE_FORMAT', 'yyyy-mm-dd'),
             'date_time' => env('CMS_JS_DATE_TIME_FORMAT', 'yyyy-mm-dd H:i:s'),
         ],
     ],
-    'cache_site_map'            => env('ENABLE_CACHE_SITE_MAP', false),
-    'public_single_ending_url'  => env('PUBLIC_SINGLE_ENDING_URL'),
+    'public_single_ending_url' => env('PUBLIC_SINGLE_ENDING_URL'),
     'send_mail_using_job_queue' => env('SEND_MAIL_USING_JOB_QUEUE', false),
-    'locale'                    => env('APP_LOCALE', 'en'),
-    'can_execute_command'       => env('CAN_EXECUTE_COMMAND', true),
-    'google_fonts'              => [
+    'locale' => env('APP_LOCALE', 'en'),
+    'demo' => [
+        'account' => [
+            'username' => env('CMS_DEMO_ACCOUNT_USERNAME', 'botble'),
+            'password' => env('CMS_DEMO_ACCOUNT_PASSWORD', '159357'),
+        ],
+    ],
+    'google_fonts' => [
         'Aclonica',
         'Allan',
         'Annie Use Your Telescope',
@@ -82,6 +86,7 @@ return [
         'Cedarville Cursive',
         'Cherry Cream Soda',
         'Chewy',
+        'Chivo',
         'Coda',
         'Coming Soon',
         'Copse',
@@ -126,6 +131,7 @@ return [
         'IM Fell French Canon SC',
         'IM Fell Great Primer',
         'IM Fell Great Primer SC',
+        'Inter',
         'Irish Grover',
         'Irish Growler',
         'Istok Web',
@@ -188,6 +194,7 @@ return [
         'Nixie One',
         'Nobile',
         'Noto Sans',
+        'Noto Sans JP',
         'Nova Cut',
         'Nova Flat',
         'Nova Mono',
@@ -285,6 +292,8 @@ return [
         'Yeseva One',
         'Zeyada',
     ],
+
+    'custom_google_fonts' => env('CMS_CUSTOM_GOOGLE_FONTS', ''),
 
     'countries' => [
         'AF' => 'Afghanistan',
@@ -538,11 +547,11 @@ return [
         'ZM' => 'Zambia',
         'ZW' => 'Zimbabwe',
     ],
-    'purifier'  => [
+    'purifier' => [
         'default' => [
-            'HTML.Doctype'             => 'HTML 4.01 Transitional',
-            'HTML.Allowed'             => 'div,b,strong,i,em,u,a[href|title|rel|style|target],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|style],button,ins[style|data-ad-client|data-ad-slot|data-ad-format|data-full-width-responsive],svg',
-            'HTML.AllowedElements'     => [
+            'HTML.Doctype' => 'HTML 4.01 Transitional',
+            'HTML.Allowed' => 'div,b,strong,i,em,u,a[href|title|rel|style|target],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|style],button,ins[style|data-ad-client|data-ad-slot|data-ad-format|data-full-width-responsive],video[src|type|width|height|preload|controls|autoplay|autostart|poster|id|class,muted],meta[name|content|property],link[media|type|rel|href],svg',
+            'HTML.AllowedElements' => [
                 'a',
                 'b',
                 'blockquote',
@@ -592,14 +601,19 @@ return [
                 'del',
                 'div',
                 'button',
+                'ins',
+                'video',
+                'source',
+                'meta',
+                'link',
                 'svg',
             ],
-            'HTML.SafeIframe'          => 'true',
+            'HTML.SafeIframe' => 'true',
             // Add to .env if you want to allow all.
             // CMS_IFRAME_FILTER_URL_REGEX=/^(.*)/
-            'URI.SafeIframeRegexp'     => env('CMS_IFRAME_FILTER_URL_REGEX', '%^(http://|https://|//)(' . env('CMS_IFRAME_ALLOWED_URLS', 'www.youtube.com/embed/|player.vimeo.com/video/') . ')%'),
+            'URI.SafeIframeRegexp' => env('CMS_IFRAME_FILTER_URL_REGEX', '%^(http://|https://|//)(' . env('CMS_IFRAME_ALLOWED_URLS', 'www.youtube.com/embed/|player.vimeo.com/video/') . ')%'),
             'Attr.AllowedFrameTargets' => ['_blank'],
-            'CSS.AllowedProperties'    => [
+            'CSS.AllowedProperties' => [
                 'font',
                 'font-size',
                 'font-weight',
@@ -622,27 +636,54 @@ return [
                 'min-width',
                 'min-height',
                 'max-height',
+                'list-style',
+                'margin',
+                'margin-bottom',
+                'margin-left',
+                'margin-right',
+                'margin-top',
             ],
-            'CSS.MaxImgLength'         => null,
+            'CSS.MaxImgLength' => null,
             'AutoFormat.AutoParagraph' => false,
-            'AutoFormat.RemoveEmpty'   => false,
+            'AutoFormat.RemoveEmpty' => false,
+            'Attr.EnableID' => true,
         ],
-        'custom_elements'   => [
+        'custom_elements' => [
             ['u', 'Inline', 'Inline', 'Common'],
             ['button', 'Inline', 'Inline', 'Common'],
             ['ins', 'Inline', 'Inline', 'Common'],
+            ['meta', 'Inline', 'Empty', 'Common'],
+            ['link', 'Inline', 'Empty', 'Common'],
             ['svg', 'Inline', 'Inline', 'Common'],
         ],
         'custom_attributes' => [
             ['a', 'rel', 'Text'],
+            ['span', 'data-period', 'Text'],
+            ['span', 'data-type', 'Text'],
             ['ins', 'data-ad-client', 'Text'],
             ['ins', 'data-ad-slot', 'Text'],
             ['ins', 'data-ad-format', 'Text'],
             ['ins', 'data-ad-full-width-responsive', 'Text'],
             ['img', 'data-src', 'Text'],
+            ['video', 'autoplay', 'Text'],
+            ['meta', 'name', 'Text'],
+            ['meta', 'content', 'Text'],
+            ['meta', 'property', 'Text'],
+            ['link', 'media', 'Text'],
+            ['link', 'type', 'Text'],
+            ['link', 'rel', 'Text'],
+            ['link', 'href', 'Text'],
+            ['link', 'color', 'Text'],
         ],
     ],
-    'enable_system_updater'     => env('CMS_ENABLE_SYSTEM_UPDATER', true),
-    'phone_validation_rule'     => env('CMS_PHONE_VALIDATION_RULE', 'min:8|max:15|regex:/^([0-9\s\-\+\(\)]*)$/'),
+    'enable_system_updater' => env('CMS_ENABLE_SYSTEM_UPDATER', true),
+    'enable_marketplace_feature' => env('CMS_ENABLE_MARKETPLACE_FEATURE', true),
+    'phone_validation_rule' => env('CMS_PHONE_VALIDATION_RULE', 'min:8|max:15|regex:/^([0-9\s\-\+\(\)]*)$/'),
     'disable_verify_csrf_token' => env('CMS_DISABLE_VERIFY_CSRF_TOKEN', false),
+    'enable_less_secure_web' => env('CMS_ENABLE_LESS_SECURE_WEB', false),
+    'db_strict_mode' => env('DB_STRICT', true),
+    'enable_ini_set' => env('CMS_ENABLE_INI_SET', true),
+    'upgrade_php_require_disabled' => env('CMS_UPGRADE_PHP_REQUIRE_DISABLED', false),
+    'enabled_cleanup_database' => env('CMS_ENABLED_CLEANUP_DATABASE', true),
+    'google_fonts_url' => env('CMS_GOOGLE_FONTS_URL', 'https://fonts.bunny.net'),
 ];

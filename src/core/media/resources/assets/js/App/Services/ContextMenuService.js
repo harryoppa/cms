@@ -137,12 +137,9 @@ export class ContextMenuService {
             }
         }
 
-        let canPreview = false;
-        _.each(selectedFiles, (value) => {
-            if (_.includes(['image', 'pdf', 'text', 'video'], value.type)) {
-                canPreview = true;
-            }
-        });
+        let canPreview = _.filter(selectedFiles, function (value) {
+            return value.preview_url;
+        }).length;
 
         if (!canPreview) {
             items.preview = undefined;

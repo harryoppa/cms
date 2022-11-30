@@ -3,5 +3,5 @@
     {!! Theme::breadcrumb()->render() !!}
 </div>
 <div>
-    {!! apply_filters(PAGE_FILTER_FRONT_PAGE_CONTENT, clean($page->content), $page) !!}
+    {!! apply_filters(PAGE_FILTER_FRONT_PAGE_CONTENT, BaseHelper::clean($page->content), $page) !!}
 </div>

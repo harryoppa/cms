@@ -18,7 +18,7 @@ class MediaFileCacheDecorator extends CacheAbstractDecorator implements MediaFil
     /**
      * {@inheritDoc}
      */
-    public function createSlug($name, $extension, $folder)
+    public function createSlug($name, $extension, $folder): string
     {
         return $this->flushCacheAndUpdateData(__FUNCTION__, func_get_args());
     }

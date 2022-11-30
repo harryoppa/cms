@@ -2,14 +2,11 @@
 
 namespace TVHung\Media\Storage\BunnyCDN;
 
-/**
- * Utility Class
- * @package PlatformCommunity\Flysystem\BunnyCDN
- */
 class Util
 {
     /**
      * Splits a path into a file and a directory
+     *
      * @param $path
      * @return array
      */
@@ -22,8 +19,46 @@ class Util
 
         return [
             'file' => $file,
-            'dir'  => $directory,
+            'dir' => $directory,
         ];
+    }
+
+    /**
+     * @param $path
+     * @param bool $isDirectory
+     * @return string|string[]
+     */
+    public static function normalizePath($path, bool $isDirectory = false): array|string
+    {
+        $path = str_replace('\\', '/', $path);
+
+        if ($isDirectory && !self::endsWith($path, '/')) {
+            $path .= '/';
+        }
+
+        // Remove double slashes
+        while (str_contains($path, '//')) {
+            $path = str_replace('//', '/', $path);
+        }
+
+        // Remove the starting slash
+        if (str_starts_with($path, '/')) {
+            $path = substr($path, 1);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param $haystack
+     * @param $needle
+     * @return bool
+     */
+    public static function startsWith($haystack, $needle): bool
+    {
+        return str_starts_with($haystack, $needle);
     }
 
     /**
@@ -39,42 +74,5 @@ class Util
         }
 
         return substr($haystack, -$length) === $needle;
-    }
-
-    /**
-     * @param $path
-     * @param bool $isDirectory
-     * @return false|string|string[]
-     */
-    public static function normalizePath($path, $isDirectory = false)
-    {
-        $path = str_replace('\\', '/', $path);
-
-        if ($isDirectory && !self::endsWith($path, '/')) {
-            $path .= '/';
-        }
-
-        // Remove double slashes
-        while (strpos($path, '//') !== false) {
-            $path = str_replace('//', '/', $path);
-        }
-
-        // Remove the starting slash
-        if (strpos($path, '/') === 0) {
-            $path = substr($path, 1);
-        }
-
-        return $path;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @param $haystack
-     * @param $needle
-     * @return bool
-     */
-    public static function startsWith($haystack, $needle): bool
-    {
-        return strpos($haystack, $needle) === 0;
     }
 }

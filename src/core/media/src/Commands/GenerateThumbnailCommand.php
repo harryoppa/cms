@@ -7,46 +7,16 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use RvMedia;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand('cms:media:thumbnail:generate', 'Generate thumbnails for images')]
 class GenerateThumbnailCommand extends Command
 {
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'cms:media:thumbnail:generate';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generate thumbnails for images';
-
-    /**
-     * @var MediaFileInterface
-     */
-    protected $fileRepository;
-
-    /**
-     * GenerateThumbnailCommand constructor.
-     * @param MediaFileInterface $fileRepository
-     */
-    public function __construct(MediaFileInterface $fileRepository)
-    {
-        parent::__construct();
-        $this->fileRepository = $fileRepository;
-    }
-
-    /**
-     * @return int
-     */
-    public function handle()
+    public function handle(MediaFileInterface $fileRepository): int
     {
         $this->info('Starting to generate thumbnails...');
 
-        $files = $this->fileRepository->allBy([], [], ['url', 'mime_type']);
+        $files = $fileRepository->allBy([], [], ['url', 'mime_type', 'folder_id']);
 
         $this->info('Processing ' . $files->count() . ' ' . Str::plural('file', $files->count()) . '...');
 
@@ -74,9 +44,9 @@ class GenerateThumbnailCommand extends Command
 
             $this->table(['File directory'], $errors);
 
-            return 1;
+            return self::FAILURE;
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }

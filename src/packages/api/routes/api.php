@@ -4,7 +4,7 @@ Route::group([
     'prefix' => 'api/v1',
     'namespace' => 'TVHung\Api\Http\Controllers',
     'middleware' => ['api'],
-], function () {
+], static function () {
     Route::post('register', 'AuthenticationController@register');
     Route::post('login', 'AuthenticationController@login');
 

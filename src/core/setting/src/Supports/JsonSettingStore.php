@@ -19,9 +19,9 @@ class JsonSettingStore extends SettingStore
 
     /**
      * @param Filesystem $files
-     * @param string $path
+     * @param string|null $path
      */
-    public function __construct(Filesystem $files, $path = null)
+    public function __construct(Filesystem $files, ?string $path = null)
     {
         $this->files = $files;
         $this->setPath($path ?: storage_path('settings.json'));
@@ -32,7 +32,7 @@ class JsonSettingStore extends SettingStore
      *
      * @param string $path
      */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         // If the file does not already exist, we will attempt to create it.
         if (!$this->files->exists($path)) {
@@ -61,7 +61,7 @@ class JsonSettingStore extends SettingStore
      * {@inheritDoc}
      * @throws FileNotFoundException
      */
-    protected function read()
+    protected function read(): array
     {
         $contents = $this->files->get($this->path);
 
@@ -69,6 +69,7 @@ class JsonSettingStore extends SettingStore
 
         if ($data === null) {
             info('Invalid JSON in ' . $this->path);
+
             return [];
         }
 

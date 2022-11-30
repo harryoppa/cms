@@ -40,9 +40,9 @@ class ChunkFile
     /**
      * @return string
      */
-    public function getAbsolutePath()
+    public function getAbsolutePath(): string
     {
-        return $this->storage->disk()->path($this->path);
+        return $this->storage->disk()->path($this->path ?: '');
     }
 
     /**
@@ -51,7 +51,7 @@ class ChunkFile
      * @param string $pathTo
      * @return bool
      */
-    public function move($pathTo)
+    public function move(string $pathTo): bool
     {
         return $this->storage->disk()->move($this->path, $pathTo);
     }
@@ -61,7 +61,7 @@ class ChunkFile
      *
      * @return bool
      */
-    public function delete()
+    public function delete(): bool
     {
         return $this->storage->disk()->delete($this->path);
     }
@@ -79,7 +79,7 @@ class ChunkFile
     /**
      * @return string relative to the disk
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -87,7 +87,7 @@ class ChunkFile
     /**
      * @return int
      */
-    public function getModifiedTime()
+    public function getModifiedTime(): int
     {
         return $this->modifiedTime;
     }

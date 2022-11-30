@@ -5,6 +5,7 @@ namespace TVHung\Page\Http\Controllers;
 use TVHung\Page\Models\Page;
 use TVHung\Page\Services\PageService;
 use TVHung\Theme\Events\RenderingSingleEvent;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Response;
 use SlugHelper;
@@ -15,7 +16,7 @@ class PublicController extends Controller
     /**
      * @param string $slug
      * @param PageService $pageService
-     * @return \Illuminate\Http\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function getPage($slug, PageService $pageService)
     {

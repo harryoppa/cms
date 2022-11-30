@@ -6,7 +6,6 @@ use Closure;
 
 class Asset
 {
-
     /**
      * Path to assets.
      *
@@ -15,7 +14,7 @@ class Asset
     public static $path;
 
     /**
-     * All of the instantiated asset containers.
+     * all the instantiated asset containers.
      *
      * @var array
      */
@@ -27,17 +26,16 @@ class Asset
      * @var array
      */
     protected $stacks = [
-        'cooks'  => [],
+        'cooks' => [],
         'serves' => [],
     ];
-
 
     /**
      * Add a path to theme.
      *
      * @param string $path
      */
-    public function addPath($path)
+    public function addPath(string $path)
     {
         static::$path = rtrim($path, '/') . '/';
     }
@@ -49,7 +47,7 @@ class Asset
      * @param Closure $callbacks
      * @return void
      */
-    public function cook($name, Closure $callbacks)
+    public function cook(string $name, Closure $callbacks)
     {
         $this->stacks['cooks'][$name] = $callbacks;
     }
@@ -60,7 +58,7 @@ class Asset
      * @param string $name
      * @return Asset
      */
-    public function serve($name)
+    public function serve(string $name): self
     {
         $this->stacks['serves'][$name] = true;
 
@@ -99,7 +97,7 @@ class Asset
      * @param array $parameters
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         return call_user_func_array([static::container(), $method], $parameters);
     }
@@ -118,7 +116,7 @@ class Asset
      * @param string $container
      * @return AssetContainer
      */
-    public static function container($container = 'default')
+    public static function container(string $container = 'default'): AssetContainer
     {
         if (!isset(static::$containers[$container])) {
             static::$containers[$container] = new AssetContainer($container);

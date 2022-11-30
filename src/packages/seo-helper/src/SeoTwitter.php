@@ -7,7 +7,6 @@ use TVHung\SeoHelper\Contracts\SeoTwitterContract;
 
 class SeoTwitter implements SeoTwitterContract
 {
-
     /**
      * The Twitter Card instance.
      *
@@ -20,7 +19,7 @@ class SeoTwitter implements SeoTwitterContract
      */
     public function __construct()
     {
-        $this->setCard(new Entities\Twitter\Card);
+        $this->setCard(new Entities\Twitter\Card());
     }
 
     /**

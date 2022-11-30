@@ -2,13 +2,13 @@
 
 namespace TVHung\SeoHelper;
 
+use BaseHelper;
 use TVHung\SeoHelper\Contracts\Entities\OpenGraphContract;
 use TVHung\SeoHelper\Contracts\SeoOpenGraphContract;
 use RvMedia;
 
 class SeoOpenGraph implements SeoOpenGraphContract
 {
-
     /**
      * The Open Graph instance.
      *
@@ -22,7 +22,7 @@ class SeoOpenGraph implements SeoOpenGraphContract
     public function __construct()
     {
         $this->setOpenGraph(
-            new Entities\OpenGraph\Graph
+            new Entities\OpenGraph\Graph()
         );
     }
 
@@ -91,6 +91,8 @@ class SeoOpenGraph implements SeoOpenGraphContract
      */
     public function setDescription($description)
     {
+        $description = BaseHelper::cleanShortcodes($description);
+
         $this->openGraph->setDescription($description);
 
         return $this;

@@ -90,6 +90,60 @@ class SettingManagement {
             });
         });
 
+        $('.generate-thumbnails-trigger-button').on('click', event => {
+            event.preventDefault();
+            let _self = $(event.currentTarget);
+            let defaultText = _self.text();
+
+            _self.text(_self.data('saving'));
+
+            $.ajax({
+                type: 'POST',
+                url: route('settings.media.post'),
+                data: _self.closest('form').serialize(),
+                success: res => {
+                    if (!res.error) {
+                        $('#generate-thumbnails-modal').modal('show');
+                    } else {
+                        TVHung.showError(res.message);
+                    }
+
+                    _self.text(defaultText);
+                },
+                error: res => {
+                    TVHung.handleError(res);
+                    _self.text(defaultText);
+                }
+            });
+        });
+
+        $('#generate-thumbnails-button').on('click', event => {
+            event.preventDefault();
+            let _self = $(event.currentTarget);
+
+            _self.addClass('button-loading');
+
+            $.ajax({
+                type: 'POST',
+                url: route('settings.media.generate-thumbnails'),
+                success: res => {
+                    if (!res.error) {
+                        TVHung.showSuccess(res.message);
+                    } else {
+                        TVHung.showError(res.message);
+                    }
+                    _self.removeClass('button-loading');
+                    _self.closest('.modal').modal('hide');
+                },
+                error: res => {
+                    TVHung.handleError(res);
+                    _self.removeClass('button-loading');
+                    _self.closest('.modal').modal('hide');
+                }
+            });
+        });
+
+
         if (typeof CodeMirror !== 'undefined') {
             TVHung.initCodeEditor('mail-template-editor');
         }
@@ -98,6 +152,29 @@ class SettingManagement {
             event.preventDefault();
             $('#reset-template-to-default-button').data('target', $(event.currentTarget).data('target'));
             $('#reset-template-to-default-modal').modal('show');
+        });
+
+        $(document).on('click', '.js-select-mail-variable', event => {
+            event.preventDefault();
+            let $this = $(event.currentTarget);
+
+            let doc = $('.CodeMirror')[0].CodeMirror;
+
+            const key = '{{ ' + $this.data('key') + ' }}';
+
+            // If there's a selection, replace the selection.
+            if (doc.somethingSelected()) {
+                doc.replaceSelection(key);
+                return;
+            }
+
+            // Otherwise, we insert at the cursor position.
+            let cursor = doc.getCursor();
+            let pos = {
+                line: cursor.line,
+                ch: cursor.ch
+            }
+            doc.replaceRange(key, pos);
         });
 
         $(document).on('click', '#reset-template-to-default-button', event => {
@@ -112,7 +189,8 @@ class SettingManagement {
                 url: _self.data('target'),
                 data: {
                     email_subject_key: $('input[name=email_subject_key]').val(),
-                    template_path: $('input[name=template_path]').val(),
+                    module: $('input[name=module]').val(),
+                    template_file: $('input[name=template_file]').val(),
                 },
                 success: res => {
                     if (!res.error) {
@@ -132,6 +210,30 @@ class SettingManagement {
                 }
             });
         });
+
+        $(document).on('change', '.check-all', event => {
+            let _self = $(event.currentTarget);
+            let set = _self.attr('data-set');
+            let checked = _self.prop('checked');
+            $(set).each((index, el) => {
+                if (checked) {
+                    $(el).prop('checked', true);
+                } else {
+                    $(el).prop('checked', false);
+                }
+            });
+        });
+
+        $('input.setting-selection-option').each(function (index, el) {
+            const $settingContentContainer = $($(el).data('target'));
+            $(el).on('change', function () {
+                if ($(el).val() == '1') {
+                    $settingContentContainer.removeClass('d-none');
+                } else {
+                    $settingContentContainer.addClass('d-none');
+                }
+            });
+        });
     }
 
     handleMultipleAdminEmails() {
@@ -142,7 +244,7 @@ class SettingManagement {
             return;
         }
 
-        let $addBtn  = $wrapper.find('#add');
+        let $addBtn = $wrapper.find('#add');
         let max = parseInt($wrapper.data('max'), 10);
 
         let emails = $wrapper.data('emails');
@@ -163,7 +265,7 @@ class SettingManagement {
 
         const addEmail = (value = '') => {
             return $addBtn.before(`<div class="d-flex mt-2 more-email align-items-center">
-                <input type="email" class="next-input" placeholder="${$addBtn.data('placeholder')}" name="admin_email[]" value="${ value ? value : '' }" />
+                <input type="email" class="next-input" placeholder="${$addBtn.data('placeholder')}" name="admin_email[]" value="${value ? value : ''}" />
                 <a class="btn btn-link text-danger"><i class="fas fa-minus"></i></a>
             </div>`)
         }
@@ -175,7 +277,7 @@ class SettingManagement {
             onAddEmail();
         }
 
-        $wrapper.on('click', '.more-email > a', function() {
+        $wrapper.on('click', '.more-email > a', function () {
             $(this).parent('.more-email').remove();
             onAddEmail();
         })

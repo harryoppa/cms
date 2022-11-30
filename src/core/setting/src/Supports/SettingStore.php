@@ -49,7 +49,7 @@ abstract class SettingStore
      *
      * @return boolean
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         $this->load();
 
@@ -75,6 +75,7 @@ abstract class SettingStore
         } else {
             Arr::set($this->data, $key, $value);
         }
+
         return $this;
     }
 
@@ -84,7 +85,7 @@ abstract class SettingStore
      * @param string $key
      * @return $this
      */
-    public function forget($key): self
+    public function forget(string $key): self
     {
         $this->unsaved = true;
 
@@ -104,6 +105,7 @@ abstract class SettingStore
     {
         $this->unsaved = true;
         $this->data = [];
+
         return $this;
     }
 
@@ -112,7 +114,7 @@ abstract class SettingStore
      *
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         $this->load();
 
@@ -124,7 +126,7 @@ abstract class SettingStore
      *
      * @return false
      */
-    public function save()
+    public function save(): bool
     {
         if (!$this->unsaved) {
             // either nothing has been changed, or data has not been loaded, so
@@ -143,7 +145,7 @@ abstract class SettingStore
      *
      * @param boolean $force Force a reload of data. Default false.
      */
-    public function load($force = false)
+    public function load(bool $force = false)
     {
         if (!$this->loaded || $force) {
             $this->data = $this->read();
@@ -156,7 +158,7 @@ abstract class SettingStore
      *
      * @return array
      */
-    abstract protected function read();
+    abstract protected function read(): array;
 
     /**
      * Write the data into the store.

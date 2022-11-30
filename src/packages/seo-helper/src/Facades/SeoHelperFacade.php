@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class SeoHelperFacade extends Facade
 {
-
     /**
      * @return string
      */

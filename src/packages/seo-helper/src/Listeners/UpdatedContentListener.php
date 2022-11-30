@@ -8,7 +8,6 @@ use SeoHelper;
 
 class UpdatedContentListener
 {
-
     /**
      * Handle the event.
      *

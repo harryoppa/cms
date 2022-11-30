@@ -19,9 +19,10 @@ export class ActionsService {
         let selected = [];
 
         _.each(Helpers.getSelectedFiles(), value => {
-            if (_.includes(['image', 'pdf', 'text', 'video'], value.type)) {
+            if (value.preview_url) {
                 selected.push({
-                    src: value.full_url
+                    src: value.preview_url,
+                    type: value.preview_type,
                 });
                 RecentItems.push(value.id);
             }
@@ -209,12 +210,9 @@ export class ActionsService {
 
         let selectedFiles = Helpers.getSelectedFiles();
 
-        let canPreview = false;
-        _.each(selectedFiles, (value) => {
-            if (_.includes(['image', 'pdf', 'text', 'video'], value.type)) {
-                canPreview = true;
-            }
-        });
+        let canPreview = _.filter(selectedFiles, function (value) {
+            return value.preview_url;
+        }).length;
 
         if (!canPreview) {
             actionsList.basic = _.reject(actionsList.basic, item => {

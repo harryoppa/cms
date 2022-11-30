@@ -9,7 +9,6 @@ use TVHung\SeoHelper\Contracts\Entities\WebmastersContract;
 
 interface SeoMetaContract extends RenderableContract
 {
-
     /**
      * Set the Title instance.
      *

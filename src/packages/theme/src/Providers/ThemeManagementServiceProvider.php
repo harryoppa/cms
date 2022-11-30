@@ -2,9 +2,10 @@
 
 namespace TVHung\Theme\Providers;
 
+use BaseHelper;
 use TVHung\Base\Supports\Helper;
 use Composer\Autoload\ClassLoader;
-use File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
@@ -31,10 +32,10 @@ class ThemeManagementServiceProvider extends ServiceProvider
             $themePath = theme_path($theme);
 
             if (File::exists($themePath . '/theme.json')) {
-                $content = get_file_data($themePath . '/theme.json');
+                $content = BaseHelper::getFileData($themePath . '/theme.json');
                 if (!empty($content)) {
                     if (Arr::has($content, 'namespace')) {
-                        $loader = new ClassLoader;
+                        $loader = new ClassLoader();
                         $loader->setPsr4($content['namespace'], theme_path($theme . '/src'));
                         $loader->register();
                     }

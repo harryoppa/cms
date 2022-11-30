@@ -8,7 +8,7 @@ use TVHung\Base\Models\BaseModel;
 use TVHung\Page\Models\Page;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use MetaBox;
 use SeoHelper;
 
@@ -21,20 +21,28 @@ class HookServiceProvider extends ServiceProvider
     }
 
     /**
-     * @param string $screen
-     * @param BaseModel $data
+     * @param string $priority
+     * @param BaseModel|null $data
+     * @return bool
      */
-    public function addMetaBox($priority, $data)
+    public function addMetaBox(string $priority, $data): bool
     {
-        if (!empty($data) && in_array(get_class($data), config('packages.seo-helper.general.supported', []))) {
+        if ($priority == 'advanced' && !empty($data) && in_array(get_class($data), config('packages.seo-helper.general.supported', []))) {
             if (get_class($data) == Page::class && BaseHelper::isHomepage($data->id)) {
                 return false;
             }
 
             Assets::addScriptsDirectly('vendor/core/packages/seo-helper/js/seo-helper.js')
                 ->addStylesDirectly('vendor/core/packages/seo-helper/css/seo-helper.css');
-            MetaBox::addMetaBox('seo_wrap', trans('packages/seo-helper::seo-helper.meta_box_header'), [$this, 'seoMetaBox'],
-                get_class($data), 'advanced', 'low');
+
+            MetaBox::addMetaBox(
+                'seo_wrap',
+                trans('packages/seo-helper::seo-helper.meta_box_header'),
+                [$this, 'seoMetaBox'],
+                get_class($data),
+                'advanced',
+                'low'
+            );
 
             return true;
         }
@@ -48,7 +56,7 @@ class HookServiceProvider extends ServiceProvider
     public function seoMetaBox()
     {
         $meta = [
-            'seo_title'       => null,
+            'seo_title' => null,
             'seo_description' => null,
         ];
 
@@ -68,9 +76,10 @@ class HookServiceProvider extends ServiceProvider
 
     /**
      * @param string $screen
-     * @param BaseModel $object
+     * @param BaseModel|null $object
+     * @return bool
      */
-    public function setSeoMeta($screen, $object)
+    public function setSeoMeta(string $screen, $object): bool
     {
         if (get_class($object) == Page::class && BaseHelper::isHomepage($object->id)) {
             return false;
@@ -88,5 +97,7 @@ class HookServiceProvider extends ServiceProvider
                 SeoHelper::setDescription($meta['seo_description']);
             }
         }
+
+        return true;
     }
 }

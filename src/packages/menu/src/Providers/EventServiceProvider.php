@@ -16,7 +16,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        UpdatedSlugEvent::class    => [
+        UpdatedSlugEvent::class => [
             UpdateMenuNodeUrlListener::class,
         ],
         DeletedContentEvent::class => [

@@ -65,7 +65,7 @@ class FileReceiver
      *
      * @return bool
      */
-    public function isUploaded()
+    public function isUploaded(): bool
     {
         return is_object($this->file) && UPLOAD_ERR_NO_FILE !== $this->file->getError();
     }
@@ -75,7 +75,7 @@ class FileReceiver
      * is present in the request, it will create the save object.
      *
      * If the file in the request is chunk, it will create the `ChunkSave` object
-     * which doesn't nothing at this moment.
+     * which doesn't do anything at this moment.
      *
      * @return bool|AbstractSave
      */

@@ -12,6 +12,7 @@ class ShortcodeController extends BaseController
 {
     /**
      * @param string $key
+     * @param Request $request
      * @param BaseHttpResponse $response
      * @return BaseHttpResponse
      */
@@ -21,7 +22,7 @@ class ShortcodeController extends BaseController
 
         $data = Arr::get($registered, $key . '.admin_config');
 
-        $code = $request->input('code');
+        $code = urldecode($request->input('code'));
 
         $attributes = [];
         $content = null;

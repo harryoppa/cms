@@ -17,7 +17,7 @@ interface MediaFileInterface extends RepositoryInterface
      * @param string $extension
      * @param string $folderPath
      */
-    public function createSlug($name, $extension, $folderPath);
+    public function createSlug($name, $extension, $folderPath): string;
 
     /**
      * @param int $folderId

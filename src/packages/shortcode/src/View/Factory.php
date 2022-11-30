@@ -10,7 +10,6 @@ use Illuminate\View\ViewFinderInterface;
 
 class Factory extends IlluminateViewFactory
 {
-
     /**
      * Short code engine resolver
      *
@@ -47,10 +46,10 @@ class Factory extends IlluminateViewFactory
      * @param string $view
      * @param array $data
      * @param array $mergeData
-     * @return \Illuminate\Contracts\View\View|string|View
+     * @return View
      * @since 2.1
      */
-    public function make($view, $data = [], $mergeData = [])
+    public function make($view, $data = [], $mergeData = []): View
     {
         if (isset($this->aliases[$view])) {
             $view = $this->aliases[$view];
@@ -59,8 +58,14 @@ class Factory extends IlluminateViewFactory
         $path = $this->finder->find($view);
         $data = array_merge($mergeData, $this->parseData($data));
 
-        $this->callCreator($view = new View($this, $this->getEngineFromPath($path), $view, $path, $data,
-            $this->shortcode));
+        $this->callCreator($view = new View(
+            $this,
+            $this->getEngineFromPath($path),
+            $view,
+            $path,
+            $data,
+            $this->shortcode
+        ));
 
         return $view;
     }

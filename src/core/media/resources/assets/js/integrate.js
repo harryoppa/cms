@@ -22,9 +22,6 @@ export class EditorService {
 }
 
 class rvMedia {
-
-    static $model = document.getElementById('rv_media_modal') !== null ? bootstrap.Modal.getOrCreateInstance(document.getElementById('rv_media_modal')) : null;
-
     constructor(selector, options) {
         window.rvMedia = window.rvMedia || {};
 
@@ -43,7 +40,8 @@ class rvMedia {
         let clickCallback = event => {
             event.preventDefault();
             let $current = $(event.currentTarget);
-            rvMedia.$model.show();
+
+            $('#rv_media_modal').modal('show');
 
             window.rvMedia.options = options;
             window.rvMedia.options.open_in = 'modal';
@@ -69,6 +67,7 @@ class rvMedia {
                     if (data.error) {
                         alert(data.message);
                     }
+
                     $('#rv_media_body')
                         .removeClass('media-modal-loading')
                         .closest('.modal-content').removeClass('bb-loading');

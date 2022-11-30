@@ -8,7 +8,6 @@ use TVHung\Support\Repositories\Eloquent\RepositoriesAbstract;
 
 class PageRepository extends RepositoriesAbstract implements PageInterface
 {
-
     /**
      * {@inheritDoc}
      */
@@ -24,21 +23,7 @@ class PageRepository extends RepositoriesAbstract implements PageInterface
     /**
      * {@inheritDoc}
      */
-    public function getFeaturedPages($limit)
-    {
-        $data = $this->model
-            ->where(['status' => BaseStatusEnum::PUBLISHED, 'is_featured' => 1])
-            ->orderBy('created_at')
-            ->limit($limit)
-            ->orderBy('created_at', 'desc');
-
-        return $this->applyBeforeExecuteQuery($data)->get();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function whereIn($array, $select = [])
+    public function whereIn(array $array, array $select = [])
     {
         $pages = $this->model
             ->whereIn('id', $array)
@@ -58,7 +43,7 @@ class PageRepository extends RepositoriesAbstract implements PageInterface
     /**
      * {@inheritDoc}
      */
-    public function getSearch($query, $limit = 10)
+    public function getSearch($query, int $limit = 10)
     {
         $pages = $this->model->where('status', BaseStatusEnum::PUBLISHED);
         foreach (explode(' ', $query) as $term) {
@@ -75,7 +60,7 @@ class PageRepository extends RepositoriesAbstract implements PageInterface
     /**
      * {@inheritDoc}
      */
-    public function getAllPages($active = true)
+    public function getAllPages(bool $active = true)
     {
         $data = $this->model;
 

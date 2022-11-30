@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class DropZoneUploadHandler extends AbstractHandler
 {
-    const CHUNK_UUID_INDEX = 'dzuuid';
-    const CHUNK_INDEX = 'dzchunkindex';
-    const CHUNK_TOTAL_INDEX = 'dztotalchunkcount';
+    public const CHUNK_UUID_INDEX = 'dzuuid';
+    public const CHUNK_INDEX = 'dzchunkindex';
+    public const CHUNK_TOTAL_INDEX = 'dztotalchunkcount';
 
     /**
      * The DropZone file uuid.
@@ -74,7 +74,7 @@ class DropZoneUploadHandler extends AbstractHandler
      */
     public function isLastChunk()
     {
-        // the bytes starts from zero, remove 1 byte from total
+        // the bytes start from zero, remove 1 byte from total
         return $this->currentChunk == $this->chunksTotal;
     }
 
@@ -91,6 +91,10 @@ class DropZoneUploadHandler extends AbstractHandler
      */
     public function getPercentageDone()
     {
+        if (!$this->chunksTotal) {
+            return 100;
+        }
+
         return ceil($this->currentChunk / $this->chunksTotal * 100);
     }
 }

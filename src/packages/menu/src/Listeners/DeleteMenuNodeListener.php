@@ -9,7 +9,6 @@ use Menu;
 
 class DeleteMenuNodeListener
 {
-
     /**
      * @var MenuNodeInterface
      */
@@ -35,7 +34,7 @@ class DeleteMenuNodeListener
         if (in_array(get_class($event->data), Menu::getMenuOptionModels())) {
             try {
                 $this->menuNodeRepository->deleteBy([
-                    'reference_id'   => $event->data->id,
+                    'reference_id' => $event->data->id,
                     'reference_type' => get_class($event->data),
                 ]);
             } catch (Exception $exception) {

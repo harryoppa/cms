@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 class Card implements TwitterCardContract
 {
-
     /**
      * Card type.
      *
@@ -36,7 +35,7 @@ class Card implements TwitterCardContract
      */
     public function __construct()
     {
-        $this->meta = new MetaCollection;
+        $this->meta = new MetaCollection();
     }
 
     /**

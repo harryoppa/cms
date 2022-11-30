@@ -12,11 +12,11 @@ class Webmasters implements WebmastersContract
      * @var array
      */
     protected $supported = [
-        'google'    => 'google-site-verification',
-        'bing'      => 'msvalidate.01',
-        'alexa'     => 'alexaVerifyID',
+        'google' => 'google-site-verification',
+        'bing' => 'msvalidate.01',
+        'alexa' => 'alexaVerifyID',
         'pinterest' => 'p:domain_verify',
-        'yandex'    => 'yandex-verification',
+        'yandex' => 'yandex-verification',
     ];
 
     /**
@@ -83,7 +83,7 @@ class Webmasters implements WebmastersContract
      */
     public function reset()
     {
-        $this->meta = new MetaCollection;
+        $this->meta = new MetaCollection();
 
         return $this;
     }

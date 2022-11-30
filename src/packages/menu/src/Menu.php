@@ -3,6 +3,10 @@
 namespace TVHung\Menu;
 
 use TVHung\Base\Enums\BaseStatusEnum;
+use TVHung\Base\Events\CreatedContentEvent;
+use TVHung\Base\Events\UpdatedContentEvent;
+use TVHung\Base\Models\BaseModel;
+use TVHung\Menu\Models\MenuNode;
 use TVHung\Menu\Repositories\Eloquent\MenuRepository;
 use TVHung\Menu\Repositories\Interfaces\MenuInterface;
 use TVHung\Menu\Repositories\Interfaces\MenuNodeInterface;
@@ -89,7 +93,7 @@ class Menu
      * @param bool $active
      * @return bool
      */
-    public function hasMenu($slug, $active)
+    public function hasMenu(string $slug, bool $active): bool
     {
         return $this->menuRepository->findBySlug($slug, $active);
     }
@@ -98,23 +102,30 @@ class Menu
      * @param array $menuNodes
      * @param int $menuId
      * @param int $parentId
+     * @return array
      */
-    public function recursiveSaveMenu($menuNodes, $menuId, $parentId)
+    public function recursiveSaveMenu(array $menuNodes, int $menuId, int $parentId): array
     {
         try {
-            foreach ($menuNodes as $row) {
+            foreach ($menuNodes as &$row) {
                 $child = Arr::get($row, 'children', []);
-                $hasChild = 0;
-                if (!empty($child)) {
-                    $hasChild = 1;
+
+                foreach ($child as $index => $item) {
+                    $child[$index]['menuItem']['position'] = $index;
                 }
-                $parent = $this->saveMenuNode($row, $menuId, $parentId, $hasChild);
-                if (!empty($parent)) {
-                    $this->recursiveSaveMenu($child, $menuId, $parent);
+
+                $hasChild = !empty($child);
+
+                $row['menuItem'] = $this->saveMenuNode($row['menuItem'], $menuId, $parentId, $hasChild);
+
+                if (!empty($child)) {
+                    $this->recursiveSaveMenu($child, $menuId, $row['menuItem']['id']);
                 }
             }
+
+            return $menuNodes;
         } catch (Exception $ex) {
-            info($ex->getMessage());
+            return [];
         }
     }
 
@@ -122,48 +133,70 @@ class Menu
      * @param array $menuItem
      * @param int $menuId
      * @param int $parentId
-     * @param int $hasChild
-     * @return int
+     * @param bool $hasChild
+     * @return array
      */
-    protected function saveMenuNode($menuItem, $menuId, $parentId, $hasChild = 0)
+    protected function saveMenuNode(array $menuItem, int $menuId, int $parentId, bool $hasChild = false): array
     {
         $item = $this->menuNodeRepository->findById(Arr::get($menuItem, 'id'));
 
+        $created = false;
+
         if (!$item) {
             $item = $this->menuNodeRepository->getModel();
+            $created = true;
         }
 
-        $item->title = str_replace('&amp;', '&', Arr::get($menuItem, 'title'));
-        $item->css_class = Arr::get($menuItem, 'class');
-        $item->position = Arr::get($menuItem, 'position');
-        $item->icon_font = Arr::get($menuItem, 'iconFont');
-        $item->target = Arr::get($menuItem, 'target');
+        $item->fill($menuItem);
         $item->menu_id = $menuId;
         $item->parent_id = $parentId;
         $item->has_child = $hasChild;
 
-        switch (Arr::get($menuItem, 'referenceType')) {
-            case 'custom-link':
-            case '':
-                $item->reference_id = 0;
-                $item->reference_type = null;
-                $item->url = str_replace('&amp;', '&', Arr::get($menuItem, 'customUrl'));
-                break;
-            default:
-                $item->reference_id = (int)Arr::get($menuItem, 'referenceId');
-                $item->reference_type = Arr::get($menuItem, 'referenceType');
-                if (class_exists($item->reference_type)) {
-                    $reference = $item->reference_type::find($item->reference_id);
-                    if ($reference) {
-                        $item->url = str_replace(url(''), '', $reference->url);
-                    }
-                }
-                break;
-        }
+        $item = $this->getReferenceMenuNode($menuItem, $item);
 
         $this->menuNodeRepository->createOrUpdate($item);
 
-        return $item->id;
+        $menuItem['id'] = $item->id;
+
+        if ($created) {
+            event(new CreatedContentEvent(MENU_NODE_MODULE_SCREEN_NAME, request(), $item));
+        } else {
+            event(new UpdatedContentEvent(MENU_NODE_MODULE_SCREEN_NAME, request(), $item));
+        }
+
+        return $menuItem;
+    }
+
+    /**
+     * @param array $item
+     * @param MenuNode $menuNode
+     * @return MenuNode
+     */
+    public function getReferenceMenuNode(array $item, MenuNode $menuNode): MenuNode
+    {
+        switch (Arr::get($item, 'reference_type')) {
+            case 'custom-link':
+            case '':
+                $menuNode->reference_id = 0;
+                $menuNode->reference_type = null;
+                $menuNode->url = str_replace('&amp;', '&', Arr::get($item, 'url'));
+
+                break;
+
+            default:
+                $menuNode->reference_id = (int)Arr::get($item, 'reference_id');
+                $menuNode->reference_type = Arr::get($item, 'reference_type');
+                if (class_exists($menuNode->reference_type)) {
+                    $reference = $menuNode->reference_type::find($menuNode->reference_id);
+                    if ($reference) {
+                        $menuNode->url = str_replace(url(''), '', $reference->url);
+                    }
+                }
+
+                break;
+        }
+
+        return $menuNode;
     }
 
     /**
@@ -211,7 +244,6 @@ class Menu
      */
     public function renderMenuLocation(string $location, array $attributes = []): string
     {
-
         $this->load();
 
         $html = '';
@@ -226,6 +258,32 @@ class Menu
         }
 
         return $html;
+    }
+
+    /**
+     * @param string $location
+     * @param array $attributes
+     * @return Collection
+     * @throws Throwable
+     * @author TVHung
+     */
+    public function getMenuLocation(string $location, array $attributes): Collection
+    {
+        $this->load();
+
+        $data = [];
+
+        foreach ($this->data as $menu) {
+            if (!in_array($location, $menu->locations->pluck('location')->all())) {
+                continue;
+            }
+
+            $attributes['slug'] = $menu->slug;
+            $attributes['api'] = true;
+            $data[] = $this->generateMenu($attributes);
+        }
+
+        return collect($data);
     }
 
     /**
@@ -251,7 +309,7 @@ class Menu
      *
      * @param boolean $force Force a reload of data. Default false.
      */
-    public function load($force = false)
+    public function load(bool $force = false)
     {
         if (!$this->loaded || $force) {
             $this->data = $this->read();
@@ -262,17 +320,25 @@ class Menu
     /**
      * @return Collection
      */
-    protected function read()
+    protected function read(): Collection
     {
-        return $this->menuRepository->allBy(['status' => BaseStatusEnum::PUBLISHED], ['menuNodes', 'locations']);
+        $with = [
+            'menuNodes',
+            'menuNodes.child',
+            'menuNodes.metadata',
+            'locations',
+        ];
+
+        return $this->menuRepository->allBy(['status' => BaseStatusEnum::PUBLISHED], $with);
     }
 
     /**
+     * @author TVHung | Add api get menu
      * @param array $args
-     * @return mixed|null|string
+     * @return string|null|array
      * @throws Throwable
      */
-    public function generateMenu(array $args = [])
+    public function generateMenu(array $args = []): string | array | null
     {
         $this->load();
 
@@ -282,6 +348,9 @@ class Menu
         $menu = Arr::get($args, 'menu');
 
         $slug = Arr::get($args, 'slug');
+
+        $api = Arr::get($args, 'api', false);
+
         if (!$menu && !$slug) {
             return null;
         }
@@ -307,11 +376,18 @@ class Menu
         }
 
         $data = [
-            'menu'       => $menu,
+            'menu' => $menu,
             'menu_nodes' => $menuNodes,
         ];
 
         $data['options'] = $this->html->attributes(Arr::get($args, 'options', []));
+
+        if ($api) {
+
+            $data['menu']->menuNodes = $data['menu_nodes'];
+
+            return $data;
+        }
 
         if ($theme && $view) {
             return Theme::partial($view, $data);
@@ -333,7 +409,7 @@ class Menu
     public function registerMenuOptions(string $model, string $name)
     {
         $options = Menu::generateSelect([
-            'model'   => new $model,
+            'model' => new $model(),
             'options' => [
                 'class' => 'list-item',
             ],
@@ -344,20 +420,24 @@ class Menu
 
     /**
      * @param array $args
-     * @return mixed|null|string
+     * @return string|null
      * @throws FileNotFoundException
      * @throws Throwable
      */
-    public function generateSelect(array $args = [])
+    public function generateSelect(array $args = []): ?string
     {
+        /**
+         * @var BaseModel $model
+         */
         $model = Arr::get($args, 'model');
 
         $options = $this->html->attributes(Arr::get($args, 'options', []));
 
         if (!Arr::has($args, 'items')) {
             if (method_exists($model, 'children')) {
-                $items = $model->where('parent_id', Arr::get($args, 'parent_id', 0))
-                    ->with('children')
+                $items = $model
+                    ->where('parent_id', Arr::get($args, 'parent_id', 0))
+                    ->with(['children', 'children.children'])
                     ->orderBy('name', 'asc');
             } else {
                 $items = $model->orderBy('name');

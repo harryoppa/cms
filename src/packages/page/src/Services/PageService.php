@@ -8,6 +8,8 @@ use TVHung\Page\Models\Page;
 use TVHung\Page\Repositories\Interfaces\PageInterface;
 use TVHung\SeoHelper\SeoOpenGraph;
 use Eloquent;
+use Html;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use RvMedia;
@@ -17,7 +19,7 @@ use Theme;
 class PageService
 {
     /**
-     * @param Eloquent $slug
+     * @param Eloquent|Builder $slug
      * @return array|Eloquent
      */
     public function handleFrontRoutes($slug)
@@ -27,7 +29,7 @@ class PageService
         }
 
         $condition = [
-            'id'     => $slug->reference_id,
+            'id' => $slug->reference_id,
             'status' => BaseStatusEnum::PUBLISHED,
         ];
 
@@ -45,7 +47,7 @@ class PageService
             abort(404);
         }
 
-        $meta = new SeoOpenGraph;
+        $meta = new SeoOpenGraph();
         if ($page->image) {
             $meta->setImage(RvMedia::getImageUrl($page->image));
         }
@@ -77,22 +79,26 @@ class PageService
                 ->layout($page->template);
         }
 
-        if (function_exists('admin_bar') && Auth::check() && Auth::user()->hasPermission('pages.edit')) {
+        if (function_exists('admin_bar')) {
             admin_bar()
-                ->registerLink(trans('packages/page::pages.edit_this_page'), route('pages.edit', $page->id));
+                ->registerLink(trans('packages/page::pages.edit_this_page'), route('pages.edit', $page->id), 'pages.edit');
         }
 
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PAGE_MODULE_SCREEN_NAME, $page);
 
         Theme::breadcrumb()
             ->add(__('Home'), route('public.index'))
-            ->add(SeoHelper::getTitle(), $page->url);
+            ->add($page->name, $page->url);
+
+        Theme::asset()->add('ckeditor-content-styles', 'vendor/core/core/base/libraries/ckeditor/content-styles.css');
+
+        $page->content = Html::tag('div', (string)$page->content, ['class' => 'ck-content'])->toHtml();
 
         return [
-            'view'         => 'page',
+            'view' => 'page',
             'default_view' => 'packages/page::themes.page',
-            'data'         => compact('page'),
-            'slug'         => $page->slug,
+            'data' => compact('page'),
+            'slug' => $page->slug,
         ];
     }
 }

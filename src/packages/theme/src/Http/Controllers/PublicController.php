@@ -8,7 +8,7 @@ use TVHung\Page\Services\PageService;
 use TVHung\Theme\Events\RenderingHomePageEvent;
 use TVHung\Theme\Events\RenderingSingleEvent;
 use TVHung\Theme\Events\RenderingSiteMapEvent;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
 use Response;
@@ -20,11 +20,10 @@ use Theme;
 class PublicController extends Controller
 {
     /**
-     * @param string $key
-     * @return \Illuminate\Http\RedirectResponse|Response
-     * @throws FileNotFoundException
+     * @param string|null $key
+     * @return RedirectResponse|Response
      */
-    public function getView($key = null)
+    public function getView(?string $key = null)
     {
         if (empty($key)) {
             return $this->getIndex();
@@ -68,7 +67,7 @@ class PublicController extends Controller
                 $slug = SlugHelper::getSlug(null, SlugHelper::getPrefix(Page::class), Page::class, $homepageId);
 
                 if ($slug) {
-                    $data = (new PageService)->handleFrontRoutes($slug);
+                    $data = (new PageService())->handleFrontRoutes($slug);
 
                     event(new RenderingSingleEvent($slug));
 
@@ -87,7 +86,7 @@ class PublicController extends Controller
     }
 
     /**
-     * @return string
+     * @return Response|string
      */
     public function getSiteMap()
     {

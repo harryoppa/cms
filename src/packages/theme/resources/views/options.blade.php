@@ -38,7 +38,7 @@
                                     {!! Form::label($field['attributes']['name'], $field['label'], ['class' => 'control-label']) !!}
                                     {!! ThemeOption::renderField($field) !!}
                                     @if (array_key_exists('helper', $field))
-                                        <span class="help-block">{!! clean($field['helper']) !!}</span>
+                                        <span class="help-block">{!! BaseHelper::clean($field['helper']) !!}</span>
                                     @endif
                                 </div>
                                 <hr>

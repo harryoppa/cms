@@ -4,6 +4,10 @@ if (!defined('MENU_MODULE_SCREEN_NAME')) {
     define('MENU_MODULE_SCREEN_NAME', 'menu');
 }
 
+if (!defined('MENU_NODE_MODULE_SCREEN_NAME')) {
+    define('MENU_NODE_MODULE_SCREEN_NAME', 'menu_node');
+}
+
 if (!defined('MENU_LOCATION_MODULE_SCREEN_NAME')) {
     define('MENU_LOCATION_MODULE_SCREEN_NAME', 'menu_location');
 }

@@ -9,12 +9,22 @@ const dist = 'public/vendor/core/packages/' + directory;
 mix
     .js(source + '/resources/assets/js/custom-css.js', dist + '/js')
     .js(source + '/resources/assets/js/custom-js.js', dist + '/js')
+    .js(source + '/resources/assets/js/custom-html.js', dist + '/js')
     .js(source + '/resources/assets/js/theme-options.js', dist + '/js')
     .js(source + '/resources/assets/js/theme.js', dist + '/js')
+    .js(source + '/resources/assets/js/marketplace.js', dist + '/js')
+    .vue()
 
     .sass(source + '/resources/assets/sass/custom-css.scss', dist + '/css')
     .sass(source + '/resources/assets/sass/theme-options.scss', dist + '/css')
     .sass(source + '/resources/assets/sass/admin-bar.scss', dist + '/css')
 
-    .copyDirectory(dist + '/js', source + '/public/js')
-    .copyDirectory(dist + '/css', source + '/public/css');
+    .copy(dist + '/js/custom-css.js', source + '/public/js')
+    .copy(dist + '/js/custom-js.js', source + '/public/js')
+    .copy(dist + '/js/custom-html.js', source + '/public/js')
+    .copy(dist + '/js/theme-options.js', source + '/public/js')
+    .copy(dist + '/js/theme.js', source + '/public/js')
+    .copy(dist + '/js/marketplace.js', source + '/public/js')
+    .copy(dist + '/css/custom-css.css', source + '/public/css')
+    .copy(dist + '/css/theme-options.css', source + '/public/css')
+    .copy(dist + '/css/admin-bar.css', source + '/public/css');

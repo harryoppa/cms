@@ -36,17 +36,11 @@ class MediaFolder extends BaseModel
         'user_id',
     ];
 
-    /**
-     * @return HasMany
-     */
     public function files(): HasMany
     {
         return $this->hasMany(MediaFile::class, 'folder_id', 'id');
     }
 
-    /**
-     * @return HasOne
-     */
     public function parentFolder(): HasOne
     {
         return $this->hasOne(MediaFolder::class, 'id', 'parent');

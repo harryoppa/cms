@@ -30,11 +30,11 @@ class SlugServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(SlugInterface::class, function () {
-            return new SlugCacheDecorator(new SlugRepository(new Slug));
+            return new SlugCacheDecorator(new SlugRepository(new Slug()));
         });
 
         $this->app->singleton(SlugHelper::class, function () {
-            return new SlugHelper;
+            return new SlugHelper();
         });
 
         $this->setNamespace('packages/slug')
@@ -57,12 +57,12 @@ class SlugServiceProvider extends ServiceProvider
         Event::listen(RouteMatched::class, function () {
             dashboard_menu()
                 ->registerItem([
-                    'id'          => 'cms-packages-slug-permalink',
-                    'priority'    => 5,
-                    'parent_id'   => 'cms-core-settings',
-                    'name'        => 'packages/slug::slug.permalink_settings',
-                    'icon'        => null,
-                    'url'         => route('slug.settings'),
+                    'id' => 'cms-packages-slug-permalink',
+                    'priority' => 5,
+                    'parent_id' => 'cms-core-settings',
+                    'name' => 'packages/slug::slug.permalink_settings',
+                    'icon' => null,
+                    'url' => route('slug.settings'),
                     'permissions' => ['setting.options'],
                 ]);
         });
@@ -96,7 +96,8 @@ class SlugServiceProvider extends ServiceProvider
                     return $this->slugable ? $this->slugable->id : '';
                 });
 
-                MacroableModels::addMacro($item,
+                MacroableModels::addMacro(
+                    $item,
                     'getUrlAttribute',
                     function () {
                         /**
@@ -115,7 +116,8 @@ class SlugServiceProvider extends ServiceProvider
                         $prefix = apply_filters(FILTER_SLUG_PREFIX, $prefix);
 
                         return apply_filters('slug_filter_url', url($prefix ? $prefix . '/' . $this->slug : $this->slug));
-                    });
+                    }
+                );
             }
 
             $this->app->register(HookServiceProvider::class);

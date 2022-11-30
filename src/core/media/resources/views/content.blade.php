@@ -173,7 +173,7 @@
                         <form class="input-search-wrapper" action="" method="GET">
                             <input type="text" class="form-control" placeholder="{{ trans('core/media::media.search_file_and_folder') }}">
                             <button class="btn btn-link" type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" width="24" height="24" viewBox="0 0 512 512"><title>Search</title><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>
+                                <i class="fa fa-search"></i>
                             </button>
                         </form>
                     </div>
@@ -545,7 +545,7 @@
                 __thumb__
             </div>
             <div class="rv-media-description">
-                <div class="title title{{ Request::input('file_id') }}">__name__</div>
+                <div class="title title{{ BaseHelper::stringify(request()->input('file_id')) }}">__name__</div>
             </div>
         </div>
     </li>

@@ -100,9 +100,10 @@ class MediaFolderRepository extends RepositoriesAbstract implements MediaFolderI
         }
 
         $child = $this->getBreadcrumbs($folder->parent_id, $breadcrumbs);
+
         return array_merge($child, [
             [
-                'id'   => $folder->id,
+                'id' => $folder->id,
                 'name' => $folder->name,
             ],
         ]);
@@ -174,6 +175,7 @@ class MediaFolderRepository extends RepositoriesAbstract implements MediaFolderI
         if (!empty($folders)) {
             foreach ($folders as $folder) {
                 $child[$parentId][] = $folder;
+
                 return $this->getAllChildFolders($folder->id, $child);
             }
         }
@@ -235,6 +237,7 @@ class MediaFolderRepository extends RepositoriesAbstract implements MediaFolderI
              */
             $folder->forceDelete();
         }
+
         return true;
     }
 }

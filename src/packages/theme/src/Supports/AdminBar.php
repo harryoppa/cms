@@ -2,7 +2,7 @@
 
 namespace TVHung\Theme\Supports;
 
-use Throwable;
+use Illuminate\Support\Facades\Auth;
 
 class AdminBar
 {
@@ -28,19 +28,14 @@ class AdminBar
     {
         $this->groups = [
             'appearance' => [
-                'link'  => 'javascript:;',
+                'link' => 'javascript:;',
                 'title' => trans('packages/theme::theme.appearance'),
-                'items' => [
-                    trans('core/base::layouts.dashboard') => route('dashboard.index'),
-                    trans('core/setting::setting.title')  => route('settings.options'),
-                ],
+                'items' => [],
             ],
-            'add-new'    => [
-                'link'  => 'javascript:;',
+            'add-new' => [
+                'link' => 'javascript:;',
                 'title' => trans('packages/theme::theme.add_new'),
-                'items' => [
-                    trans('core/acl::users.users') => route('users.create'),
-                ],
+                'items' => [],
             ],
         ];
     }
@@ -57,7 +52,7 @@ class AdminBar
      * @param bool $isDisplay
      * @return $this
      */
-    public function setIsDisplay($isDisplay = true): self
+    public function setIsDisplay(bool $isDisplay = true): self
     {
         $this->isDisplay = $isDisplay;
 
@@ -86,16 +81,17 @@ class AdminBar
      * @param string $link
      * @return $this
      */
-    public function registerGroup($slug, $title, $link = 'javascript:;'): self
+    public function registerGroup(string $slug, string $title, string $link = 'javascript:;'): self
     {
         if (isset($this->groups[$slug])) {
             $this->groups[$slug]['items'][$title] = $link;
+
             return $this;
         }
 
         $this->groups[$slug] = [
             'title' => $title,
-            'link'  => $link,
+            'link' => $link,
             'items' => [],
         ];
 
@@ -106,17 +102,23 @@ class AdminBar
      * @param string $title
      * @param string $url
      * @param null $group
+     * @param string|null $permission
      * @return $this
      */
-    public function registerLink(string $title, string $url, $group = null): self
+    public function registerLink(string $title, string $url, $group = null, string $permission = null): self
     {
         if ($group === null || !isset($this->groups[$group])) {
             $this->noGroupLinks[] = [
-                'link'  => $url,
+                'link' => $url,
                 'title' => $title,
+                'permission' => $permission,
             ];
         } else {
-            $this->groups[$group]['items'][$title] = $url;
+            $this->groups[$group]['items'][$title] = [
+                'link' => $url,
+                'title' => $title,
+                'permission' => $permission,
+            ];
         }
 
         return $this;
@@ -124,10 +126,17 @@ class AdminBar
 
     /**
      * @return string
-     * @throws Throwable
      */
     public function render(): string
     {
+        if (!Auth::check()) {
+            return '';
+        }
+
+        $this->registerLink(trans('core/base::layouts.dashboard'), route('dashboard.index'), 'appearance', 'dashboard.index');
+        $this->registerLink(trans('core/acl::users.users'), route('users.create'), 'add-new', 'users.create');
+        $this->registerLink(trans('core/setting::setting.title'), route('settings.options'), 'appearance', 'settings.options');
+
         return view('packages/theme::admin-bar')->render();
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 
 class ChangeSlugPrefixCommand extends Command
 {
-
     /**
      * The console command signature.
      *

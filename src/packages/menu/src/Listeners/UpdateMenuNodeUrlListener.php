@@ -9,7 +9,6 @@ use Menu;
 
 class UpdateMenuNodeUrlListener
 {
-
     /**
      * @var MenuNodeInterface
      */
@@ -35,7 +34,7 @@ class UpdateMenuNodeUrlListener
         try {
             if (in_array(get_class($event->data), Menu::getMenuOptionModels())) {
                 $nodes = $this->menuNodeRepository->allBy([
-                    'reference_id'   => $event->data->id,
+                    'reference_id' => $event->data->id,
                     'reference_type' => get_class($event->data),
                 ]);
 

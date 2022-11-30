@@ -7,7 +7,6 @@ use TVHung\Base\Models\BaseModel;
 class MediaSetting extends BaseModel
 {
     /**
-     * The database table used by the model.
      * @var string
      */
     protected $table = 'media_settings';

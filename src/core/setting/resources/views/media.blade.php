@@ -156,7 +156,7 @@
                             <label class="text-title-field"
                                    for="media_bunnycdn_hostname">{{ trans('core/setting::setting.media.bunnycdn_hostname') }}</label>
                             <input type="text" class="next-input" name="media_bunnycdn_hostname" id="media_bunnycdn_hostname"
-                                   value="{{ setting('media_bunnycdn_hostname') }}" placeholder="Ex: botble.b-cdn.net">
+                                   value="{{ setting('media_bunnycdn_hostname') }}" placeholder="Ex: TVHung.b-cdn.net">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
@@ -213,32 +213,49 @@
 
                     <div class="form-group mb-3">
                         <label class="text-title-field"
+                               for="max_upload_filesize">{{ trans('core/setting::setting.media.max_upload_filesize') }}</label>
+                        <input type="number" class="next-input" name="max_upload_filesize" id="max_upload_filesize" step="0.01"
+                               value="{{ setting('max_upload_filesize') }}" placeholder="{{ trans('core/setting::setting.media.max_upload_filesize_placeholder', ['size' => $maxSize = BaseHelper::humanFilesize(RvMedia::getServerConfigMaxUploadFileSize())]) }}">
+                        {{ Form::helper(trans('core/setting::setting.media.max_upload_filesize_helper', ['size' => $maxSize])) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="text-title-field"
                                for="media_chunk_enabled">{{ trans('core/setting::setting.media.enable_chunk') }}
                         </label>
                         <label class="me-2">
-                            <input type="radio" name="media_chunk_enabled"
+                            <input type="radio" name="media_chunk_enabled" class="setting-selection-option" data-target="#media-chunk-settings"
                                    value="1"
                                    @if (RvMedia::isChunkUploadEnabled()) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                         </label>
                         <label>
-                            <input type="radio" name="media_chunk_enabled"
+                            <input type="radio" name="media_chunk_enabled" class="setting-selection-option" data-target="#media-chunk-settings"
                                    value="0"
                                    @if (!RvMedia::isChunkUploadEnabled()) checked @endif>{{ trans('core/setting::setting.general.no') }}
                         </label>
+
+                        {{ Form::helper(trans('core/setting::setting.enable_chunk_description')) }}
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label class="text-title-field"
-                               for="media_chunk_size">{{ trans('core/setting::setting.media.chunk_size') }}</label>
-                        <input type="number" class="next-input" name="media_chunk_size" id="media_chunk_size"
-                               value="{{ setting('media_chunk_size', RvMedia::getConfig('chunk.chunk_size')) }}" placeholder="{{ trans('core/setting::setting.media.chunk_size_placeholder') }}">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="text-title-field"
-                               for="media_max_file_size">{{ trans('core/setting::setting.media.max_file_size') }}</label>
-                        <input type="number" class="next-input" name="media_max_file_size" id="media_max_file_size"
-                               value="{{ setting('media_max_file_size', RvMedia::getConfig('chunk.max_file_size')) }}" placeholder="{{ trans('core/setting::setting.media.max_file_size_placeholder') }}">
+                    <div id="media-chunk-settings" class="mb-4 border rounded-top rounded-bottom p-3 bg-light @if (!RvMedia::isChunkUploadEnabled()) d-none @endif">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field"
+                                           for="media_chunk_size">{{ trans('core/setting::setting.media.chunk_size') }}</label>
+                                    <input type="number" class="next-input" name="media_chunk_size" id="media_chunk_size"
+                                           value="{{ setting('media_chunk_size', RvMedia::getConfig('chunk.chunk_size')) }}" placeholder="{{ trans('core/setting::setting.media.chunk_size_placeholder') }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field"
+                                           for="media_max_file_size">{{ trans('core/setting::setting.media.max_file_size') }}</label>
+                                    <input type="number" class="next-input" name="media_max_file_size" id="media_max_file_size"
+                                           value="{{ setting('media_max_file_size', RvMedia::getConfig('chunk.max_file_size')) }}" placeholder="{{ trans('core/setting::setting.media.max_file_size_placeholder') }}">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group mb-3">
@@ -246,66 +263,140 @@
                                for="media_watermark_enabled">{{ trans('core/setting::setting.media.enable_watermark') }}
                         </label>
                         <label class="me-2">
-                            <input type="radio" name="media_watermark_enabled"
+                            <input type="radio" name="media_watermark_enabled" class="setting-selection-option" data-target="#media-watermark-settings"
                                    value="1"
                                    @if (setting('media_watermark_enabled', RvMedia::getConfig('watermark.enabled'))) checked @endif>{{ trans('core/setting::setting.general.yes') }}
                         </label>
                         <label>
-                            <input type="radio" name="media_watermark_enabled"
+                            <input type="radio" name="media_watermark_enabled" class="setting-selection-option" data-target="#media-watermark-settings"
                                    value="0"
                                    @if (!setting('media_watermark_enabled', RvMedia::getConfig('watermark.enabled'))) checked @endif>{{ trans('core/setting::setting.general.no') }}
                         </label>
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label class="text-title-field"
-                               for="media_watermark_source">{{ trans('core/setting::setting.media.watermark_source') }}
-                        </label>
-                        {!! Form::mediaImage('media_watermark_source', setting('media_watermark_source')) !!}
-                    </div>
+                    <div id="media-watermark-settings" class="mb-4 border rounded-top rounded-bottom p-3 bg-light @if (!setting('media_watermark_enabled', RvMedia::getConfig('watermark.enabled'))) d-none @endif">
+                        <div class="mb-3">
+                            {{ Form::helper(trans('core/setting::setting.watermark_description')) }}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="text-title-field"
+                                   for="media_folders_can_add_watermark">{{ trans('core/setting::setting.media.media_folders_can_add_watermark') }}
+                            </label>
+                            <label><input type="checkbox" class="check-all" data-set=".media-folder">{{ trans('core/setting::setting.media.all') }}</label>
+                            <div class="form-group form-group-no-margin">
+                                <div class="multi-choices-widget list-item-checkbox">
+                                    <ul>
+                                        @php $folderIds = json_decode(setting('media_folders_can_add_watermark'), true); @endphp
+                                        @foreach (app(\TVHung\Media\Repositories\Interfaces\MediaFolderInterface::class)->pluck('name', 'id') as $key => $item)
+                                            <li>
+                                                <input type="checkbox"
+                                                       class="styled media-folder"
+                                                       name="media_folders_can_add_watermark[]"
+                                                       value="{{ $key }}"
+                                                       id="media-folder-item-{{ $key }}"
+                                                       @if (empty($folderIds) || in_array($key, $folderIds)) checked="checked" @endif>
+                                                <label for="media-folder-item-{{ $key }}">{{ $item }}</label>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label class="text-title-field"
-                               for="media_watermark_size">{{ trans('core/setting::setting.media.watermark_size') }}</label>
-                        <input type="number" class="next-input" name="media_watermark_size" id="media_watermark_size"
-                               value="{{ setting('media_watermark_size', RvMedia::getConfig('watermark.size')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_size_placeholder') }}">
-                    </div>
+                        <div class="form-group mb-3">
+                            <label class="text-title-field"
+                                   for="media_watermark_source">{{ trans('core/setting::setting.media.watermark_source') }}
+                            </label>
+                            {!! Form::mediaImage('media_watermark_source', setting('media_watermark_source')) !!}
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label class="text-title-field"
-                               for="watermark_opacity">{{ trans('core/setting::setting.media.watermark_opacity') }}</label>
-                        <input type="number" class="next-input" name="watermark_opacity" id="watermark_opacity"
-                               value="{{ setting('watermark_opacity', RvMedia::getConfig('watermark.opacity')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_opacity_placeholder') }}">
-                    </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field"
+                                           for="media_watermark_size">{{ trans('core/setting::setting.media.watermark_size') }}</label>
+                                    <input type="number" class="next-input" name="media_watermark_size" id="media_watermark_size"
+                                           value="{{ setting('media_watermark_size', RvMedia::getConfig('watermark.size')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_size_placeholder') }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field"
+                                           for="watermark_opacity">{{ trans('core/setting::setting.media.watermark_opacity') }}</label>
+                                    <input type="number" class="next-input" name="watermark_opacity" id="watermark_opacity"
+                                           value="{{ setting('watermark_opacity', RvMedia::getConfig('watermark.opacity')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_opacity_placeholder') }}">
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label class="text-title-field" for="media_watermark_position">{{ trans('core/setting::setting.media.watermark_position') }}</label>
-                        <div class="ui-select-wrapper">
-                            <select name="media_watermark_position" class="ui-select" id="media_watermark_position">
-                                <option value="top-left" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'top-left' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_top_left') }}</option>
-                                <option value="top-right" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'top-right' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_top_right') }}</option>
-                                <option value="bottom-left" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'bottom-left' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_bottom_left') }}</option>
-                                <option value="bottom-right" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'bottom-right' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_bottom_right') }}</option>
-                                <option value="center" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'center' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_center') }}</option>
-                            </select>
-                            <svg class="svg-next-icon svg-next-icon-size-16">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select-chevron"></use>
-                            </svg>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field" for="media_watermark_position">{{ trans('core/setting::setting.media.watermark_position') }}</label>
+                                    <div class="ui-select-wrapper">
+                                        <select name="media_watermark_position" class="ui-select" id="media_watermark_position">
+                                            <option value="top-left" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'top-left' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_top_left') }}</option>
+                                            <option value="top-right" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'top-right' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_top_right') }}</option>
+                                            <option value="bottom-left" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'bottom-left' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_bottom_left') }}</option>
+                                            <option value="bottom-right" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'bottom-right' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_bottom_right') }}</option>
+                                            <option value="center" @if (setting('media_watermark_position', RvMedia::getConfig('watermark.position')) == 'center' ) selected @endif>{{ trans('core/setting::setting.media.watermark_position_center') }}</option>
+                                        </select>
+                                        <svg class="svg-next-icon svg-next-icon-size-16">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select-chevron"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field"
+                                           for="watermark_position_x">{{ trans('core/setting::setting.media.watermark_position_x') }}</label>
+                                    <input type="number" class="next-input" name="watermark_position_x" id="watermark_position_x"
+                                           value="{{ setting('watermark_position_x', RvMedia::getConfig('watermark.x')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_position_x') }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field"
+                                           for="watermark_position_y">{{ trans('core/setting::setting.media.watermark_position_y') }}</label>
+                                    <input type="number" class="next-input" name="watermark_position_y" id="watermark_position_y"
+                                           value="{{ setting('watermark_position_y', RvMedia::getConfig('watermark.y')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_position_y') }}">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label class="text-title-field"
-                               for="watermark_position_x">{{ trans('core/setting::setting.media.watermark_position_x') }}</label>
-                        <input type="number" class="next-input" name="watermark_position_x" id="watermark_position_x"
-                               value="{{ setting('watermark_position_x', RvMedia::getConfig('watermark.x')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_position_x') }}">
-                    </div>
+                    <hr>
 
-                    <div class="form-group mb-3">
-                        <label class="text-title-field"
-                               for="watermark_position_y">{{ trans('core/setting::setting.media.watermark_position_y') }}</label>
-                        <input type="number" class="next-input" name="watermark_position_y" id="watermark_position_y"
-                               value="{{ setting('watermark_position_y', RvMedia::getConfig('watermark.y')) }}" placeholder="{{ trans('core/setting::setting.media.watermark_position_y') }}">
+                    <div>
+                        <h5 class="mb-3">{{ trans('core/setting::setting.media.sizes') }}:</h5>
+                        @foreach(RvMedia::getSizes() as $name => $size)
+                            @php $sizeExploded = explode('x', $size); @endphp
+                            @if (count($sizeExploded) > 0)
+                                <div class="form-group mb-3">
+                                    <label class="text-title-field">{{ str_replace('-', ' ', Str::title(Str::slug($name))) }} <small>({{ trans('core/setting::setting.media.default_size_value', ['size' => RvMedia::getConfig('sizes.' . $name)]) }})</small></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="next-input--stylized">
+                                                <span class="next-input-add-on next-input__add-on--before">{{ trans('core/setting::setting.media.width') }}:</span>
+                                                <input type="number" class="next-input next-input--invisible" name="media_sizes_{{ $name }}_width"
+                                                       value="{{ setting('media_sizes_' . $name . '_width', $sizeExploded[0]) }}" placeholder="0">
+                                                <span class="next-input-add-on next-input__add-on--after">px</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="next-input--stylized">
+                                                <span class="next-input-add-on next-input__add-on--before">{{ trans('core/setting::setting.media.height') }}:</span>
+                                                <input type="number" class="next-input next-input--invisible" name="media_sizes_{{ $name }}_height"
+                                                       value="{{ setting('media_sizes_' . $name . '_height', $sizeExploded[1]) }}" placeholder="0">
+                                                <span class="next-input-add-on next-input__add-on--after">px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{ Form::helper(trans('core/setting::setting.media.media_sizes_helper')) }}
                     </div>
 
                 </div>
@@ -318,9 +409,12 @@
                 &nbsp;
             </div>
             <div class="flexbox-annotated-section-content">
-                <button class="btn btn-info" type="submit">{{ trans('core/setting::setting.save_settings') }}</button>
+                <button class="btn btn-info" type="submit">{{ trans('core/setting::setting.save_settings') }}</button> &nbsp;
+                <button class="btn btn-warning generate-thumbnails-trigger-button" type="button" data-saving="{{ trans('core/setting::setting.saving') }}">{{ trans('core/setting::setting.generate_thumbnails') }}</button>
             </div>
         </div>
     </div>
     {!! Form::close() !!}
+
+    {!! Form::modalAction('generate-thumbnails-modal', trans('core/setting::setting.generate_thumbnails'), 'warning', trans('core/setting::setting.generate_thumbnails_description'), 'generate-thumbnails-button', trans('core/setting::setting.generate')) !!}
 @endsection

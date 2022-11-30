@@ -4,10 +4,8 @@ namespace TVHung\Media\Chunks\Storage;
 
 use TVHung\Media\Chunks\ChunkFile;
 use Closure;
-use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Collection;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use RuntimeException;
 use RvMedia;
@@ -15,28 +13,31 @@ use Storage;
 
 class ChunkStorage
 {
-    const CHUNK_EXTENSION = 'part';
+    public const CHUNK_EXTENSION = 'part';
 
     /**
-     * @var AbstractConfig
+     * @var array
      */
     protected $config;
+
     /**
      * The disk that holds the chunk files.
      *
-     * @var FilesystemContract|FilesystemAdapter
+     * @var FilesystemAdapter
      */
     protected $disk;
-    /**
-     * @var Local|LocalFilesystemAdapter
-     */
-    protected $diskAdapter;
-    protected $isLocalDisk;
 
     /**
-     * @var
+     * @var LocalFilesystemAdapter
      */
-    protected $usingDeprecatedLaravel;
+    protected $diskAdapter;
+
+    /**
+     * Is provided disk a local drive.
+     *
+     * @var bool
+     */
+    protected $isLocalDisk;
 
     /**
      * ChunkStorage constructor.
@@ -45,54 +46,27 @@ class ChunkStorage
     {
         $this->config = RvMedia::getConfig('chunk');
 
-        $this->usingDeprecatedLaravel = class_exists(LocalFilesystemAdapter::class) === false;
-        
         // Cache the storage path
         $this->disk = Storage::disk($this->config['storage']['disk']);
 
-        
-        if ($this->usingDeprecatedLaravel === false) {
+        $driver = $this->disk;
 
-            // try to get the adapter
-            if (!method_exists($this->disk, 'getAdapter')) {
-                throw new RuntimeException('FileSystem driver must have an adapter implemented');
-            }
-
-            // get the disk adapter
-            $this->diskAdapter = $this->disk->getAdapter();
-
-            // check if its local adapter
-            $this->isLocalDisk = $this->diskAdapter instanceof LocalFilesystemAdapter;
-        } else {
-            $driver = $this->driver();
-
-            // try to get the adapter
-            if (!method_exists($driver, 'getAdapter')) {
-                throw new RuntimeException('FileSystem driver must have an adapter implemented');
-            }
-
-            // get the disk adapter
-            $this->diskAdapter = $driver->getAdapter();
-
-            // check if its local adapter
-            $this->isLocalDisk = $this->diskAdapter instanceof Local;
+        // Try to get the adapter
+        if (!method_exists($driver, 'getAdapter')) {
+            throw new RuntimeException('FileSystem driver must have an adapter implemented');
         }
-    }
 
-    /**
-     * Returns the driver.
-     *
-     * @return FilesystemInterface
-     */
-    public function driver()
-    {
-        return $this->disk()->getDriver();
+        // Get the disk adapter
+        $this->diskAdapter = $driver->getAdapter();
+
+        // Check if its local adapter
+        $this->isLocalDisk = $this->diskAdapter instanceof LocalFilesystemAdapter;
     }
 
     /**
      * @return FilesystemAdapter
      */
-    public function disk()
+    public function disk(): FilesystemAdapter
     {
         return $this->disk;
     }
@@ -102,7 +76,7 @@ class ChunkStorage
      *
      * @return ChunkStorage
      */
-    public static function storage()
+    public static function storage(): ChunkStorage
     {
         return app(self::class);
     }
@@ -114,12 +88,8 @@ class ChunkStorage
      *
      * @throws RuntimeException when the adapter is not local
      */
-    public function getDiskPathPrefix()
+    public function getDiskPathPrefix(): string
     {
-        if ($this->usingDeprecatedLaravel === true && $this->isLocalDisk) {
-            return $this->diskAdapter->getPathPrefix();
-        }
-
         if ($this->isLocalDisk) {
             return $this->disk->path('');
         }
@@ -132,7 +102,7 @@ class ChunkStorage
      *
      * @return Collection<ChunkFile> collection of a ChunkFile objects
      */
-    public function oldChunkFiles()
+    public function oldChunkFiles(): Collection
     {
         $files = $this->files();
         // If there are no files, lets return the empty collection
@@ -142,7 +112,7 @@ class ChunkStorage
 
         // Build the timestamp
         $timeToCheck = strtotime($this->config['clear']['timestamp']);
-        $collection = new Collection;
+        $collection = new Collection();
 
         // Filter the collection with files that are not correct chunk file
         // Loop all current files and filter them by the time
@@ -160,13 +130,13 @@ class ChunkStorage
     }
 
     /**
-     * Returns an array of files in the chunks directory.
+     * Returns an array of files in the chunk's directory.
      *
      * @param Closure|null $rejectClosure
      * @return Collection
      * @see FilesystemAdapter::files()
      */
-    public function files($rejectClosure = null)
+    public function files(?Closure $rejectClosure = null): Collection
     {
         // We need to filter files we don't support, lets use the collection
         $filesCollection = new Collection($this->disk->files($this->directory(), false));
@@ -187,11 +157,11 @@ class ChunkStorage
     }
 
     /**
-     * The current chunks directory.
+     * The current chunk's directory.
      *
      * @return string
      */
-    public function directory()
+    public function directory(): string
     {
         return $this->config['storage']['chunks'] . '/';
     }

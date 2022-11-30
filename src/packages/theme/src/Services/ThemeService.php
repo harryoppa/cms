@@ -2,6 +2,7 @@
 
 namespace TVHung\Theme\Services;
 
+use BaseHelper;
 use TVHung\Base\Supports\Helper;
 use TVHung\PluginManagement\Services\PluginService;
 use TVHung\Setting\Repositories\Interfaces\SettingInterface;
@@ -65,7 +66,6 @@ class ThemeService
     /**
      * @param string $theme
      * @return array
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function activate(string $theme): array
     {
@@ -77,13 +77,13 @@ class ThemeService
 
         if (setting('theme') && $theme == Theme::getThemeName()) {
             return [
-                'error'   => true,
+                'error' => true,
                 'message' => trans('packages/theme::theme.theme_activated_already', ['name' => $theme]),
             ];
         }
 
         try {
-            $content = get_file_data($this->getPath($theme, 'theme.json'));
+            $content = BaseHelper::getFileData($this->getPath($theme, 'theme.json'));
 
             if (!empty($content)) {
                 $requiredPlugins = Arr::get($content, 'required_plugins', []);
@@ -95,7 +95,7 @@ class ThemeService
             }
         } catch (Exception $exception) {
             return [
-                'error'   => true,
+                'error' => true,
                 'message' => $exception->getMessage(),
             ];
         }
@@ -115,7 +115,7 @@ class ThemeService
         Helper::clearCache();
 
         return [
-            'error'   => false,
+            'error' => false,
             'message' => trans('packages/theme::theme.active_success', ['name' => $theme]),
         ];
     }
@@ -130,20 +130,20 @@ class ThemeService
 
         if (!$this->files->isDirectory($location)) {
             return [
-                'error'   => true,
+                'error' => true,
                 'message' => trans('packages/theme::theme.theme_is_not_existed'),
             ];
         }
 
         if (!$this->files->exists($location . '/theme.json')) {
             return [
-                'error'   => true,
+                'error' => true,
                 'message' => trans('packages/theme::theme.missing_json_file'),
             ];
         }
 
         return [
-            'error'   => false,
+            'error' => false,
             'message' => trans('packages/theme::theme.theme_invalid'),
         ];
     }
@@ -155,7 +155,7 @@ class ThemeService
      * @param string|null $path
      * @return string
      */
-    protected function getPath(string $theme, $path = null)
+    protected function getPath(string $theme, ?string $path = null): string
     {
         return rtrim(theme_path(), '/') . '/' . rtrim(ltrim(strtolower($theme), '/'), '/') . '/' . $path;
     }
@@ -169,7 +169,7 @@ class ThemeService
         if ($theme) {
             $themes = [$theme];
         } else {
-            $themes = scan_folder(theme_path());
+            $themes = BaseHelper::scanFolder(theme_path());
         }
 
         foreach ($themes as $theme) {
@@ -180,7 +180,7 @@ class ThemeService
                 $this->files->makeDirectory($themePath, 0755, true);
             } elseif (!$this->files->isWritable($themePath)) {
                 return [
-                    'error'   => true,
+                    'error' => true,
                     'message' => trans('packages/theme::theme.folder_is_not_writeable', ['name' => $themePath]),
                 ];
             }
@@ -196,7 +196,7 @@ class ThemeService
         }
 
         return [
-            'error'   => false,
+            'error' => false,
             'message' => trans('packages/theme::theme.published_assets_success', ['themes' => implode(', ', $themes)]),
         ];
     }
@@ -204,7 +204,7 @@ class ThemeService
     /**
      * @param string $theme
      * @return array
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws Exception
      */
     public function remove(string $theme): array
     {
@@ -216,15 +216,18 @@ class ThemeService
 
         if (Theme::getThemeName() == $theme) {
             return [
-                'error'   => true,
+                'error' => true,
                 'message' => trans('packages/theme::theme.cannot_remove_theme', ['name' => $theme]),
             ];
         }
 
         $this->removeAssets($theme);
 
-        $this->files->deleteDirectory($this->getPath($theme), false);
-        $this->widgetRepository->deleteBy(['theme' => $theme]);
+        $this->files->deleteDirectory($this->getPath($theme));
+        $this->widgetRepository->getModel()
+            ->where('theme', $theme)
+            ->orWhere('theme', 'like', $theme . '-%')
+            ->delete();
         $this->settingRepository->getModel()
             ->where('key', 'like', 'theme-' . $theme . '-%')
             ->delete();
@@ -232,7 +235,7 @@ class ThemeService
         event(new ThemeRemoveEvent($theme));
 
         return [
-            'error'   => false,
+            'error' => false,
             'message' => trans('packages/theme::theme.theme_deleted', ['name' => $theme]),
         ];
     }
@@ -252,7 +255,7 @@ class ThemeService
         $this->files->deleteDirectory(public_path('themes/' . $theme));
 
         return [
-            'error'   => false,
+            'error' => false,
             'message' => trans('packages/theme::theme.removed_assets', ['name' => $theme]),
         ];
     }
