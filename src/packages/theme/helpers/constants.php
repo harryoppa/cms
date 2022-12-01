@@ -27,3 +27,7 @@ if (!defined('THEME_OPTIONS_ACTION_META_BOXES')) {
 if (!defined('RENDERING_THEME_OPTIONS_PAGE')) {
     define('RENDERING_THEME_OPTIONS_PAGE', 'rendering-theme-options-page');
 }
+
+if (!defined('EXTEND_CONTENT_VIEW_RESOURCE')) {
+    define('EXTEND_CONTENT_VIEW_RESOURCE', 'extend-content-view-resource');
+}

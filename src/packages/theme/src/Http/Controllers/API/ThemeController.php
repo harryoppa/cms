@@ -40,6 +40,11 @@ class ThemeController extends BaseController
         if (!empty($result) && is_array($result)) {
             $data = Arr::first($result['data']);
 
+            // if $result has > 1 item, merge them to $data
+            if (count($result['data']) > 1) {
+                $data['extend'] = Arr::except($result['data'], Arr::first(array_keys($result['data'])));
+            }
+
             return $this->response->setData(SlugViewResource::make($data));
         }
 

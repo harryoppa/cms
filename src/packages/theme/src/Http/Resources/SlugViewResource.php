@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use RvMedia;
 use TVHung\Page\Models\Page;
+use Arr;
 
 
 class SlugViewResource extends JsonResource
@@ -19,11 +20,13 @@ class SlugViewResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = [
             'id'            => $this->id,
             'name'          => $this->name,
             'description'   => $this->description,
-            'content'       => shortcode()->compile($this->content, true)->toHtml(),
+            'content'       => $this->when($this->content, function() {
+                return shortcode()->compile($this->content, true)->toHtml();
+            }),
             'image'         => $this->image ? RvMedia::getImageUrl($this->image) : null,
             'created_at'    => $this->created_at,
             'updated_at'    => $this->updated_at,
@@ -37,5 +40,7 @@ class SlugViewResource extends JsonResource
             }),
             'template'      => $this->when('template', $this->template),
         ];
+
+        return array_merge($data, apply_filters(EXTEND_CONTENT_VIEW_RESOURCE, $data, $this));
     }
 }
