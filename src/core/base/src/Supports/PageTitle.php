@@ -4,33 +4,28 @@ namespace TVHung\Base\Supports;
 
 class PageTitle
 {
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
 
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @param bool $full
-     * @return string
-     */
-    public function getTitle(bool $full = true)
+    public function getTitle(bool $full = true): ?string
     {
+        $baseTitle = setting('admin_title', config('core.base.general.base_name'));
+
         if (empty($this->title)) {
-            return setting('admin_title', config('core.base.general.base_name'));
+            return $baseTitle;
         }
 
-        if (!$full) {
+        if (! $full) {
             return $this->title;
         }
 
-        return $this->title . ' | ' . setting('admin_title', config('core.base.general.base_name'));
+        return $this->title . ' | ' . $baseTitle;
     }
 }

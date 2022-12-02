@@ -3,27 +3,17 @@
 namespace TVHung\Base\Supports;
 
 use TVHung\Base\Repositories\Interfaces\MetaBoxInterface;
+use Closure;
 use Exception;
 use Throwable;
-use Illuminate\Database\Eloquent\Model;
 use TVHung\Base\Models\MetaBox as MetaBoxModel;
 
 class MetaBox
 {
-    /**
-     * @var array
-     */
-    protected $metaBoxes = [];
+    protected array $metaBoxes = [];
 
-    /**
-     * @var MetaBoxInterface
-     */
-    protected $metaBoxRepository;
+    protected MetaBoxInterface $metaBoxRepository;
 
-    /**
-     * MetaBox constructor.
-     * @param MetaBoxInterface $metaBoxRepository
-     */
     public function __construct(MetaBoxInterface $metaBoxRepository)
     {
         $this->metaBoxRepository = $metaBoxRepository;
@@ -32,31 +22,31 @@ class MetaBox
     /**
      * @param string $id
      * @param string $title
-     * @param array|\Closure|string $callback
+     * @param string|array|Closure $callback
      * @param null $reference
      * @param string $context
      * @param string $priority
      * @param null $callbackArgs
      */
     public function addMetaBox(
-        string                $id,
-        string                $title,
-        array|\Closure|string $callback,
-                              $reference = null,
-        string                $context = 'advanced',
-        string                $priority = 'default',
-                              $callbackArgs = null
+        string $id,
+        string $title,
+        $callback,
+        $reference = null,
+        string $context = 'advanced',
+        string $priority = 'default',
+        $callbackArgs = null
     ) {
-        if (!isset($this->metaBoxes[$reference])) {
+        if (! isset($this->metaBoxes[$reference])) {
             $this->metaBoxes[$reference] = [];
         }
-        if (!isset($this->metaBoxes[$reference][$context])) {
+        if (! isset($this->metaBoxes[$reference][$context])) {
             $this->metaBoxes[$reference][$context] = [];
         }
 
         foreach (array_keys($this->metaBoxes[$reference]) as $a_context) {
             foreach (['high', 'core', 'default', 'low'] as $a_priority) {
-                if (!isset($this->metaBoxes[$reference][$a_context][$a_priority][$id])) {
+                if (! isset($this->metaBoxes[$reference][$a_context][$a_priority][$id])) {
                     continue;
                 }
 
@@ -75,6 +65,7 @@ class MetaBox
                         $this->metaBoxes[$reference][$a_context]['core'][$id] = $this->metaBoxes[$reference][$a_context]['default'][$id];
                         unset($this->metaBoxes[$reference][$a_context]['default'][$id]);
                     }
+
                     return;
                 }
                 /* If no priority given and id already present, use existing priority.
@@ -100,15 +91,15 @@ class MetaBox
             $priority = 'low';
         }
 
-        if (!isset($this->metaBoxes[$reference][$context][$priority])) {
+        if (! isset($this->metaBoxes[$reference][$context][$priority])) {
             $this->metaBoxes[$reference][$context][$priority] = [];
         }
 
         $this->metaBoxes[$reference][$context][$priority][$id] = [
-            'id'       => $id,
-            'title'    => $title,
+            'id' => $id,
+            'title' => $title,
             'callback' => $callback,
-            'args'     => $callbackArgs,
+            'args' => $callbackArgs,
         ];
     }
 
@@ -121,24 +112,24 @@ class MetaBox
      *
      * @throws Throwable
      */
-    public function doMetaBoxes($context, $object = null): int
+    public function doMetaBoxes(string $context, $object = null): int
     {
         $index = 0;
         $data = '';
         $reference = $object::class;
         if (isset($this->metaBoxes[$reference][$context])) {
             foreach (['high', 'sorted', 'core', 'default', 'low'] as $priority) {
-                if (!isset($this->metaBoxes[$reference][$context][$priority])) {
+                if (! isset($this->metaBoxes[$reference][$context][$priority])) {
                     continue;
                 }
 
                 foreach ((array)$this->metaBoxes[$reference][$context][$priority] as $box) {
-                    if (false == $box || !$box['title']) {
+                    if (! $box || ! $box['title']) {
                         continue;
                     }
                     $index++;
                     $data .= view('core/base::elements.meta-box-wrap', [
-                        'box'      => $box,
+                        'box' => $box,
                         'callback' => call_user_func_array($box['callback'], [$object, $reference, $box]),
                     ])->render();
                 }
@@ -154,16 +145,16 @@ class MetaBox
      * Remove a meta box from an edit form.
      *
      * @param string $id String for use in the 'id' attribute of tags.
-     * @param object|string $reference The screen on which to show the box (post, page, link).
+     * @param string|object $reference The screen on which to show the box (post, page, link).
      * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
      */
-    public function removeMetaBox(string $id, object|string $reference, string $context)
+    public function removeMetaBox(string $id, $reference, string $context)
     {
-        if (!isset($this->metaBoxes[$reference])) {
+        if (! isset($this->metaBoxes[$reference])) {
             $this->metaBoxes[$reference] = [];
         }
 
-        if (!isset($this->metaBoxes[$reference][$context])) {
+        if (! isset($this->metaBoxes[$reference][$context])) {
             $this->metaBoxes[$reference][$context] = [];
         }
 
@@ -173,50 +164,52 @@ class MetaBox
     }
 
     /**
-     * @param Model $object
+     * @param mixed $object
      * @param string $key
      * @param $value
      * @param $options
      * @return boolean
      * @throws Exception
      */
-    public function saveMetaBoxData($object, string $key, $value, $options = null)
+    public function saveMetaBoxData($object, string $key, $value, $options = null): bool
     {
         $key = apply_filters('stored_meta_box_key', $key, $object);
 
         try {
             $fieldMeta = $this->metaBoxRepository->getFirstBy([
-                'meta_key'       => $key,
-                'reference_id'   => $object->id,
-                'reference_type' => $object::class,
+                'meta_key' => $key,
+                'reference_id' => $object->id,
+                'reference_type' => get_class($object),
             ]);
-            if (!$fieldMeta) {
+
+            if (! $fieldMeta) {
                 $fieldMeta = $this->metaBoxRepository->getModel();
                 $fieldMeta->reference_id = $object->id;
                 $fieldMeta->meta_key = $key;
-                $fieldMeta->reference_type = $object::class;
+                $fieldMeta->reference_type = get_class($object);
             }
 
-            if (!empty($options)) {
+            if (! empty($options)) {
                 $fieldMeta->options = $options;
             }
 
             $fieldMeta->meta_value = [$value];
             $this->metaBoxRepository->createOrUpdate($fieldMeta);
+
             return true;
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return false;
         }
     }
 
     /**
-     * @param Model $object
+     * @param mixed $object
      * @param string $key
      * @param boolean $single
      * @param array $select
      * @return mixed
      */
-    public function getMetaData($object, string $key, $single = false, $select = ['meta_value']): mixed
+    public function getMetaData($object, string $key, bool $single = false, array $select = ['meta_value'])
     {
         if ($object instanceof MetaBoxModel) {
             $field = $object;
@@ -224,7 +217,7 @@ class MetaBox
             $field = $this->getMeta($object, $key, $select);
         }
 
-        if (!$field) {
+        if (! $field) {
             return $single ? '' : [];
         }
 
@@ -236,24 +229,24 @@ class MetaBox
     }
 
     /**
-     * @param Model $object
+     * @param mixed $object
      * @param string $key
      * @param array $select
      * @return mixed
      */
-    public function getMeta($object, string $key, $select = ['meta_value'])
+    public function getMeta($object, string $key, array $select = ['meta_value'])
     {
         $key = apply_filters('stored_meta_box_key', $key, $object);
 
         return $this->metaBoxRepository->getFirstBy([
-            'meta_key'       => $key,
-            'reference_id'   => $object->id,
-            'reference_type' => $object::class,
+            'meta_key' => $key,
+            'reference_id' => $object->id,
+            'reference_type' => get_class($object),
         ], $select);
     }
 
     /**
-     * @param Model $object
+     * @param mixed $object
      * @param string $key
      * @return mixed
      * @throws Exception
@@ -263,9 +256,9 @@ class MetaBox
         $key = apply_filters('stored_meta_box_key', $key, $object);
 
         return $this->metaBoxRepository->deleteBy([
-            'meta_key'       => $key,
-            'reference_id'   => $object->id,
-            'reference_type' => $object::class,
+            'meta_key' => $key,
+            'reference_id' => $object->id,
+            'reference_type' => get_class($object),
         ]);
     }
 

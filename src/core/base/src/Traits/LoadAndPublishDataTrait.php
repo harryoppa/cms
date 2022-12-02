@@ -4,6 +4,7 @@ namespace TVHung\Base\Traits;
 
 use TVHung\Base\Supports\Helper;
 use Exception;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -14,14 +15,9 @@ use ReflectionClass;
 trait LoadAndPublishDataTrait
 {
     /**
-     * @var string
+     * @var string | null
      */
-    protected $namespace = null;
-
-    /**
-     * @var string
-     */
-    protected $basePath = null;
+    protected ?string $namespace = null;
 
     /**
      * @param string $namespace
@@ -31,25 +27,35 @@ trait LoadAndPublishDataTrait
     {
         $this->namespace = ltrim(rtrim($namespace, '/'), '/');
 
-        if (preg_match('/core|packages/', $this->namespace)) {
-            $this->setBasePath(source_path());
-        }
+        $this->app['config']->set(['core.base.general.plugin_namespaces.' . File::basename($this->getPath()) => $namespace]);
 
         return $this;
+    }
+
+    protected function getPath(string $path = null): string
+    {
+        $reflection = new ReflectionClass($this);
+
+        $modulePath = str_replace('/src/Providers', '', File::dirname($reflection->getFilename()));
+
+        return $modulePath . ($path ? '/' . ltrim($path, '/') : '');
     }
 
     /**
      * Publish the given configuration file name (without extension) and the given module
      * @param array|string $fileNames
      * @return $this
+     * @throws Exception
      */
-    public function loadAndPublishConfigurations($fileNames): self
+    public function loadAndPublishConfigurations(array|string $fileNames): self
     {
-        if (!is_array($fileNames)) {
+        if (! is_array($fileNames)) {
             $fileNames = [$fileNames];
         }
+
         foreach ($fileNames as $fileName) {
             $this->mergeConfigFrom($this->getConfigFilePath($fileName), $this->getDotedNamespace() . '.' . $fileName);
+
             if ($this->app->runningInConsole()) {
                 $this->publishes([
                     $this->getConfigFilePath($fileName) => config_path($this->getDashedNamespace() . '/' . $fileName . '.php'),
@@ -68,32 +74,7 @@ trait LoadAndPublishDataTrait
      */
     protected function getConfigFilePath($file): string
     {
-        $file = $this->getBasePath() . $this->getDashedNamespace() . '/config/' . $file . '.php';
-
-        if (!file_exists($file) && Str::contains($file, plugin_path())) {
-            $this->throwInvalidPluginError();
-        }
-
-        return $file;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBasePath(): string
-    {
-        return $this->basePath ?? platform_path();
-    }
-
-    /**
-     * @param string $path
-     * @return $this
-     */
-    public function setBasePath($path): self
-    {
-        $this->basePath = $path;
-
-        return $this;
+        return $this->getPath('config/' . $file . '.php');
     }
 
     /**
@@ -117,7 +98,7 @@ trait LoadAndPublishDataTrait
      * @param array|string $fileNames
      * @return $this
      */
-    public function loadRoutes($fileNames = ['web']): self
+    public function loadRoutes(array|string $fileNames = ['web']): self
     {
         if (!is_array($fileNames)) {
             $fileNames = [$fileNames];
@@ -134,15 +115,9 @@ trait LoadAndPublishDataTrait
      * @param string $file
      * @return string
      */
-    protected function getRouteFilePath($file): string
+    protected function getRouteFilePath(string $file): string
     {
-        $file = $this->getBasePath() . $this->getDashedNamespace() . '/routes/' . $file . '.php';
-
-        if (!file_exists($file) && Str::contains($file, plugin_path())) {
-            $this->throwInvalidPluginError();
-        }
-
-        return $file;
+        return $this->getPath('routes/' . $file . '.php');
     }
 
     /**
@@ -166,7 +141,7 @@ trait LoadAndPublishDataTrait
      */
     protected function getViewsPath(): string
     {
-        return $this->getBasePath() . $this->getDashedNamespace() . '/resources/views/';
+        return $this->getPath('/resources/views/');
     }
 
     /**
@@ -186,7 +161,7 @@ trait LoadAndPublishDataTrait
      */
     protected function getTranslationsPath(): string
     {
-        return $this->getBasePath() . $this->getDashedNamespace() . '/resources/lang/';
+        return $this->getPath('/resources/lang/');
     }
 
     /**
@@ -204,7 +179,7 @@ trait LoadAndPublishDataTrait
      */
     protected function getMigrationsPath(): string
     {
-        return $this->getBasePath() . $this->getDashedNamespace() . '/database/migrations/';
+        return $this->getPath('/database/migrations/');
     }
 
     /**
@@ -228,38 +203,13 @@ trait LoadAndPublishDataTrait
      */
     protected function getAssetsPath(): string
     {
-        return $this->getBasePath() . $this->getDashedNamespace() . '/public/';
+        return $this->getPath('public/');
     }
 
-    /**
-     * @throws Exception
-     */
-    protected function throwInvalidPluginError()
-    {
-        $reflection = new ReflectionClass($this);
 
-        $from = str_replace('/src/Providers', '', dirname($reflection->getFilename()));
-        $from = str_replace(base_path(), '', $from);
-
-        $to = $this->getBasePath() . $this->getDashedNamespace();
-        $to = str_replace(base_path(), '', $to);
-
-        if ($from != $to) {
-            throw new Exception(sprintf('Plugin folder is invalid. Need to rename folder %s to %s', $from, $to));
-        }
-    }
-
-    /**
-     * @return $this
-     */
     public function loadHelpers(): self
     {
-        $reflector  = new ReflectionClass($this::class);
-        $fn         = $reflector->getFileName();
-        $dir        = dirname($fn);
-
-
-        Helper::autoload($dir . '/../../helpers');
+        Helper::autoload($this->getPath('/helpers'));
 
         return $this;
     }

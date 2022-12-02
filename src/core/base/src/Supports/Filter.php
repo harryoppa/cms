@@ -11,10 +11,10 @@ class Filter extends ActionHookEvent
      * @param array $args Arguments passed to the filter
      * @return string Always returns the value
      */
-    public function fire($action, $args)
+    public function fire(string $action, array $args)
     {
-        $value = isset($args[0]) ? $args[0] : ''; // get the value, the first argument is always the value
-        if (!$this->getListeners()) {
+        $value = $args[0] ?? ''; // get the value, the first argument is always the value
+        if (! $this->getListeners()) {
             return $value;
         }
 

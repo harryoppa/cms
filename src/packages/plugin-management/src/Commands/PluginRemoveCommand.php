@@ -5,65 +5,43 @@ namespace TVHung\PluginManagement\Commands;
 use TVHung\PluginManagement\Services\PluginService;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputArgument;
 
+#[AsCommand('cms:plugin:remove', 'Remove a plugin in the /platform/plugins directory.')]
 class PluginRemoveCommand extends Command
 {
     use ConfirmableTrait;
 
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'cms:plugin:remove {name : The plugin that you want to remove} {--force : Force to remove plugin without confirmation}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Remove a plugin in the /platform/plugins directory.';
-
-    /**
-     * @var PluginService
-     */
-    protected $pluginService;
-
-    /**
-     * PluginRemoveCommand constructor.
-     * @param PluginService $pluginService
-     */
-    public function __construct(PluginService $pluginService)
+    public function handle(PluginService $pluginService): int
     {
-        parent::__construct();
-
-        $this->pluginService = $pluginService;
-    }
-
-    /**
-     * Execute the console command.
-     */
-    public function handle()
-    {
-        if (!$this->confirmToProceed('Are you sure you want to permanently delete?', true)) {
-            return 1;
+        if (! $this->confirmToProceed('Are you sure you want to permanently delete?', true)) {
+            return self::FAILURE;
         }
 
-        if (!preg_match('/^[a-z0-9\-]+$/i', $this->argument('name'))) {
+        if (! preg_match('/^[a-z0-9\-]+$/i', $this->argument('name'))) {
             $this->error('Only alphabetic characters are allowed.');
-            return 1;
+
+            return self::FAILURE;
         }
 
         $plugin = strtolower($this->argument('name'));
-        $result = $this->pluginService->remove($plugin);
+        $result = $pluginService->remove($plugin);
 
         if ($result['error']) {
             $this->error($result['message']);
-            return 1;
+
+            return self::FAILURE;
         }
 
         $this->info($result['message']);
 
-        return 0;
+        return self::SUCCESS;
+    }
+
+    protected function configure(): void
+    {
+        $this->addArgument('name', InputArgument::REQUIRED, 'The plugin that you want to remove');
+        $this->addOption('force', 'f', null, 'Force to remove plugin without confirmation');
     }
 }

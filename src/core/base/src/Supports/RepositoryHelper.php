@@ -15,7 +15,7 @@ class RepositoryHelper
      * @param false $isSingle
      * @return Builder|EloquentBuilder
      */
-    public static function applyBeforeExecuteQuery($data, $model, $isSingle = false)
+    public static function applyBeforeExecuteQuery($data, $model, bool $isSingle = false)
     {
         $filter = $isSingle ? BASE_FILTER_BEFORE_GET_SINGLE : BASE_FILTER_BEFORE_GET_FRONT_PAGE_ITEM;
 
