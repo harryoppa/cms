@@ -183,6 +183,8 @@ class BaseServiceProvider extends ServiceProvider
                 ],
             ]);
         }
+
+        $this->createMacroQueries();
     }
 
     /**
@@ -243,6 +245,19 @@ class BaseServiceProvider extends ServiceProvider
         if (-1 !== $currentLimitInt && (-1 === $limitInt || $limitInt > $currentLimitInt)) {
             BaseHelper::iniSet('memory_limit', $memoryLimit);
         }
+    }
+
+    protected function createMacroQueries()
+    {
+        Builder::macro('whereLike', function ($attributes, string $searchTerm) {
+            $this->where(function (Builder $query) use ($attributes, $searchTerm) {
+                foreach (Arr::wrap($attributes) as $attribute) {
+                    $query->orWhere($attribute, 'LIKE', "%{$searchTerm}%");
+                }
+            });
+
+            return $this;
+        });
     }
 
     /**
