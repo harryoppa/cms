@@ -31,6 +31,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
+use Arr;
 use MetaBox;
 
 class BaseServiceProvider extends ServiceProvider
