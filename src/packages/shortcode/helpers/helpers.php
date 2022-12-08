@@ -50,3 +50,19 @@ if (!function_exists('generate_shortcode')) {
         return shortcode()->generateShortcode($name, $attributes);
     }
 }
+
+if (!function_exists('shortcode_info')) {
+    /**
+     * @param string $name
+     * @return array
+     */
+    function shortcode_info(string $code): array
+    {
+        $compiler = shortcode()->getCompiler();
+        $attributes = $compiler->getAttributes(html_entity_decode($code));
+        $content = $compiler->getContent();
+        $name = $compiler->getName();
+
+        return compact('name', 'attributes', 'content');
+    }
+}

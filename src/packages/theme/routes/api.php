@@ -6,7 +6,7 @@ Route::group([
     'middleware' => ['api'],
 ], static function () {
 
-    Route::get('theme/slug/{slug}', [
+    Route::get('theme/slug/{slug?}', [
         'as' => 'api.theme.slug',
         'uses' => 'ThemeController@getSlugView',
     ]);

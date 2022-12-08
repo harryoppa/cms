@@ -308,7 +308,9 @@ class EditorManagement {
             current.initEditor($tinyMce, {}, 'tinymce');
         }
 
-        $(document).on('click', '.show-hide-editor-btn', event => {
+        $(document)
+        .off('click.show-hide-editor')
+        .on('click.show-hide-editor', '.show-hide-editor-btn', event => {
             event.preventDefault();
             let _self = $(event.currentTarget);
             const editorInstance = _self.data('result');
@@ -384,7 +386,9 @@ class EditorManagement {
 
     manageShortCode() {
         const self = this;
-        $('.list-shortcode-items li a').on('click', function (event) {
+        $('.list-shortcode-items li a')
+        .off('click')
+        .on('click', function (event) {
             event.preventDefault();
 
             if ($(this).data('has-admin-config') == '1') {
@@ -431,6 +435,14 @@ class EditorManagement {
             let formData = formElement.serializeObject();
             let attributes = '';
 
+            $(this).closest('.modal').modal('hide');
+
+            if (typeof window.beforeUpdateShortCode === 'function') {
+                if (window.beforeUpdateShortCode(formData)) {
+                    return;
+                }
+            }
+
             $.each(formData, function (name, value) {
                 let element = formElement.find('*[name="' + name + '"]');
                 let shortcodeAttribute = element.data('shortcode-attribute');
@@ -460,8 +472,6 @@ class EditorManagement {
             } else {
                 tinymce.get(editorInstance).execCommand('mceInsertContent', false, shortcode);
             }
-
-            $(this).closest('.modal').modal('hide');
         });
     }
 }

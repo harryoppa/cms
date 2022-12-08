@@ -15,7 +15,7 @@ trait EnumCastable
     {
         $castedValue = parent::castAttribute($key, $value);
 
-        if ($castedValue === $value && !is_object($value)) {
+        if ($castedValue === $value && ! is_object($value)) {
             $castType = $this->getCasts()[$key];
             if (class_exists($castType) and is_subclass_of($castType, Enum::class)) {
                 $castedValue = new $castType($value);
@@ -31,7 +31,7 @@ trait EnumCastable
      * @param string $key
      * @return bool
      */
-    protected function isClassCastable($key)
+    protected function isClassCastable($key): bool
     {
         return false;
     }

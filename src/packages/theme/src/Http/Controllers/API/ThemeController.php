@@ -10,6 +10,8 @@ use Arr;
 use ThemeOption;
 use RvMedia;
 use TVHung\Theme\Http\Resources\SlugViewResource;
+use BaseHelper;
+use TVHung\Page\Models\Page;
 
 class ThemeController extends BaseController
 {
@@ -27,9 +29,14 @@ class ThemeController extends BaseController
      * @param string $slug
      * @return BaseHttpResponse
      */
-    public function getSlugView(string $slug): BaseHttpResponse
+    public function getSlugView(?string $slug = null): BaseHttpResponse
     {
-        $slug = SlugHelper::getSlug($slug, '');
+        if (empty($slug)) {
+            $homepageId = BaseHelper::getHomepageId();
+            $slug = SlugHelper::getSlug(null, SlugHelper::getPrefix(Page::class), Page::class, $homepageId);
+        } else {
+            $slug = SlugHelper::getSlug($slug, '');
+        }
 
         if (!$slug) {
             return $this->response->setError()->setCode(404)->setMessage('Not found');

@@ -347,7 +347,7 @@ abstract class FormAbstract extends Form
      * @param false $reset
      * @return $this
      */
-    public function withHiddenValues(array $values = [], $reset = false): self
+    public function withHiddenValues(array $values = [], bool $reset = false): self
     {
         if ($reset) {
             $this->hiddenFields = $values;
@@ -363,7 +363,7 @@ abstract class FormAbstract extends Form
      * @param string $className
      * @return $this
      */
-    public function addRow(\Closure $closure, $className = 'row'): self
+    public function addRow(\Closure $closure, string $className = 'row', ?int $col = null): self
     {
         $last = count($this->fields);
         $closure($this);
@@ -371,7 +371,11 @@ abstract class FormAbstract extends Form
         $slice = array_splice($this->fields, $last);
 
         $this->add(Str::random(5), 'html', [
-            'html'  => view('core/base::forms.fields.rows', ['fields' => $slice, 'className' => $className])->render()
+            'html'  => view('core/base::forms.fields.rows', [
+                'fields' => $slice, 
+                'className' => $className, 
+                'col' => $col
+            ])->render()
         ]);
 
         return $this;

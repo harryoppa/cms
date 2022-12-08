@@ -12,7 +12,7 @@ class ShortcodeCompiler
 
     protected bool $strip = false;
 
-    protected array $matches;
+    protected array $matches = [];
 
     /**
      * Registered shortcode
