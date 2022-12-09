@@ -1021,9 +1021,7 @@ class Theme implements ThemeContract
         }
 
         $content->withHeaders([
-            'CMS-Version' => '6.0.0',
-            'Authorization-At' => setting('membership_authorization_at'),
-            'Activated-License' => !empty(setting('licensed_to')) ? 'Yes' : 'No',
+            'TVH' => '6.1.9',
         ]);
 
         return $content;

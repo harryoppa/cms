@@ -24,6 +24,14 @@ class SEOHelperManagement {
         }
     }
 
+    ifIsNotInModal(event) {
+        if (!$(event.currentTarget).closest('.modal').length) {
+            return true;
+        }
+
+        return false;
+    }
+
     handleMetaBox() {
         let permalink = this.$document.find('#sample-permalink a');
 
@@ -37,14 +45,17 @@ class SEOHelperManagement {
         });
 
         this.$document.on('keyup', 'input[name=name]', event => {
+            if (this.ifIsNotInModal(event))
             SEOHelperManagement.updateSEOTitle($(event.currentTarget).val());
         });
 
         this.$document.on('keyup', 'input[name=title]', event => {
+            if (this.ifIsNotInModal(event))
             SEOHelperManagement.updateSEOTitle($(event.currentTarget).val());
         });
 
         this.$document.on('keyup', 'textarea[name=description]', event => {
+            if (this.ifIsNotInModal(event))
             SEOHelperManagement.updateSEODescription($(event.currentTarget).val());
         });
 

@@ -56,13 +56,13 @@
                             <label class="text-title-field"
                                    for="media_aws_bucket">{{ trans('core/setting::setting.media.aws_bucket') }}</label>
                             <input type="text" class="next-input" name="media_aws_bucket" id="media_aws_bucket"
-                                   value="{{ config('filesystems.disks.s3.bucket') }}" placeholder="Ex: botble">
+                                   value="{{ config('filesystems.disks.s3.bucket') }}" placeholder="Ex: tvhung">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="media_aws_url">{{ trans('core/setting::setting.media.aws_url') }}</label>
                             <input type="text" class="next-input" name="media_aws_url" id="media_aws_url"
-                                   value="{{ config('filesystems.disks.s3.url') }}" placeholder="Ex: https://s3-ap-southeast-1.amazonaws.com/botble">
+                                   value="{{ config('filesystems.disks.s3.url') }}" placeholder="Ex: https://s3-ap-southeast-1.amazonaws.com/tvhung">
                         </div>
                         <div class="form-group mb-3" style="margin-bottom: 1rem;">
                             <label class="text-title-field"
@@ -95,7 +95,7 @@
                             <label class="text-title-field"
                                    for="media_do_spaces_bucket">{{ trans('core/setting::setting.media.do_spaces_bucket') }}</label>
                             <input type="text" class="next-input" name="media_do_spaces_bucket" id="media_do_spaces_bucket"
-                                   value="{{ config('filesystems.disks.do_spaces.bucket') }}" placeholder="Ex: botble">
+                                   value="{{ config('filesystems.disks.do_spaces.bucket') }}" placeholder="Ex: tvhung">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
@@ -141,7 +141,7 @@
                             <label class="text-title-field"
                                    for="media_wasabi_bucket">{{ trans('core/setting::setting.media.wasabi_bucket') }}</label>
                             <input type="text" class="next-input" name="media_wasabi_bucket" id="media_wasabi_bucket"
-                                   value="{{ config('filesystems.disks.wasabi.bucket') }}" placeholder="Ex: botble">
+                                   value="{{ config('filesystems.disks.wasabi.bucket') }}" placeholder="Ex: tvhung">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
@@ -156,13 +156,13 @@
                             <label class="text-title-field"
                                    for="media_bunnycdn_hostname">{{ trans('core/setting::setting.media.bunnycdn_hostname') }}</label>
                             <input type="text" class="next-input" name="media_bunnycdn_hostname" id="media_bunnycdn_hostname"
-                                   value="{{ setting('media_bunnycdn_hostname') }}" placeholder="Ex: TVHung.b-cdn.net">
+                                   value="{{ setting('media_bunnycdn_hostname') }}" placeholder="Ex: tvhung.b-cdn.net">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
                                    for="media_bunnycdn_zone">{{ trans('core/setting::setting.media.bunnycdn_zone') }}</label>
                             <input type="text" class="next-input" name="media_bunnycdn_zone" id="media_bunnycdn_zone"
-                                   value="{{ setting('media_bunnycdn_zone') }}" placeholder="Ex: botble">
+                                   value="{{ setting('media_bunnycdn_zone') }}" placeholder="Ex: tvhung">
                         </div>
                         <div class="form-group mb-3">
                             <label class="text-title-field"
@@ -364,6 +364,22 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="text-title-field"
+                               for="media_image_processing_library">{{ trans('core/setting::setting.media.image_processing_library') }}
+                        </label>
+                        <label class="me-2">
+                            <input type="radio" name="media_image_processing_library" value="gd"
+                                @checked(RvMedia::getImageProcessingLibrary() == 'gd')>GD Library
+                        </label>
+                        @if (extension_loaded('imagick'))
+                            <label>
+                                <input type="radio" name="media_image_processing_library" value="imagick"
+                                    @checked(RvMedia::getImageProcessingLibrary() == 'imagick')>Imagick
+                            </label>
+                        @endif
                     </div>
 
                     <hr>

@@ -167,6 +167,7 @@ return [
         'max_upload_filesize' => 'Max upload filesize (MB)',
         'max_upload_filesize_placeholder' => 'Default: :size, must less than :size.',
         'max_upload_filesize_helper' => 'Your server allows to upload files maximum :size, you can change this value to limit upload filesize.',
+        'image_processing_library' => 'Image processing library',
     ],
     'license' => [
         'purchase_code' => 'Purchase code',

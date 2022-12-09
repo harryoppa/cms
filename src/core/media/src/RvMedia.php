@@ -797,4 +797,9 @@ class RvMedia
     {
         return setting('media_turn_off_automatic_url_translation_into_latin', 0) == 1;
     }
+
+    public function getImageProcessingLibrary(): string
+    {
+        return setting('media_image_processing_library') ?: 'gd';
+    }
 }

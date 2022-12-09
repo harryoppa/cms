@@ -429,7 +429,7 @@ class EditorManagement {
             return o;
         };
 
-        $('.add_short_code_btn').on('click', function (event) {
+        $('.add_short_code_btn').off('click').on('click', function (event) {
             event.preventDefault();
             let formElement = $('.short_code_modal').find('.short-code-data-form');
             let formData = formElement.serializeObject();
