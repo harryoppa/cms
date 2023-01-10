@@ -33,10 +33,6 @@
         window.siteUrl = "{{ url('') }}";
     </script>
 
-    @if (BaseHelper::adminLanguageDirection() == 'rtl')
-        <link rel="stylesheet" href="{{ asset('vendor/core/core/base/css/rtl.css') }}">
-    @endif
-
     @yield('head')
 
     @stack('header')
