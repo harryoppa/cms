@@ -17,6 +17,7 @@ class PageResource extends JsonResource
      */
     public function toArray($request)
     {
+        $block = app('block');
         return [
             'id'          => $this->id,
             'name'        => $this->name,
@@ -29,6 +30,9 @@ class PageResource extends JsonResource
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,
             'url'         => $this->url,
+            'blocks'      => $this->when($block, function () use ($block) {
+                return $block->getRenderedBlocksData();
+            }),
         ];
     }
 
