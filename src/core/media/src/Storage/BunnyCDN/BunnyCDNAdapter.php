@@ -181,7 +181,7 @@ class BunnyCDNAdapter implements FilesystemAdapter, PublicUrlGenerator, Checksum
             $detector = new FinfoMimeTypeDetector();
             $mimeType = $detector->detectMimeTypeFromPath($path);
 
-            if (!$mimeType) {
+            if (! $mimeType) {
                 return $detector->detectMimeTypeFromBuffer(stream_get_contents($this->readStream($path), 80));
             }
 
@@ -272,8 +272,6 @@ class BunnyCDNAdapter implements FilesystemAdapter, PublicUrlGenerator, Checksum
     /**
      * @param string $path
      * @return FileAttributes
-     *
-     * @codeCoverageIgnore
      */
     public function mimeType(string $path): FileAttributes
     {
@@ -285,10 +283,10 @@ class BunnyCDNAdapter implements FilesystemAdapter, PublicUrlGenerator, Checksum
             }
 
             /** @var FileAttributes $object */
-            if (!$object->mimeType()) {
+            if (! $object->mimeType()) {
                 $mimeType = $this->detectMimeType($path);
 
-                if (!$mimeType || $mimeType === 'text/plain') { // Really not happy about this being required by Fly's Test case
+                if (! $mimeType || $mimeType === 'text/plain') { // Really not happy about this being required by Fly's Test case
                     throw new UnableToRetrieveMetadata('Unknown Mimetype');
                 }
 
@@ -385,7 +383,7 @@ class BunnyCDNAdapter implements FilesystemAdapter, PublicUrlGenerator, Checksum
         try {
             $this->client->delete($path);
         } catch (Exceptions\BunnyCDNException $exception) {
-            if (!str_contains($exception->getMessage(), '404')) {
+            if (! str_contains($exception->getMessage(), '404')) {
                 throw UnableToDeleteFile::atLocation($path, $exception->getMessage());
             }
         }
@@ -415,19 +413,6 @@ class BunnyCDNAdapter implements FilesystemAdapter, PublicUrlGenerator, Checksum
         })->toArray();
 
         return (bool)count($count);
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     * @codeCoverageIgnore
-     * @noinspection PhpUnused
-     * @deprecated use publicUrl instead
-     *
-     */
-    public function getUrl(string $path): string
-    {
-        return $this->publicUrl($path, new Config());
     }
 
     /**
@@ -463,5 +448,10 @@ class BunnyCDNAdapter implements FilesystemAdapter, PublicUrlGenerator, Checksum
     public function checksum(string $path, Config $config): string
     {
         return $this->calculateChecksumFromStream($path, $config);
+    }
+
+    public function getUrl($path)
+    {
+        return $this->publicUrl($path, new Config());
     }
 }
