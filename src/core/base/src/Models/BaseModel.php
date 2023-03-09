@@ -2,6 +2,7 @@
 
 namespace TVHung\Base\Models;
 
+use TVHung\Base\Models\Concerns\HasUuidsOrIntegerIds;
 use Eloquent;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
@@ -10,6 +11,7 @@ use MetaBox as MetaBoxSupport;
 
 class BaseModel extends Eloquent
 {
+    use HasUuidsOrIntegerIds;
     /**
      * @param string $key
      * @return mixed

@@ -686,4 +686,7 @@ return [
     'upgrade_php_require_disabled' => env('CMS_UPGRADE_PHP_REQUIRE_DISABLED', false),
     'enabled_cleanup_database' => env('CMS_ENABLED_CLEANUP_DATABASE', true),
     'google_fonts_url' => env('CMS_GOOGLE_FONTS_URL', 'https://fonts.bunny.net'),
+    'google_fonts_enabled_cache' => env('CMS_GOOGLE_FONTS_ENABLED_CACHE', true),
+    'using_uuids_for_id' => env('CMS_USING_UUIDS_FOR_ID', false),
+    'route_id_regex' => env('CMS_ROUTE_ID_REGEX', '^\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'),
 ];
