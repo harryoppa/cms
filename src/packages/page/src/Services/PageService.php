@@ -90,9 +90,9 @@ class PageService
             ->add(__('Home'), route('public.index'))
             ->add($page->name, $page->url);
 
-        Theme::asset()->add('ckeditor-content-styles', 'vendor/core/core/base/libraries/ckeditor/content-styles.css');
+        // Theme::asset()->add('ckeditor-content-styles', 'vendor/core/core/base/libraries/ckeditor/content-styles.css');
 
-        $page->content = Html::tag('div', (string)$page->content, ['class' => 'ck-content'])->toHtml();
+        // $page->content = Html::tag('div', (string)$page->content, ['class' => 'ck-content'])->toHtml();
 
         return [
             'view' => 'page',
